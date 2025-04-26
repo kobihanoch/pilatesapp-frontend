@@ -29,14 +29,13 @@ export const AuthProvider = ({ children }) => {
     setLoading(true);
     try {
       const response = await loginUser(username, password);
-      const { user, token } = response;
-      const userWithToken = { ...user, token };
-      setUser(userWithToken);
-      localStorage.setItem("user", JSON.stringify(userWithToken));
+      const { user } = response;
+      setUser(user);
+      localStorage.setItem("user", JSON.stringify(user));
       console.log("User logged in:", user);
     } catch (error) {
       console.error("Login failed:", error);
-      throw error; // Rethrow the error to handle it in the component
+      throw error;
     } finally {
       setLoading(false);
     }
@@ -44,7 +43,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await logoutUser(user.token);
+      await logoutUser();
       setUser(null);
       localStorage.removeItem("user");
       console.log("User logged out");
