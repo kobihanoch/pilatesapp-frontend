@@ -1,0 +1,219 @@
+/* -------------------- General page setup -------------------- */
+.intro-page {
+  font-family: "M PLUS Rounded 1c", sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #ffe5b4 30%, #ffffff 100%);
+}
+
+/* -------------------- Navbar setup -------------------- */
+.navbar {
+  display: flex;
+  justify-content: space-between; /* left side (auth+logo) vs right side (nav buttons) */
+  align-items: center;
+  padding: 0.5rem 2rem;
+  background-color: #fff0db;
+  font-weight: bold;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  height: 70px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  white-space: nowrap; /* prevent wrapping */
+}
+
+/* Left side: Auth buttons + Logo */
+.left-navbar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.auth-btn {
+  background-color: #f7c59f;
+  color: rgb(6, 4, 4);
+  font-family: "Amatic SC", cursive;
+  font-size: 1.6rem;
+  padding: 0.3rem 0.8rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+  white-space: nowrap;
+}
+
+.auth-btn:hover {
+  background-color: #f4b183;
+}
+
+/* Logo next to auth buttons */
+.logo-navbar {
+  width: 60px;
+}
+
+.interactive-logo {
+  width: 100%;
+  height: auto;
+  transition: transform 1s ease-in-out;
+}
+
+/* When animation is triggered */
+.interactive-logo.move {
+  transform: rotate(20deg) translateX(10px) translateY(-10px) scale(1.1);
+}
+
+/* -------------------- Navigation buttons (Right side) -------------------- */
+.nav-buttons {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nav-buttons button {
+  background-color: #f7c59f; /* light peach */
+  color: rgb(6, 4, 4);
+  font-family: "Amatic SC", cursive;
+  font-size: 2rem;
+  padding: 0.2rem 1.2rem;
+  margin: 0 0.5rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  white-space: nowrap;
+  flex-shrink: 0; /* prevent shrinking */
+  transition: background-color 0.3s;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.nav-buttons button:hover {
+  background-color: #f4b183; /* darker peach on hover */
+}
+
+/* -------------------- Hero Section -------------------- */
+.hero {
+  text-align: center;
+  padding: 0rem 2rem 0rem 2rem;
+  margin-top: 0rem;
+}
+
+.hero-logo {
+  margin-bottom: 0.2rem;
+}
+
+.hero-logo-img {
+  width: 350px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.hero h1 {
+  font-family: "Amatic SC", cursive;
+  font-size: 8rem;
+  margin-top: -7rem;
+  margin-bottom: 0rem;
+}
+
+.get-started-btn {
+  background-color: #f2c890;
+  color: rgb(11, 1, 1);
+  font-size: 1.2rem;
+  padding: 0.8rem 2rem;
+  border: none;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 2rem;
+}
+
+.interactive-logo {
+  width: 70px;
+  height: auto;
+  transition: transform 0.7s ease-in-out;
+  cursor: pointer;
+}
+
+.interactive-logo.pulled {
+  transform: translateX(-30px) scale(1.1) rotate(-10deg);
+}
+
+.get-started-btn:hover {
+  background-color: #f4bc73;
+}
+
+/* -------------------- Sections -------------------- */
+.section {
+  padding: 6rem 2rem;
+  text-align: center;
+}
+
+.section h2 {
+  font-size: 3rem;
+  margin-bottom: 2rem;
+}
+
+/* Special handling for בית (Home) Section */
+#בית {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  scroll-margin-top: 80px;
+}
+
+/* -------------------- Responsive (Phone & iPad) -------------------- */
+@media (max-width: 480px) {
+  .navbar {
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .nav-buttons {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    max-width: 100%;
+  }
+
+  .nav-buttons button {
+    font-size: 1.5rem;
+    padding: 0.6rem 0.2rem;
+    min-width: 70px;
+    white-space: nowrap;
+  }
+
+  .auth-buttons {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 0.5rem;
+    margin-left: 1rem;
+  }
+
+  .auth-btn {
+    font-size: 1.3rem;
+    padding: 0.3rem 0.8rem;
+    width: auto;
+  }
+
+  .left-navbar {
+    flex-wrap: nowrap;
+  }
+
+  .hero-logo-img {
+    width: 250px;
+  }
+
+  .hero-logo {
+    margin-bottom: -5rem;
+  }
+
+  .hero h1 {
+    font-size: 4rem;
+    margin-top: 1rem;
+  }
+}
