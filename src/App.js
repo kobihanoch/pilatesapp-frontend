@@ -4,12 +4,13 @@ import Home from "./pages/Authenticated/Home.js";
 import Loginandregister from "./pages/Guests/Loginandregister.js";
 import Intro from "./pages/Guests/Intro.js";
 import { useAuthContext } from "./context/authContext.js";
+import LoadingSpinner from "./components/Loading/LoadingSpinner.js";
 
 // Route for authenticated users
 const PrivateRoute = ({ children }) => {
   const { user, loading } = useAuthContext();
   if (loading) {
-    return <div>Loading...</div>;
+    return <LoadingSpinner text="טוען..."></LoadingSpinner>;
   }
   return user ? children : <Navigate to="/" replace />;
 };
@@ -18,7 +19,7 @@ const PrivateRoute = ({ children }) => {
 const GuestRoute = ({ children }) => {
   const { user, loading } = useAuthContext();
   if (loading) {
-    return <div>Loading...</div>;
+    return <LoadingSpinner text="טוען..."></LoadingSpinner>;
   }
   return !user ? children : <Navigate to="/home" replace />;
 };

@@ -1,43 +1,89 @@
-import React from "react";
-import { useAuthContext } from "../../context/authContext.js";
+import React, { useState } from "react";
+import { useAuthContext } from "../../context/authContext";
+import LoginForm from "../../components/LoginandregisterComponents/LoginForm";
+import RegisterForm from "../../components/LoginandregisterComponents/RegisterForm";
+import LoadingSpinner from "../../components/Loading/LoadingSpinner";
 
-const Loginandregister = () => {
-  const { auth, loading, register } = useAuthContext();
-
-  const handleLogin = async () => {
-    try {
-      await auth.login("username", "password");
-      console.log("Login successful!");
-    } catch (error) {
-      alert(error);
-    }
-  };
-
-  const handleRegister = async () => {
-    try {
-      const newUser = {
-        username: "newuser",
-        password: "newpassword",
-        email: "newuser@example.com",
-        birthDate: "2000-01-01",
-        gender: "male",
-      };
-
-      await register(newUser);
-    } catch (error) {
-      alert(error);
-    }
-  };
+const LoginAndRegister = () => {
+  const { loading } = useAuthContext();
+  const [isRegisterMode, setIsRegisterMode] = useState(false);
 
   if (loading) {
-    // Create here a placeholder for loading
-    return <div>Loading...</div>;
+    return <LoadingSpinner text="מתחבר למערכת..."></LoadingSpinner>;
   }
+
   return (
-    <div>
-      <h1>Login and Register</h1>
+    <div style={styles.container}>
+      <div style={styles.card}>
+        <h1 style={styles.title}>
+          {isRegisterMode ? "ברוכים הבאים !" : "התחברות"}
+        </h1>
+
+        {isRegisterMode ? <RegisterForm /> : <LoginForm />}
+
+        <div style={styles.divider}>או</div>
+
+        <button
+          style={{
+            ...styles.button,
+            backgroundColor: "white",
+            border: "2px solid #f4b183",
+            color: "#f4b183",
+            fontWeight: "bold",
+          }}
+          onClick={() => setIsRegisterMode((prev) => !prev)}
+        >
+          {isRegisterMode ? "כבר רשומים? התחברו" : "אין לכם חשבון? להרשמה"}
+        </button>
+      </div>
     </div>
   );
 };
 
-export default Loginandregister;
+const styles = {
+  container: {
+    direction: "rtl",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100vh",
+    margin: "0",
+    backgroundColor: "#fff0db",
+    overflow: "hidden",
+  },
+  card: {
+    width: "clamp(260px, 70%, 350px)",
+    backgroundColor: "#fff",
+    padding: "30px",
+    borderRadius: "15px",
+    boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+
+  title: {
+    marginBottom: "20px",
+    fontSize: "24px",
+    fontWeight: "bold",
+    color: "#333",
+  },
+  button: {
+    width: "100%",
+    padding: "12px",
+    marginTop: "8px",
+    borderRadius: "10px",
+    border: "none",
+    backgroundColor: "#2196F3",
+    color: "white",
+    fontSize: "16px",
+    cursor: "pointer",
+  },
+  divider: {
+    margin: "15px 0",
+    fontSize: "16px",
+    color: "#888",
+  },
+};
+
+export default LoginAndRegister;
