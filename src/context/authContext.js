@@ -27,9 +27,10 @@ export const AuthProvider = ({ children }) => {
     setLoading(true);
     try {
       const response = await loginUser(username, password);
-      const { user } = response.data;
-      setUser(user);
-      localStorage.setItem("user", JSON.stringify(user));
+      const { user, token } = response;
+      const userWithToken = { ...user, token };
+      setUser(userWithToken);
+      localStorage.setItem("user", JSON.stringify(userWithToken));
       console.log("User logged in:", user);
     } catch (error) {
       console.error("Login failed:", error);
