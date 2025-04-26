@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { loginUser, logoutUser } from "../services/authService";
+import { loginUser, logoutUser, registerUser } from "../services/authService";
 
 const AuthContext = createContext();
 
@@ -43,6 +43,16 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const register = async (user) => {
+    try {
+      const response = await registerUser(user);
+      await login(response.data.user.username, user.password); // Automatically log in after registration
+    } catch (error) {
+      console.error("Registration failed:", error);
+      throw error; // Rethrow the error to handle it in the component
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -52,6 +62,7 @@ export const AuthProvider = ({ children }) => {
           login,
           logout,
         },
+        register,
       }}
     >
       {children}

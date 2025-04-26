@@ -33,3 +33,13 @@ export const logoutUser = async (token) => {
     throw error;
   }
 };
+
+export const registerUser = async (user) => {
+  try {
+    const response = await axios.post(API_BASE_URL + "/users/create", user);
+    return response.data;
+  } catch (error) {
+    console.error("Error registering:", error);
+    throw error;
+  }
+};
