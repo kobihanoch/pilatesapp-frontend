@@ -12,8 +12,10 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
+      console.log("User found in local storage:", storedUser);
       setUser(JSON.parse(storedUser));
     } else {
+      console.log("No user found in local storage");
       setUser(null);
     }
     // Navigating automatically to the home page if user is logged in
@@ -28,6 +30,7 @@ export const AuthProvider = ({ children }) => {
       const { user } = response.data;
       setUser(user);
       localStorage.setItem("user", JSON.stringify(user));
+      console.log("User logged in:", user);
     } catch (error) {
       console.error("Login failed:", error);
       throw error; // Rethrow the error to handle it in the component
@@ -41,6 +44,7 @@ export const AuthProvider = ({ children }) => {
       logoutUser(user.token);
       setUser(null);
       localStorage.removeItem("user");
+      console.log("User logged out");
     } catch (error) {
       console.error("Logout failed:", error);
       throw error; // Rethrow the error to handle it in the component
@@ -51,6 +55,7 @@ export const AuthProvider = ({ children }) => {
     setLoading(true);
     try {
       const response = await registerUser(user);
+      console.log("User registered:", response.data.user);
       await login(response.data.user.username, user.password); // Automatically log in after registration
     } catch (error) {
       console.error("Registration failed:", error);
