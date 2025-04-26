@@ -22,10 +22,16 @@ const LoginAndRegister = () => {
         <div style={styles.divider}>או</div>
 
         <button
-          style={{ ...styles.button, backgroundColor: "#4CAF50" }}
+          style={{
+            ...styles.button,
+            backgroundColor: "white",
+            border: "2px solid #2196F3",
+            color: "#2196F3",
+            fontWeight: "bold",
+          }}
           onClick={() => setIsRegisterMode((prev) => !prev)}
         >
-          {isRegisterMode ? "כבר רשום? התחבר" : "אין לך חשבון? הרשם"}
+          {isRegisterMode ? "כבר רשומים? התחברו" : "אין לכם חשבון? להרשמה"}
         </button>
       </div>
     </div>
@@ -64,7 +70,7 @@ const styles = {
     width: "100%",
     padding: "12px",
     marginTop: "8px",
-    borderRadius: "6px",
+    borderRadius: "10px",
     border: "none",
     backgroundColor: "#2196F3",
     color: "white",

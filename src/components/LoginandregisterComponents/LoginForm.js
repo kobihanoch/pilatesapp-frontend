@@ -49,7 +49,7 @@ const LoginForm = () => {
         onChange={handleChange}
       />
       <button style={buttonStyle} onClick={handleLogin}>
-        התחבר
+        התחברות
       </button>
     </>
   );
@@ -57,26 +57,31 @@ const LoginForm = () => {
 
 const inputStyle = {
   width: "100%",
-  padding: "10px",
-  marginBottom: "12px",
-  borderRadius: "6px",
-  border: "1px solid #ccc",
+  padding: "12px",
+  marginBottom: "14px",
+  borderRadius: "8px",
+  border: "1px solid #d0d7de",
   fontSize: "16px",
   textAlign: "right",
-  backgroundColor: "#fff",
+  backgroundColor: "#f9f9f9",
+  color: "#333",
+  fontFamily: "'M PLUS Rounded 1c', sans-serif",
   appearance: "none",
 };
 
 const buttonStyle = {
   width: "100%",
-  padding: "12px",
-  marginTop: "8px",
-  borderRadius: "6px",
+  padding: "14px",
+  marginTop: "10px",
+  borderRadius: "10px",
   border: "none",
-  backgroundColor: "#2196F3",
+  backgroundColor: "#66c5cc",
   color: "white",
-  fontSize: "16px",
+  fontSize: "18px",
+  fontWeight: "bold",
   cursor: "pointer",
+  fontFamily: "'M PLUS Rounded 1c', sans-serif",
+  transition: "background-color 0.3s ease",
 };
 
 export default LoginForm;

@@ -153,7 +153,7 @@ const RegisterForm = () => {
       </div>
 
       <button style={buttonStyle} onClick={handleRegister}>
-        הרשם
+        הרשמה
       </button>
     </>
   );
@@ -161,30 +161,34 @@ const RegisterForm = () => {
 
 const inputStyle = {
   width: "100%",
-  padding: "10px",
-  marginBottom: "12px",
-  borderRadius: "6px",
-  border: "1px solid #ccc",
+  padding: "12px",
+  marginBottom: "14px",
+  borderRadius: "8px",
+  border: "1px solid #d0d7de",
   fontSize: "16px",
   textAlign: "right",
-  backgroundColor: "#fff",
+  backgroundColor: "#f9f9f9",
+  color: "#333",
+  fontFamily: "'M PLUS Rounded 1c', sans-serif",
   appearance: "none",
 };
 
 const selectWrapper = {
   position: "relative",
   width: "100%",
-  marginBottom: "12px",
+  marginBottom: "14px",
 };
 
 const selectStyle = {
   width: "100%",
-  padding: "10px",
-  paddingRight: "30px",
-  borderRadius: "6px",
-  border: "1px solid #ccc",
+  padding: "12px",
+  paddingRight: "36px",
+  borderRadius: "8px",
+  border: "1px solid #d0d7de",
   fontSize: "16px",
-  backgroundColor: "#fff",
+  backgroundColor: "#f9f9f9",
+  color: "#333",
+  fontFamily: "'M PLUS Rounded 1c', sans-serif",
   appearance: "none",
   WebkitAppearance: "none",
   MozAppearance: "none",
@@ -194,23 +198,26 @@ const selectStyle = {
 const selectArrow = {
   position: "absolute",
   top: "50%",
-  right: "12px",
+  right: "14px",
   transform: "translateY(-50%)",
   pointerEvents: "none",
-  fontSize: "16px",
-  color: "#888",
+  fontSize: "18px",
+  color: "#7d8ca3",
 };
 
 const buttonStyle = {
   width: "100%",
-  padding: "12px",
-  marginTop: "8px",
-  borderRadius: "6px",
+  padding: "14px",
+  marginTop: "10px",
+  borderRadius: "10px",
   border: "none",
-  backgroundColor: "#2196F3",
+  backgroundColor: "#66c5cc",
   color: "white",
-  fontSize: "16px",
+  fontSize: "18px",
+  fontWeight: "bold",
   cursor: "pointer",
+  fontFamily: "'M PLUS Rounded 1c', sans-serif",
+  transition: "background-color 0.3s ease",
 };
 
 export default RegisterForm;
