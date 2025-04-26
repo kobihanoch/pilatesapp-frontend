@@ -2,15 +2,14 @@ import React, { useState } from "react";
 import { useAuthContext } from "../../context/authContext";
 import LoginForm from "../../components/LoginandregisterComponents/LoginForm";
 import RegisterForm from "../../components/LoginandregisterComponents/RegisterForm";
+import LoadingSpinner from "../../components/Loading/LoadingSpinner";
 
 const LoginAndRegister = () => {
   const { loading } = useAuthContext();
   const [isRegisterMode, setIsRegisterMode] = useState(false);
 
   if (loading) {
-    return (
-      <div style={{ textAlign: "center", marginTop: "50px" }}>טוען...</div>
-    );
+    return <LoadingSpinner text="מתחבר למערכת..."></LoadingSpinner>;
   }
 
   return (
