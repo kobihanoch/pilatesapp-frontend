@@ -54,7 +54,7 @@ const styles = {
     maxWidth: "350px",
     backgroundColor: "#fff",
     padding: "30px",
-    borderRadius: "8px",
+    borderRadius: "15px",
     boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
     display: "flex",
     flexDirection: "column",

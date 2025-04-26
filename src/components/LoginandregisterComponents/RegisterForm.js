@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useAuthContext } from "../../context/authContext";
+import { FiUser, FiLock, FiMail, FiCalendar, FiSmile } from "react-icons/fi";
 
 const RegisterForm = () => {
   const { register } = useAuthContext();
@@ -91,133 +92,188 @@ const RegisterForm = () => {
 
   return (
     <>
-      <input
-        style={inputStyle}
-        type="text"
-        name="username"
-        placeholder="שם משתמש (באנגלית)"
-        value={formData.username}
-        onChange={handleChange}
-      />
-      <input
-        style={inputStyle}
-        type="password"
-        name="password"
-        placeholder="סיסמה"
-        value={formData.password}
-        onChange={handleChange}
-      />
-      <input
-        style={inputStyle}
-        type="password"
-        name="confirmPassword"
-        placeholder="אימות סיסמה"
-        value={formData.confirmPassword}
-        onChange={handleChange}
-      />
-      <input
-        style={inputStyle}
-        type="text"
-        name="fullName"
-        placeholder="שם מלא"
-        value={formData.fullName}
-        onChange={handleChange}
-      />
-      <input
-        style={inputStyle}
-        type="email"
-        name="email"
-        placeholder="אימייל"
-        value={formData.email}
-        onChange={handleChange}
-      />
-      <input
-        style={inputStyle}
-        type="date"
-        name="birthDate"
-        value={formData.birthDate}
-        onChange={handleChange}
-      />
-      <div style={selectWrapper}>
+      <div style={styles.inputWrapper}>
+        <FiUser style={styles.icon} />
+        <input
+          style={styles.input}
+          type="text"
+          name="username"
+          placeholder="שם משתמש (באנגלית)"
+          value={formData.username}
+          onChange={handleChange}
+        />
+      </div>
+
+      <div style={styles.inputWrapper}>
+        <FiLock style={styles.icon} />
+        <input
+          style={styles.input}
+          type="password"
+          name="password"
+          placeholder="סיסמה"
+          value={formData.password}
+          onChange={handleChange}
+        />
+      </div>
+
+      <div style={styles.inputWrapper}>
+        <FiLock style={styles.icon} />
+        <input
+          style={styles.input}
+          type="password"
+          name="confirmPassword"
+          placeholder="אימות סיסמה"
+          value={formData.confirmPassword}
+          onChange={handleChange}
+        />
+      </div>
+
+      <div style={styles.inputWrapper}>
+        <FiSmile style={styles.icon} />
+        <input
+          style={styles.input}
+          type="text"
+          name="fullName"
+          placeholder="שם מלא"
+          value={formData.fullName}
+          onChange={handleChange}
+        />
+      </div>
+
+      <div style={styles.inputWrapper}>
+        <FiMail style={styles.icon} />
+        <input
+          style={styles.input}
+          type="email"
+          name="email"
+          placeholder="אימייל"
+          value={formData.email}
+          onChange={handleChange}
+        />
+      </div>
+
+      <div style={styles.inputWrapper}>
+        <FiCalendar style={styles.icon} />
+        <input
+          style={{
+            ...styles.input,
+            color: formData.birthDate === today ? "#888" : "#333",
+          }}
+          type="date"
+          name="birthDate"
+          value={formData.birthDate === today ? "" : formData.birthDate}
+          onChange={handleChange}
+          onFocus={(e) => e.target.showPicker && e.target.showPicker()}
+        />
+        {formData.birthDate === today && (
+          <div style={styles.datePlaceholder}>תאריך לידה</div>
+        )}
+      </div>
+
+      <div style={styles.selectWrapper}>
         <select
-          style={selectStyle}
+          style={styles.select}
           name="gender"
           value={formData.gender}
           onChange={handleChange}
         >
-          <option value="male">זכר</option>
           <option value="female">נקבה</option>
+          <option value="male">זכר</option>
           <option value="other">אחר</option>
         </select>
-        <div style={selectArrow}>▼</div>
+        <div style={styles.selectArrow}>▼</div>
       </div>
 
-      <button style={buttonStyle} onClick={handleRegister}>
+      <button style={styles.button} onClick={handleRegister}>
         הרשמה
       </button>
     </>
   );
 };
 
-const inputStyle = {
-  width: "100%",
-  padding: "12px",
-  marginBottom: "14px",
-  borderRadius: "8px",
-  border: "1px solid #d0d7de",
-  fontSize: "16px",
-  textAlign: "right",
-  backgroundColor: "#f9f9f9",
-  color: "#333",
-  fontFamily: "'M PLUS Rounded 1c', sans-serif",
-  appearance: "none",
-};
+const styles = {
+  inputWrapper: {
+    position: "relative",
+    width: "100%",
+    marginBottom: "14px",
+    display: "flex",
+    alignItems: "center",
+    backgroundColor: "#f9f9f9",
+    border: "1px solid #d0d7de",
+    borderRadius: "8px",
+    direction: "rtl",
+  },
+  icon: {
+    padding: "10px",
+    fontSize: "20px",
+    color: "#7d8ca3",
+    flexShrink: 0,
+  },
+  datePlaceholder: {
+    position: "absolute",
+    right: "50px",
+    top: "50%",
+    transform: "translateY(-50%)",
+    color: "#888",
+    pointerEvents: "none",
+    fontSize: "16px",
+    fontFamily: "'M PLUS Rounded 1c', sans-serif",
+  },
 
-const selectWrapper = {
-  position: "relative",
-  width: "100%",
-  marginBottom: "14px",
-};
-
-const selectStyle = {
-  width: "100%",
-  padding: "12px",
-  paddingRight: "36px",
-  borderRadius: "8px",
-  border: "1px solid #d0d7de",
-  fontSize: "16px",
-  backgroundColor: "#f9f9f9",
-  color: "#333",
-  fontFamily: "'M PLUS Rounded 1c', sans-serif",
-  appearance: "none",
-  WebkitAppearance: "none",
-  MozAppearance: "none",
-  textAlign: "right",
-};
-
-const selectArrow = {
-  position: "absolute",
-  top: "50%",
-  right: "14px",
-  transform: "translateY(-50%)",
-  pointerEvents: "none",
-  fontSize: "18px",
-  color: "#7d8ca3",
-};
-
-const buttonStyle = {
-  width: "100%",
-  padding: "14px",
-  marginTop: "10px",
-  borderRadius: "10px",
-  border: "none",
-  backgroundColor: "#66c5cc",
-  color: "white",
-  fontSize: "18px",
-  fontWeight: "bold",
-  cursor: "pointer",
-  fontFamily: "'M PLUS Rounded 1c', sans-serif",
-  transition: "background-color 0.3s ease",
+  input: {
+    flex: 1,
+    padding: "12px",
+    border: "none",
+    outline: "none",
+    fontSize: "16px",
+    backgroundColor: "transparent",
+    textAlign: "right",
+    fontFamily: "'M PLUS Rounded 1c', sans-serif",
+    height: "30px",
+  },
+  selectWrapper: {
+    position: "relative",
+    width: "100%",
+    marginBottom: "14px",
+  },
+  select: {
+    width: "100%",
+    padding: "12px",
+    paddingRight: "36px",
+    borderRadius: "8px",
+    border: "1px solid #d0d7de",
+    fontSize: "16px",
+    backgroundColor: "#f9f9f9",
+    color: "#333",
+    fontFamily: "'M PLUS Rounded 1c', sans-serif",
+    appearance: "none",
+    WebkitAppearance: "none",
+    MozAppearance: "none",
+    textAlign: "right",
+  },
+  selectArrow: {
+    position: "absolute",
+    top: "50%",
+    right: "14px",
+    transform: "translateY(-50%)",
+    pointerEvents: "none",
+    fontSize: "18px",
+    color: "#7d8ca3",
+  },
+  button: {
+    width: "100%",
+    padding: "14px",
+    marginTop: "10px",
+    borderRadius: "10px",
+    border: "none",
+    backgroundColor: "#66c5cc",
+    color: "white",
+    fontSize: "18px",
+    fontWeight: "bold",
+    cursor: "pointer",
+    fontFamily: "'M PLUS Rounded 1c', sans-serif",
+    transition: "background-color 0.3s ease",
+  },
 };
 
 export default RegisterForm;
