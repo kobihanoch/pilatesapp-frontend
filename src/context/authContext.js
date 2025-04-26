@@ -56,8 +56,8 @@ export const AuthProvider = ({ children }) => {
     setLoading(true);
     try {
       const response = await registerUser(user);
-      console.log("User registered:", response.data.user);
-      await login(response.data.user.username, user.password); // Automatically log in after registration
+      console.log("User registered:", response.user);
+      await login(response.user.username, user.password); // Automatically log in after registration
     } catch (error) {
       console.error("Registration failed:", error);
       throw error; // Rethrow the error to handle it in the component

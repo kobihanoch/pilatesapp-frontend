@@ -38,7 +38,6 @@ export const registerUser = async (user) => {
     const response = await axios.post(API_BASE_URL + "/users/create", user);
     return response.data;
   } catch (error) {
-    console.error("Error registering:", error);
-    throw error;
+    throw error.response.data.message;
   }
 };
