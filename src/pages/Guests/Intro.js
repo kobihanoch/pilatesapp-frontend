@@ -3,22 +3,15 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Intro = () => {
-  const [logoPulled, setLogoPulled] = React.useState(false);
-
+  const navigate = useNavigate();
   const handleLoginClick = () => {
-    setLogoPulled(true);
-    /*navigate("/intro/login"); // or wherever you want*/
+    // Future: navigate("/intro/login");
   };
 
   const handleRegisterClick = () => {
-    setLogoPulled(true);
-    /*navigate("/intro/register"); // or wherever you want*/
+    // Future: navigate("/intro/register");
   };
 
-  const handleLogoClick = () => {
-    setLogoPulled(!logoPulled); // clicking logo manually toggles pull
-  };
-  const navigate = useNavigate();
   const [animateLogo, setAnimateLogo] = useState(false);
 
   const scrollToSection = (id) => {
@@ -41,23 +34,7 @@ const Intro = () => {
     <div className="intro-page">
       {/* Navbar */}
       <nav className="navbar">
-        <div className="left-navbar">
-          <div className="left-navbar">
-            <button className="auth-btn" onClick={handleLoginClick}>
-              התחברות
-            </button>
-            <button className="auth-btn" onClick={handleRegisterClick}>
-              הרשמה
-            </button>
-            <img
-              src="/interactivelogo.png"
-              alt="Interactive Logo"
-              className={`interactive-logo ${logoPulled ? "pulled" : ""}`}
-              onClick={handleLogoClick}
-            />
-          </div>
-        </div>
-
+        {/* Navigation buttons */}
         <div className="nav-buttons">
           <button onClick={() => scrollToSection("בית")}>בית</button>
           <button onClick={() => scrollToSection("קצת עליי")}>קצת עליי</button>
@@ -69,6 +46,17 @@ const Intro = () => {
           </button>
         </div>
       </nav>
+
+      {/* Authentication buttons */}
+      <div className="auth-buttons">
+        <button className="auth-btn" onClick={handleLoginClick}>
+          התחברות
+        </button>
+        <button className="auth-btn" onClick={handleRegisterClick}>
+          הרשמה
+        </button>
+        {/* <img src="/interactivelogo.png" alt="Logo" className="logo-navbar" /> */}
+      </div>
 
       {/* Hero Section */}
       <section id="בית" className="section">
@@ -88,10 +76,44 @@ const Intro = () => {
         </div>
       </section>
 
-      {/* Other sections */}
-      <section id="קצת עליי" className="section">
-        <h2>מי אני?</h2>
-        <p>About Rotem...</p>
+      <section id="קצת עליי" className="aboutme-section">
+        {/* Block 1 */}
+        <div className="aboutme-block left">
+          <div className="bubble">
+            <img src="/aboutme1.png" alt="Rotem 1" />
+          </div>
+          <div className="bubble-text">
+            אני רותם, מורה מוסמכת לפילאטיס, יוגה, הילינג ומנחת ריטריטים ואני
+            עובדת מתוך אהבה עמוקה לעולם התנועה והריפוי.
+          </div>
+        </div>
+
+        {/* Block 2 */}
+        <div className="aboutme-block right">
+          <div className="bubble">
+            <img src="/aboutme2.jpg" alt="Rotem 2" />
+          </div>
+          <div className="bubble-text">
+            בעיניי תנועה היא שפה המבטאת חיבור בין גוף ונפש, וכך אני גם מעבירה את
+            האימונים שלי. אני משלבת גישות שמזמינות כל אחד להתחבר לעצמו, להתחזק
+            ולהתמלא באנרגיה מחודשת.
+          </div>
+        </div>
+
+        {/* Block 3 */}
+        <div className="aboutme-block left">
+          <div className="bubble">
+            <img
+              src="/aboutme3.jpg"
+              alt="Rotem 3"
+              className="bubble-image third"
+            />
+          </div>
+          <div className="bubble-text">
+            אני מאמינה בהתמדה, הקשבה פנימית, באיזון בין עבודה פיזית עמוקה להקשבה
+            פנימית עדינה, המאפשרים תהליך של שינוי, ריפוי והתחדשות.
+          </div>
+        </div>
       </section>
 
       <section id="השיעורים שלי" className="section">
