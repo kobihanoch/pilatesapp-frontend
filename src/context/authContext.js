@@ -10,6 +10,7 @@ export const AuthProvider = ({ children }) => {
   // On load -----------------------------------------------
   // Check if user is already logged in
   useEffect(() => {
+    setLoading(true);
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       console.log("User found in local storage:", storedUser);
@@ -18,6 +19,7 @@ export const AuthProvider = ({ children }) => {
       console.log("No user found in local storage");
       setUser(null);
     }
+    setLoading(false);
     // Navigating automatically to the home page if user is logged in
   }, []);
 
