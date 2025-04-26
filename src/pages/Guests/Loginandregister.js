@@ -15,7 +15,9 @@ const LoginAndRegister = () => {
   return (
     <div style={styles.container}>
       <div style={styles.card}>
-        <h1 style={styles.title}>{isRegisterMode ? "הרשמה" : "התחברות"}</h1>
+        <h1 style={styles.title}>
+          {isRegisterMode ? "ברוכים הבאים !" : "התחברות"}
+        </h1>
 
         {isRegisterMode ? <RegisterForm /> : <LoginForm />}
 
@@ -25,8 +27,8 @@ const LoginAndRegister = () => {
           style={{
             ...styles.button,
             backgroundColor: "white",
-            border: "2px solid #2196F3",
-            color: "#2196F3",
+            border: "2px solid #f4b183",
+            color: "#f4b183",
             fontWeight: "bold",
           }}
           onClick={() => setIsRegisterMode((prev) => !prev)}
@@ -46,12 +48,11 @@ const styles = {
     alignItems: "center",
     height: "100vh",
     margin: "0",
-    backgroundColor: "#f0f2f5",
+    backgroundColor: "#fff0db",
     overflow: "hidden",
   },
   card: {
-    width: "90%",
-    maxWidth: "350px",
+    width: "clamp(260px, 70%, 350px)",
     backgroundColor: "#fff",
     padding: "30px",
     borderRadius: "15px",
@@ -60,6 +61,7 @@ const styles = {
     flexDirection: "column",
     alignItems: "center",
   },
+
   title: {
     marginBottom: "20px",
     fontSize: "24px",

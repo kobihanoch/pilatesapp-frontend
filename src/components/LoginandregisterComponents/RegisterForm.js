@@ -266,7 +266,7 @@ const styles = {
     marginTop: "10px",
     borderRadius: "10px",
     border: "none",
-    backgroundColor: "#66c5cc",
+    backgroundColor: "#f4b183",
     color: "white",
     fontSize: "18px",
     fontWeight: "bold",

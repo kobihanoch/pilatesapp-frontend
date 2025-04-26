@@ -9,8 +9,8 @@ const LoadingSpinner = ({ text = "טוען..." }) => {
         .spinner {
           width: 60px;
           height: 60px;
-          border: 8px solid #e0e0e0;
-          border-top: 8px solid #2196F3;
+          border: 8px solid rgb(229, 209, 196);
+          border-top: 8px solid #f4b183;
           border-radius: 50%;
           animation: spin 1s ease-in-out infinite;
         }
@@ -32,7 +32,7 @@ const styles = {
     justifyContent: "center",
     alignItems: "center",
     height: "100vh",
-    backgroundColor: "#f0f2f5",
+    backgroundColor: "#fff0db",
     overflow: "hidden",
   },
   text: {
