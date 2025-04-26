@@ -4,6 +4,7 @@ import { loginUser, logoutUser, registerUser } from "../services/authService";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(null);
 
   // On load -----------------------------------------------
@@ -21,6 +22,7 @@ export const AuthProvider = ({ children }) => {
   // Utils -----------------------------------------------
 
   const login = async (username, password) => {
+    setLoading(true);
     try {
       const response = await loginUser(username, password);
       const { user } = response.data;
@@ -29,6 +31,8 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       console.error("Login failed:", error);
       throw error; // Rethrow the error to handle it in the component
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -44,12 +48,15 @@ export const AuthProvider = ({ children }) => {
   };
 
   const register = async (user) => {
+    setLoading(true);
     try {
       const response = await registerUser(user);
       await login(response.data.user.username, user.password); // Automatically log in after registration
     } catch (error) {
       console.error("Registration failed:", error);
       throw error; // Rethrow the error to handle it in the component
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -63,6 +70,7 @@ export const AuthProvider = ({ children }) => {
           logout,
         },
         register,
+        loading,
       }}
     >
       {children}
