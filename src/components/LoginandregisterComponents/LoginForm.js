@@ -91,6 +91,7 @@ const styles = {
     backgroundColor: "transparent",
     textAlign: "right",
     fontFamily: "'M PLUS Rounded 1c', sans-serif",
+    overflow: "hidden",
   },
   button: {
     width: "100%",

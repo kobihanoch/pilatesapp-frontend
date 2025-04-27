@@ -230,6 +230,7 @@ const styles = {
     textAlign: "right",
     fontFamily: "'M PLUS Rounded 1c', sans-serif",
     height: "30px",
+    overflow: "hidden",
   },
   selectWrapper: {
     position: "relative",
