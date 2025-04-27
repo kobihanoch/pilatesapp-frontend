@@ -213,6 +213,67 @@
 }
 
 /*---------------------------------------------------------------------*/
+/*Contact me section*/
+.whatsapp-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  padding: 0.1rem 1rem;
+  height: 80px;
+  background-color: #25d366;
+  color: white;
+  font-weight: bold;
+  border-radius: 30px;
+  text-decoration: none;
+  font-size: 1.3rem;
+  margin-top: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.whatsapp-button:hover .whatsapp-icon {
+  transform: scale(1.2) rotate(10deg);
+}
+
+.whatsapp-button:hover {
+  background-color: #1ebe57;
+}
+
+/* כאן האייקון החדש */
+.whatsapp-icon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  margin: 0; /* <-- remove extra margin */
+  padding: 0; /* <-- remove any inner padding */
+  transition: transform 0.3s ease;
+}
+
+/* אפקט רטט על האייקון כשהכפתור בריחוף */
+.whatsapp-button:hover .whatsapp-icon {
+  animation: vibrate 0.4s linear infinite;
+}
+
+/* הגדרת רטט */
+@keyframes vibrate {
+  0% {
+    transform: translate(0);
+  }
+  25% {
+    transform: translate(2px, 2px);
+  }
+  50% {
+    transform: translate(0, 2px);
+  }
+  75% {
+    transform: translate(2px, 0);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+
+/* ------------------------------------------------------------------- */
 
 /* -------------------- Responsive (Phone & iPad) -------------------- */
 @media (max-width: 480px) {
@@ -280,5 +341,16 @@
   .aboutme-block.left,
   .aboutme-block.right {
     flex-direction: column;
+  }
+
+  /*Contact me section*/
+  .whatsapp-button {
+    gap: 0.1px;
+    padding: 0.1rem 1rem 0.3rem 0.1rem;
+  }
+
+  .whatsapp-icon {
+    width: 90px;
+    height: 90px;
   }
 }

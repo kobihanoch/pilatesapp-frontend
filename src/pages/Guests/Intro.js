@@ -129,6 +129,21 @@ const Intro = () => {
         <h2>צור קשר</h2>
         <p>Phone: 050-123-4567</p>
         <p>Address: Tel Aviv, Main Street 42</p>
+
+        {/* WhatssUP Button*/}
+        <a
+          href="https://wa.me/972504671935"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="whatsapp-button"
+        >
+          <img
+            src="contactMeLogo.png"
+            alt="Phone Icon"
+            className="whatsapp-icon"
+          />
+          דברו איתי בוואטסאפ
+        </a>
       </section>
     </div>
   );
