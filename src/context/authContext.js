@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { loginUser, logoutUser, registerUser } from "../services/authService";
+import { fetchAuthenticatedUser } from "../services/userService";
 
 const AuthContext = createContext();
 
@@ -10,16 +11,23 @@ export const AuthProvider = ({ children }) => {
   // On load -----------------------------------------------
   // Check if user is already logged in
   useEffect(() => {
-    setLoading(true);
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      console.log("User found in local storage:", storedUser);
-      setUser(JSON.parse(storedUser));
-    } else {
-      console.log("No user found in local storage");
-      setUser(null);
-    }
-    setLoading(false);
+    const fetchUser = async () => {
+      setLoading(true);
+      try {
+        const user = await fetchAuthenticatedUser();
+        if (user) {
+          setUser(user);
+        } else {
+          setUser(null);
+        }
+      } catch (error) {
+        console.error("Error fetching authenticated user:", error);
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchUser();
     // Navigating automatically to the home page if user is logged in
   }, []);
 
@@ -29,14 +37,12 @@ export const AuthProvider = ({ children }) => {
     setLoading(true);
     try {
       const response = await loginUser(username, password);
-      const { user, token } = response;
-      const userWithToken = { ...user, token };
-      setUser(userWithToken);
-      localStorage.setItem("user", JSON.stringify(userWithToken));
+      const { user } = response;
+      setUser(user);
       console.log("User logged in:", user);
     } catch (error) {
       console.error("Login failed:", error);
-      throw error; // Rethrow the error to handle it in the component
+      throw error;
     } finally {
       setLoading(false);
     }
@@ -44,9 +50,8 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await logoutUser(user.token);
+      await logoutUser();
       setUser(null);
-      localStorage.removeItem("user");
       console.log("User logged out");
     } catch (error) {
       console.error("Logout failed:", error);

@@ -6,26 +6,24 @@ export const loginUser = async (username, password) => {
     if (!username || !password) {
       throw new Error("Username and password are required");
     }
-    const response = await axios.post(API_BASE_URL + "/auth/login", {
-      username,
-      password,
-    });
+    const response = await axios.post(
+      API_BASE_URL + "/auth/login",
+      { username, password },
+      { withCredentials: true }
+    );
+
     return response.data;
   } catch (error) {
     throw error.response.data.message;
   }
 };
 
-export const logoutUser = async (token) => {
+export const logoutUser = async () => {
   try {
     await axios.post(
       API_BASE_URL + "/auth/logout",
       {},
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
+      { withCredentials: true }
     );
   } catch (error) {
     console.error("Error logging out:", error);
