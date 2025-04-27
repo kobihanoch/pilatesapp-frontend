@@ -1,0 +1,155 @@
+/* BookingSystem.css - Modern Design */
+
+.booking-system {
+  font-family: "M PLUS Rounded 1c", sans-serif;
+  background-color: #fef7ec;
+  padding: 3rem 2rem;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.booking-system h2 {
+  font-family: "Amatic SC", cursive;
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  color: #222;
+}
+
+select {
+  padding: 0.7rem 1.2rem;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  font-size: 1.2rem;
+  background-color: #fff;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  transition: border-color 0.3s;
+}
+
+select:focus {
+  border-color: #6ccf9c;
+  outline: none;
+}
+
+.react-calendar {
+  border: none;
+  border-radius: 15px;
+  background: #fff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  margin: 2rem auto;
+}
+
+.react-calendar__tile {
+  padding: 1rem;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+}
+
+.react-calendar__tile--active,
+.react-calendar__tile--now {
+  background: #6ccf9c;
+  color: white;
+  border-radius: 10px;
+}
+
+.react-calendar__tile:hover {
+  background-color: #c0f0d9;
+}
+
+.time-picker {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.time-picker button {
+  padding: 0.8rem 1.4rem;
+  background-color: #f8f8f8;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.time-picker button:hover {
+  background-color: #e8f8f2;
+  transform: scale(1.05);
+}
+
+.time-picker button.selected {
+  background-color: #6ccf9c;
+  color: white;
+  border: 2px solid #6ccf9c;
+}
+
+.confirm-button {
+  margin-top: 2rem;
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  background-color: #6ccf9c;
+  border: none;
+  border-radius: 12px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.confirm-button:hover {
+  background-color: #4fbf8a;
+  transform: scale(1.05);
+}
+
+/* Confirmation Message with Fade */
+.confirmation-message {
+  margin-top: 2rem;
+  font-size: 1.5rem;
+  color: #4caf50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  opacity: 0;
+  animation: fadeIn 0.5s forwards;
+}
+
+.success-message {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  animation: fadeInOut 7s forwards;
+  text-align: center;
+  margin-top: 20px;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  10% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  90% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
