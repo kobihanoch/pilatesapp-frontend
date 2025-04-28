@@ -27,7 +27,7 @@ const LoginForm = () => {
       await auth.login(formData.username, formData.password);
       console.log("Login successful!");
     } catch (error) {
-      alert(error.message || "שגיאה בהתחברות");
+      alert(error || "שגיאה בהתחברות");
     }
   };
 

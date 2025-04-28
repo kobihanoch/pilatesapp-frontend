@@ -7,7 +7,7 @@ export const loginUser = async (username, password) => {
       throw new Error("Username and password are required");
     }
     const response = await axios.post(
-      API_BASE_URL + "/auth/login",
+      API_BASE_URL + "/api/auth/login",
       { username, password },
       { withCredentials: true }
     );
@@ -21,7 +21,7 @@ export const loginUser = async (username, password) => {
 export const logoutUser = async () => {
   try {
     await axios.post(
-      API_BASE_URL + "/auth/logout",
+      API_BASE_URL + "/api/auth/logout",
       {},
       { withCredentials: true }
     );
