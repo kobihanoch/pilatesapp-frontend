@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useAuthContext } from "../../context/authContext";
 import LoginForm from "../../components/LoginandregisterComponents/LoginForm";
 import RegisterForm from "../../components/LoginandregisterComponents/RegisterForm";
@@ -7,34 +7,63 @@ import LoadingSpinner from "../../components/Loading/LoadingSpinner";
 const LoginAndRegister = () => {
   const { loading } = useAuthContext();
   const [isRegisterMode, setIsRegisterMode] = useState(false);
+  const cardRef = useRef(null);
+  const contentRef = useRef(null);
+
+  useEffect(() => {
+    if (!cardRef.current || !contentRef.current) return;
+
+    const card = cardRef.current;
+    const content = contentRef.current;
+
+    // מודד גובה נוכחי
+    const currentHeight = card.offsetHeight;
+
+    // מודד את הגובה החדש
+    const newHeight = content.offsetHeight;
+
+    // קובע גובה נוכחי כדי לאפשר טרנזישן
+    card.style.height = currentHeight + "px";
+
+    // מכריח רינדור מחדש (trick)
+    void card.offsetHeight;
+
+    // משנה לגובה החדש עם טרנזישן חלק
+    card.style.height = newHeight + "px";
+  }, [isRegisterMode]);
 
   if (loading) {
-    return <LoadingSpinner text="מתחבר למערכת..."></LoadingSpinner>;
+    return <LoadingSpinner text="מתחבר למערכת..." />;
   }
 
   return (
     <div style={styles.container}>
-      <div style={styles.card}>
-        <h1 style={styles.title}>
-          {isRegisterMode ? "ברוכים הבאים !" : "התחברות"}
-        </h1>
+      <div
+        style={{ ...styles.card, transition: "height 0.5s ease" }}
+        ref={cardRef}
+      >
+        <div style={{ width: "90%" }} ref={contentRef}>
+          <h1 style={styles.title}>
+            {isRegisterMode ? "ברוכים הבאים !" : "התחברות"}
+          </h1>
 
-        {isRegisterMode ? <RegisterForm /> : <LoginForm />}
+          {isRegisterMode ? <RegisterForm /> : <LoginForm />}
 
-        <div style={styles.divider}>או</div>
+          <div style={styles.divider}>או</div>
 
-        <button
-          style={{
-            ...styles.button,
-            backgroundColor: "white",
-            border: "2px solid #f4b183",
-            color: "#f4b183",
-            fontWeight: "bold",
-          }}
-          onClick={() => setIsRegisterMode((prev) => !prev)}
-        >
-          {isRegisterMode ? "כבר רשומים? התחברו" : "אין לכם חשבון? להרשמה"}
-        </button>
+          <button
+            style={{
+              ...styles.button,
+              backgroundColor: "white",
+              border: "2px solid #f4b183",
+              color: "#f4b183",
+              fontWeight: "bold",
+            }}
+            onClick={() => setIsRegisterMode((prev) => !prev)}
+          >
+            {isRegisterMode ? "כבר רשומים? התחברו" : "אין לכם חשבון? להרשמה"}
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -60,13 +89,15 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+    overflow: "hidden",
+    textAlign: "center",
   },
-
   title: {
     marginBottom: "20px",
     fontSize: "24px",
     fontWeight: "bold",
     color: "#333",
+    textAlign: "center",
   },
   button: {
     width: "100%",
