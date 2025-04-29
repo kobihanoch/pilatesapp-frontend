@@ -17,12 +17,29 @@ api.interceptors.request.use(
   }
 );
 
-// Interceptor for responses
+// Interceptor for responses - NO HANDLING REFRESH!! NEED TO HANDLE REFRESH TOKEN
 api.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  (error) => {
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+
+    if (
+      error.response.data.message !== "Not authenticated" &&
+      error.response &&
+      error.response.status === 401 &&
+      !originalRequest._retry
+    ) {
+      originalRequest._retry = true;
+
+      try {
+        await api.post("/api/auth/refresh");
+        return api(originalRequest);
+      } catch (refreshError) {
+        console.error("Refresh token failed:", refreshError);
+        return Promise.reject(refreshError);
+      }
+    }
+
     return Promise.reject(error);
   }
 );

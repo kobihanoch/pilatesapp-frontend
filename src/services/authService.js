@@ -6,8 +6,7 @@ export const loginUser = async (username, password) => {
       throw new Error("Username and password are required");
     }
     const response = await api.post("/api/auth/login", { username, password });
-
-    return response.data;
+    return response;
   } catch (error) {
     throw error.response.data.message;
   }
