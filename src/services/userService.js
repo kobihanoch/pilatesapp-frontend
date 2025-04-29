@@ -1,9 +1,19 @@
 import axios from "axios";
-import { API_BASE_URL } from "../apiConfig";
+import { API_BASE_URL } from "../api/apiConfig";
+import api from "../api/api";
 
 export const fetchAuthenticatedUser = async () => {
   try {
-    const response = await axios.get(API_BASE_URL + "/api/users/get", {
+    const response = await api.get("/api/users/get");
+    return response.data;
+  } catch (error) {
+    throw error.response.data.message;
+  }
+};
+
+export const checkIfUserIsAuthenticated = async () => {
+  try {
+    const response = await api.get("/api/auth/checkauth", {
       withCredentials: true,
     });
     return response.data;

@@ -1,16 +1,11 @@
-import axios from "axios";
-import { API_BASE_URL } from "../apiConfig";
+import api from "../api/api";
 
 export const loginUser = async (username, password) => {
   try {
     if (!username || !password) {
       throw new Error("Username and password are required");
     }
-    const response = await axios.post(
-      API_BASE_URL + "/api/auth/login",
-      { username, password },
-      { withCredentials: true }
-    );
+    const response = await api.post("/api/auth/login", { username, password });
 
     return response.data;
   } catch (error) {
@@ -20,11 +15,7 @@ export const loginUser = async (username, password) => {
 
 export const logoutUser = async () => {
   try {
-    await axios.post(
-      API_BASE_URL + "/api/auth/logout",
-      {},
-      { withCredentials: true }
-    );
+    await api.post("/api/auth/logout", {});
   } catch (error) {
     console.error("Error logging out:", error);
     throw error;
@@ -33,7 +24,9 @@ export const logoutUser = async () => {
 
 export const registerUser = async (user) => {
   try {
-    const response = await axios.post(API_BASE_URL + "/users/create", user);
+    const response = await api.post("api/users/create", user, {
+      withCredentials: false,
+    });
     return response.data;
   } catch (error) {
     throw error.response.data.message;
