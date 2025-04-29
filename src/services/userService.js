@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_BASE_URL } from "../apiConfig";
+import { API_BASE_URL } from "../api/apiConfig";
 
 export const fetchAuthenticatedUser = async () => {
   try {
