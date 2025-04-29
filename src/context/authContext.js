@@ -7,10 +7,12 @@ import {
 
 const AuthContext = createContext();
 
+export let globalSetUser = null; // This is a global variable to set the user in the context
+
 export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(null);
-
+  globalSetUser = setUser;
   // On load -----------------------------------------------
   // Check if user is already logged in
   useEffect(() => {
@@ -30,6 +32,7 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
     };
     fetchUser();
+
     // Navigating automatically to the home page if user is logged in
   }, []);
 
