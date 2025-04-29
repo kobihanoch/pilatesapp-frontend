@@ -13,9 +13,7 @@ export const fetchAuthenticatedUser = async () => {
 
 export const checkIfUserIsAuthenticated = async () => {
   try {
-    const response = await api.get("/api/auth/checkauth", {
-      withCredentials: true,
-    });
+    const response = await api.get("/api/auth/checkauth");
     return response.data;
   } catch (error) {
     throw error.response.data.message;

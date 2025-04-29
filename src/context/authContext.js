@@ -7,10 +7,12 @@ import {
 
 const AuthContext = createContext();
 
+export let globalSetUser = null; // This is a global variable to set the user in the context
+
 export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(null);
-
+  globalSetUser = setUser;
   // On load -----------------------------------------------
   // Check if user is already logged in
   useEffect(() => {
@@ -18,24 +20,19 @@ export const AuthProvider = ({ children }) => {
       setLoading(true);
       try {
         await checkIfUserIsAuthenticated();
-        const user = await fetchAuthenticatedUser();
-        if (user) {
-          console.log("Found logged in user");
-          setUser(user);
-        } else {
-          console.log("Didn't find logged in user");
-          setUser(null);
-        }
       } catch (error) {
         console.error("Error fetching authenticated user:", error);
-        if (error.response && error.response.status === 401) {
-          setUser(null);
-        }
-      } finally {
+        console.log("Setting user to null due to authentication error");
+        setUser(null);
         setLoading(false);
+        return;
       }
+
+      await loadUserData(); // Load user data after checking authentication
+      setLoading(false);
     };
     fetchUser();
+
     // Navigating automatically to the home page if user is logged in
   }, []);
 
@@ -45,9 +42,10 @@ export const AuthProvider = ({ children }) => {
     setLoading(true);
     try {
       const response = await loginUser(username, password);
-      const { user } = response;
-      setUser(user);
-      //console.log("User logged in:", user);
+      console.log("Login response:", response);
+      if (response.status == 200) {
+        await loadUserData(); // Load user data after successful login
+      }
     } catch (error) {
       console.error("Login failed:", error);
       throw error;
@@ -76,6 +74,23 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       console.error("Registration failed:", error);
       throw error; // Rethrow the error to handle it in the component
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const loadUserData = async () => {
+    setLoading(true);
+    try {
+      const user = await fetchAuthenticatedUser();
+      if (user) {
+        setUser(user);
+      } else {
+        setUser(null);
+      }
+    } catch (error) {
+      console.error("Error fetching authenticated user:", error);
+      setUser(null);
     } finally {
       setLoading(false);
     }
