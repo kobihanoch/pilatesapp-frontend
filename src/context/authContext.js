@@ -1,6 +1,9 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { loginUser, logoutUser, registerUser } from "../services/authService";
-import { fetchAuthenticatedUser } from "../services/userService";
+import {
+  checkIfUserIsAuthenticated,
+  fetchAuthenticatedUser,
+} from "../services/userService";
 
 const AuthContext = createContext();
 
@@ -14,15 +17,20 @@ export const AuthProvider = ({ children }) => {
     const fetchUser = async () => {
       setLoading(true);
       try {
+        await checkIfUserIsAuthenticated();
         const user = await fetchAuthenticatedUser();
         if (user) {
+          console.log("Found logged in user");
           setUser(user);
         } else {
+          console.log("Didn't find logged in user");
           setUser(null);
         }
       } catch (error) {
         console.error("Error fetching authenticated user:", error);
-        setUser(null);
+        if (error.response && error.response.status === 401) {
+          setUser(null);
+        }
       } finally {
         setLoading(false);
       }
@@ -39,7 +47,7 @@ export const AuthProvider = ({ children }) => {
       const response = await loginUser(username, password);
       const { user } = response;
       setUser(user);
-      console.log("User logged in:", user);
+      //console.log("User logged in:", user);
     } catch (error) {
       console.error("Login failed:", error);
       throw error;
