@@ -1,2 +1,15 @@
+// This file conatins the choice between production and development environment,
+//  to know to which server the requests will be sent
+// The server needs to be running in the background
+// If running on LOCALHOST then DEVLOPMENT server will be used
+// If running on PRODUCTION then PRODUCTION server will be used
+
+const hostname = window.location.hostname;
+
+// Uncomment by production or dev environment
+
+// ------{PRODUCTION}-------
 //export const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
-export const API_BASE_URL = "http://localhost:5000";
+
+// ------{DEVELOPMENT}-------
+export const API_BASE_URL = `http://${hostname}:5000`;
