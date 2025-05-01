@@ -75,7 +75,10 @@ export const AuthProvider = ({ children }) => {
   const loadUserSessions = async () => {
     try {
       const response = await fetchAuthenticatedUserSessions();
-      setSessions(response); // Assuming the response contains user sessions
+      const sessions = response.filter(
+        (session) => session.status === "מתוכנן"
+      );
+      setSessions(sessions);
     } catch (error) {
       console.error("Error fetching user sessions:", error);
       throw error; // Rethrow the error to handle it in the component
