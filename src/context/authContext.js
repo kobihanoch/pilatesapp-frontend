@@ -3,6 +3,7 @@ import { loginUser, logoutUser, registerUser } from "../services/authService";
 import {
   checkIfUserIsAuthenticated,
   fetchAuthenticatedUser,
+  fetchAuthenticatedUserSessions,
 } from "../services/userService";
 
 const AuthContext = createContext();
@@ -13,7 +14,7 @@ export let globalLogOut = null; // This is a global variable to log out the user
 export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(null);
-  const [sessions, setSessions] = useState([]); // State to hold user sessions
+  const [sessions, setSessions] = useState(null); // State to hold user sessions
   globalSetUser = setUser;
 
   // On load -----------------------------------------------
@@ -31,7 +32,6 @@ export const AuthProvider = ({ children }) => {
         setLoading(false);
         return;
       }
-
       await loadUserData(); // Load user data after checking authentication
       await loadUserSessions(); // Fetch user sessions
       setLoading(false);
@@ -50,6 +50,7 @@ export const AuthProvider = ({ children }) => {
       console.log("Login response:", response);
       if (response.status == 200) {
         await loadUserData(); // Load user data after successful login
+        await loadUserSessions(); // Fetch user sessions after login
       }
     } catch (error) {
       console.error("Login failed:", error);
@@ -63,7 +64,7 @@ export const AuthProvider = ({ children }) => {
     try {
       await logoutUser();
       setUser(null);
-      setSessions([]); // Clear sessions on logout
+      setSessions(null); // Clear sessions on logout
       console.log("User logged out");
     } catch (error) {
       console.error("Logout failed:", error);
@@ -73,7 +74,8 @@ export const AuthProvider = ({ children }) => {
 
   const loadUserSessions = async () => {
     try {
-      const response = await fetchAuthenticatedUser();
+      const response = await fetchAuthenticatedUserSessions();
+      setSessions(response); // Assuming the response contains user sessions
     } catch (error) {
       console.error("Error fetching user sessions:", error);
       throw error; // Rethrow the error to handle it in the component
@@ -95,7 +97,6 @@ export const AuthProvider = ({ children }) => {
   };
 
   const loadUserData = async () => {
-    setLoading(true);
     try {
       const user = await fetchAuthenticatedUser();
       if (user) {
@@ -106,8 +107,6 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       console.error("Error fetching authenticated user:", error);
       setUser(null);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -116,6 +115,7 @@ export const AuthProvider = ({ children }) => {
       value={{
         user,
         setUser,
+        sessions,
         auth: {
           login,
           logout,
