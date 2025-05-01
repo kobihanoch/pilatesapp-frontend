@@ -19,3 +19,12 @@ export const checkIfUserIsAuthenticated = async () => {
     throw error.response.data.message;
   }
 };
+
+export const fetchAuthenticatedUserSessions = async () => {
+  try {
+    const response = await api.get("/api/sessions/my");
+    return response.data;
+  } catch (error) {
+    throw error.response.data.message;
+  }
+};
