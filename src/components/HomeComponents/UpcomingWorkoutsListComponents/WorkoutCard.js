@@ -1,7 +1,34 @@
 import React from "react";
 import { FaMapMarkerAlt, FaUsers } from "react-icons/fa";
+import { unregisterFromSelectedSession } from "../../../services/sessionService";
 
-const WorkoutCard = ({ session, formatDate }) => {
+const WorkoutCard = ({
+  session,
+  formatDate,
+  updatedSessions,
+  setUpdatedSessions,
+}) => {
+  // Handles unregister from a session
+  const handleUnregister = async (sessionId) => {
+    const isConfirmed = window.confirm(
+      "האם אתה בטוח שברצונך לבטל את הרישום לאימון?"
+    );
+
+    if (isConfirmed) {
+      try {
+        await unregisterFromSelectedSession(sessionId);
+        setUpdatedSessions(
+          updatedSessions.filter((session) => session._id !== sessionId)
+        );
+        alert("ביטול הרישום לאימון בוצע בהצלחה!");
+      } catch (e) {
+        alert(e);
+      }
+    } else {
+      alert("לא בוצע ביטול רישום.");
+    }
+  };
+
   return (
     <div
       style={styles.workoutCard}
@@ -34,7 +61,12 @@ const WorkoutCard = ({ session, formatDate }) => {
 
       {session.notes && <p style={styles.cardNotes}>הערה: {session.notes}</p>}
 
-      <button style={styles.cancelButton}>ביטול הרשמה</button>
+      <button
+        style={styles.cancelButton}
+        onClick={() => handleUnregister(session._id)}
+      >
+        ביטול הרשמה
+      </button>
     </div>
   );
 };

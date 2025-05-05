@@ -1,24 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import WorkoutCard from "./UpcomingWorkoutsListComponents/WorkoutCard";
 
-const WorkoutSection = ({ upcomingWorkouts, formatDate }) => (
-  <>
-    <h3 style={styles.sectionTitle}>האימונים הקרובים שלי</h3>
-    <div style={styles.horizontalScroll}>
-      {upcomingWorkouts?.length > 0 ? (
-        upcomingWorkouts.map((session) => (
-          <WorkoutCard
-            key={session._id}
-            session={session}
-            formatDate={formatDate}
-          />
-        ))
-      ) : (
-        <p style={{ padding: 16 }}>אין אימונים קרובים</p>
-      )}
-    </div>
-  </>
-);
+const WorkoutSection = ({ upcomingWorkouts, formatDate }) => {
+  const [updatedSessions, setUpdatedSessions] = useState(upcomingWorkouts);
+
+  return (
+    <>
+      <h3 style={styles.sectionTitle}>האימונים הקרובים שלי</h3>
+      <div style={styles.horizontalScroll}>
+        {updatedSessions?.length > 0 ? (
+          updatedSessions.map((session) => (
+            <WorkoutCard
+              key={session._id}
+              session={session}
+              formatDate={formatDate}
+              updatedSessions={updatedSessions}
+              setUpdatedSessions={setUpdatedSessions}
+            />
+          ))
+        ) : (
+          <p style={{ padding: 16 }}>אין אימונים קרובים</p>
+        )}
+      </div>
+    </>
+  );
+};
 
 const styles = {
   sectionTitle: {
