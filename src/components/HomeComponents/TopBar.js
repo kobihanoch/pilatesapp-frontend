@@ -13,7 +13,7 @@ const TopBar = ({ fullName, gender, onLogout }) => (
 
 const styles = {
   topBar: {
-    backgroundColor: "#f4b183",
+    backgroundColor: "white",
     padding: "16px 20px",
     marginBottom: 20,
     display: "flex",
@@ -24,6 +24,7 @@ const styles = {
   userName: {
     fontSize: 20,
     margin: 0,
+    color: "#d76629",
   },
   logoutButton: {
     backgroundColor: "#d76629",

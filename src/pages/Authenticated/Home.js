@@ -41,7 +41,7 @@ const HomePage = () => {
 const styles = {
   container: {
     fontFamily: '"M PLUS Rounded 1c", sans-serif',
-    backgroundColor: "#fff0db",
+    backgroundColor: "white",
     padding: 0,
     minHeight: "100vh",
     direction: "rtl",

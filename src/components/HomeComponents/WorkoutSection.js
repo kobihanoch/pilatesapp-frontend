@@ -3,7 +3,7 @@ import WorkoutCard from "./UpcomingWorkoutsListComponents/WorkoutCard";
 
 const WorkoutSection = ({ upcomingWorkouts, formatDate }) => (
   <>
-    <h3 style={styles.sectionTitle}>האימונים הקרובים שלי:</h3>
+    <h3 style={styles.sectionTitle}>האימונים הקרובים שלי</h3>
     <div style={styles.horizontalScroll}>
       {upcomingWorkouts?.length > 0 ? (
         upcomingWorkouts.map((session) => (
@@ -22,8 +22,8 @@ const WorkoutSection = ({ upcomingWorkouts, formatDate }) => (
 
 const styles = {
   sectionTitle: {
-    fontSize: 20,
-    color: "#d76629",
+    fontSize: 25,
+    color: "black",
     marginBottom: 12,
     marginTop: 20,
     paddingRight: 10,
