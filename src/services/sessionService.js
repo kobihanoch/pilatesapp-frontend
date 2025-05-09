@@ -21,3 +21,15 @@ export const registerToSelectedSession = async (sessionId) => {
     throw error.response.data.message;
   }
 };
+
+// Gets all sessions until next month
+export const fetchAllSessionsUntilNextMonth = async () => {
+  try {
+    const response = await api.get(`api/sessions/soon`);
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error.response.data.message;
+  }
+};
