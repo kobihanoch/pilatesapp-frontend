@@ -9,17 +9,17 @@ import useSessions from "../../hooks/useSessions";
 const HomePage = () => {
   const { user, loading, sessions: upcomingWorkouts, auth } = useAuthContext();
   const { gender, fullName } = user || {};
-  /*const {
+  const {
     sessions: availableSessions,
     loading: loadingSessions,
     error,
-  } = useSessions();*/
+  } = useSessions();
 
-  const availableSessions = [
+  /*const availableSessions = [
     { title: "פילאטיס קלאסי", date: "4.5.25 | 09:00" },
     { title: "פילאטיס לנשים בהריון", date: "5.5.25 | 11:00" },
     { title: "פילאטיס לנוער", date: "6.5.25 | 17:30" },
-  ];
+  ];*/
 
   const formatDate = (dateStr) => {
     const date = new Date(dateStr);
@@ -39,7 +39,7 @@ const HomePage = () => {
         upcomingWorkouts={upcomingWorkouts}
         formatDate={formatDate}
       />
-      <SignupSection availableSessions={availableSessions} />
+      <SignupSection availableSessions={availableSessions ?? []} />
     </div>
   );
 };
