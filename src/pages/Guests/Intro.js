@@ -1,7 +1,6 @@
 import "./Intro.css";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import BookingSystem from "../../BookingSystem";
 
 const Intro = () => {
   const navigate = useNavigate();
@@ -119,7 +118,6 @@ const Intro = () => {
 
       <section id="השיעורים שלי" className="section">
         <h2>השיעורים שלי</h2>
-        <BookingSystem />
       </section>
 
       <section id="?שניצור קשר" className="section contact-content">
