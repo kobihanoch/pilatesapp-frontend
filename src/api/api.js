@@ -1,6 +1,6 @@
 import axios from "axios";
 import { API_BASE_URL } from "./apiConfig";
-import { globalSetUser } from "../context/authContext";
+import { globalSetUser, globalLogOut } from "../context/authContext";
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -27,7 +27,7 @@ api.interceptors.response.use(
     // If refreshing 2nd time - don't try again - set user to null
     if (originalRequest.url.includes("/api/auth/refresh")) {
       if (globalSetUser) {
-        globalSetUser(null); // Set user to null if refresh fails
+        globalLogOut(); // Set user to null if refresh fails
       }
       return Promise.reject(error); // Throw error
     }

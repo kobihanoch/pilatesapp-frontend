@@ -16,19 +16,14 @@ const LoginAndRegister = () => {
     const card = cardRef.current;
     const content = contentRef.current;
 
-    // מודד גובה נוכחי
     const currentHeight = card.offsetHeight;
 
-    // מודד את הגובה החדש
     const newHeight = content.offsetHeight;
 
-    // קובע גובה נוכחי כדי לאפשר טרנזישן
     card.style.height = currentHeight + "px";
 
-    // מכריח רינדור מחדש (trick)
     void card.offsetHeight;
 
-    // משנה לגובה החדש עם טרנזישן חלק
     card.style.height = newHeight + "px";
   }, [isRegisterMode]);
 

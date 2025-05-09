@@ -1,27 +1,57 @@
 import React from "react";
 import { useAuthContext } from "../../context/authContext";
-import { fetchAuthenticatedUser } from "../../services/userService";
+import LoadingSpinner from "../../components/Loading/LoadingSpinner";
+import TopBar from "../../components/HomeComponents/TopBar";
+import WorkoutSection from "../../components/HomeComponents/WorkoutSection";
+import SignupSection from "../../components/HomeComponents/SignupSection";
+import useSessions from "../../hooks/useSessions";
 
-const Home = () => {
-  const { setUser, auth } = useAuthContext();
+const HomePage = () => {
+  const { user, loading, sessions: upcomingWorkouts, auth } = useAuthContext();
+  const { gender, fullName } = user || {};
+  const {
+    sessions: availableSessions,
+    loading: loadingSessions,
+    error,
+  } = useSessions();
 
-  const handleFetchUserData = async () => {
-    try {
-      const data = await fetchAuthenticatedUser();
-      console.log("User Data:", data);
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-      setUser(null); // Clear user data on error
-    }
+  /*const availableSessions = [
+    { title: "פילאטיס קלאסי", date: "4.5.25 | 09:00" },
+    { title: "פילאטיס לנשים בהריון", date: "5.5.25 | 11:00" },
+    { title: "פילאטיס לנוער", date: "6.5.25 | 17:30" },
+  ];*/
+
+  const formatDate = (dateStr) => {
+    const date = new Date(dateStr);
+    return date.toLocaleDateString("he-IL", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "2-digit",
+    });
   };
 
+  if (loading) return <LoadingSpinner text="טוען פרטי משתמש..." />;
+
   return (
-    <div>
-      <h1>Home Page</h1>
-      <button onClick={auth.logout}>Logout</button>
-      <button onClick={handleFetchUserData}>Fetch User Data</button>
+    <div style={styles.container}>
+      <TopBar fullName={fullName} gender={gender} onLogout={auth.logout} />
+      <WorkoutSection
+        upcomingWorkouts={upcomingWorkouts}
+        formatDate={formatDate}
+      />
+      <SignupSection availableSessions={availableSessions ?? []} />
     </div>
   );
 };
 
-export default Home;
+const styles = {
+  container: {
+    fontFamily: '"M PLUS Rounded 1c", sans-serif',
+    backgroundColor: "white",
+    padding: 0,
+    minHeight: "100vh",
+    direction: "rtl",
+  },
+};
+
+export default HomePage;
