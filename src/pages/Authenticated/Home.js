@@ -4,10 +4,16 @@ import LoadingSpinner from "../../components/Loading/LoadingSpinner";
 import TopBar from "../../components/HomeComponents/TopBar";
 import WorkoutSection from "../../components/HomeComponents/WorkoutSection";
 import SignupSection from "../../components/HomeComponents/SignupSection";
+import useSessions from "../../hooks/useSessions";
 
 const HomePage = () => {
   const { user, loading, sessions: upcomingWorkouts, auth } = useAuthContext();
   const { gender, fullName } = user || {};
+  /*const {
+    sessions: availableSessions,
+    loading: loadingSessions,
+    error,
+  } = useSessions();*/
 
   const availableSessions = [
     { title: "פילאטיס קלאסי", date: "4.5.25 | 09:00" },
