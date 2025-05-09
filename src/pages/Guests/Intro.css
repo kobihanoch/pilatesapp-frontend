@@ -213,6 +213,146 @@
 }
 
 /*---------------------------------------------------------------------*/
+/*Contact me section*/
+.whatsapp-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row-reverse; /* כדי שהאייקון יהיה בצד שמאל */
+  gap: 0.7rem;
+  padding: 0.1rem 1rem;
+  height: 80px;
+  background-color: #25d366;
+  color: white;
+  font-weight: bold;
+  border-radius: 30px;
+  text-decoration: none;
+  font-size: 1.3rem;
+  margin-top: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.whatsapp-button:hover .whatsapp-icon {
+  transform: scale(1.2) rotate(10deg);
+}
+
+.whatsapp-button:hover {
+  background-color: #1ebe57;
+}
+
+/* כאן האייקון החדש */
+.whatsapp-icon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  margin: 0; /* <-- remove extra margin */
+  padding: 0; /* <-- remove any inner padding */
+  transition: transform 0.3s ease;
+}
+
+/* אפקט רטט על האייקון כשהכפתור בריחוף */
+.whatsapp-button:hover .whatsapp-icon {
+  animation: vibrate 0.4s linear infinite;
+}
+
+/* הגדרת רטט */
+@keyframes vibrate {
+  0% {
+    transform: translate(0);
+  }
+  25% {
+    transform: translate(2px, 2px);
+  }
+  50% {
+    transform: translate(0, 2px);
+  }
+  75% {
+    transform: translate(2px, 0);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+/*Picture part*/
+/* Contact section layout */
+.contact-content {
+  display: flex;
+  align-items: strech;
+  justify-content: center;
+  gap: 5rem;
+  flex-wrap: wrap;
+  height: 150%;
+}
+
+/* Text block (phone, address, button) */
+.contact-text {
+  flex: 1;
+  text-align: center;
+  direction: rtl;
+  max-width: 900px;
+  flex-direction: column;
+  justify-content: center;
+  height: 120%;
+}
+
+/* Image block */
+.background-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 40px;
+  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Styling the contact image */
+/*YogaLogo pic*/
+.contact-image {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  border-radius: 20px;
+}
+
+.main-contact-img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.corner-logo {
+  position: absolute;
+  bottom: 10px;
+  right: 15px;
+  width: 100px; /*Logo size */
+  height: auto;
+  opacity: 0.9; /*Trasnperanty */
+  border-bottom-right-radius: 20px;
+}
+
+/*Links Buttons*/
+.social-links {
+  margin-top: 1.5rem;
+  display: flex;
+  gap: 1.2rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.social-icon {
+  width: 50px;
+  height: 50px;
+  background-color: #fdcf9a;
+  border-radius: 100%;
+  object-fit: contain;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.social-icon:hover {
+  transform: scale(1.15);
+}
+
+/* ------------------------------------------------------------------- */
 
 /* -------------------- Responsive (Phone & iPad) -------------------- */
 @media (max-width: 480px) {
@@ -280,5 +420,39 @@
   .aboutme-block.left,
   .aboutme-block.right {
     flex-direction: column;
+  }
+  /*------------------------------------------*/
+  /*Contact me section*/
+  .whatsapp-button {
+    gap: 0.9rem;
+    padding: 0.1rem 0.5rem 0.1rem 0.6rem;
+  }
+
+  .whatsapp-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  /*photo inside Contact me*/
+  .contact-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .contact-text {
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .background-img {
+    width: 100%;
+    height: auto;
+  }
+
+  .corner-logo {
+    width: 50px; /* a bit bigger for mobile */
+    bottom: 5px;
+    right: 8px;
   }
 }

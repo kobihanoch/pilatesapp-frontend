@@ -47,7 +47,7 @@ const Intro = () => {
         </div>
       </nav>
 
-      {/* Authentication buttons */}
+      {/* Authentication buttons
       <div className="auth-buttons">
         <button className="auth-btn" onClick={handleLoginClick}>
           התחברות
@@ -55,8 +55,8 @@ const Intro = () => {
         <button className="auth-btn" onClick={handleRegisterClick}>
           הרשמה
         </button>
-        {/* <img src="/interactivelogo.png" alt="Logo" className="logo-navbar" /> */}
-      </div>
+        {/* <img src="/interactivelogo.png" alt="Logo" className="logo-navbar" />
+      </div> */}
 
       {/* Hero Section */}
       <section id="בית" className="section">
@@ -69,7 +69,7 @@ const Intro = () => {
             />
           </div>
           <h1>רותם פילאטיס</h1>
-          <p>description here...</p>
+          {/*<p>description here...</p>*/}
           <button className="get-started-btn" onClick={handleGetStarted}>
             GET STARTED
           </button>
@@ -116,19 +116,62 @@ const Intro = () => {
         </div>
       </section>
 
-      <section id="השיעורים שלי" className="section">
-        <h2>השיעורים שלי</h2>
-        <ul>
-          <li>Mat Pilates</li>
-          <li>Reformer Pilates</li>
-          <li>Private Sessions</li>
-        </ul>
-      </section>
+      <section id="?שניצור קשר" className="section contact-content">
+        <div className="contact-text">
+          <h2>צור קשר</h2>
+          <p>Phone: 050-123-4567</p>
+          <p>Address: Tel Aviv, Main Street 42</p>
 
-      <section id="?שניצור קשר" className="section">
-        <h2>צור קשר</h2>
-        <p>Phone: 050-123-4567</p>
-        <p>Address: Tel Aviv, Main Street 42</p>
+          {/* Link Logos Button */}
+          <div className="social-links">
+            <a
+              href="https://chat.whatsapp.com/HS1onF48PcR3kmY5pZuw3Q"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src="/WhatssupIcon.png"
+                alt="WhatsApp Group"
+                className="social-icon"
+              />
+            </a>
+            <a
+              href="https://www.instagram.com/pilates_yoga.with.rotem?igsh=MW45cDZxZnYwdHlseA%3D%3D&utm_source=qr"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src="/InstagramIcon.png"
+                alt="Instagram"
+                className="social-icon"
+              />
+            </a>
+          </div>
+
+          {/* WhatsApp Button */}
+          <a
+            href="https://wa.me/972504671935"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="whatsapp-button"
+          >
+            <img
+              src="/contactMeLogo.png"
+              alt="Phone Icon"
+              className="whatsapp-icon"
+            />
+            דברו איתי בוואטסאפ
+          </a>
+        </div>
+
+        <div className="contact-image">
+          <img
+            src="/contactme.jpg"
+            alt="Contact Me"
+            className="background-img"
+          />
+          <img src="/YogaLogo2.png" alt="Logo" className="corner-logo" />
+        </div>
       </section>
     </div>
   );
