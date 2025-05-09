@@ -47,7 +47,7 @@ const Intro = () => {
         </div>
       </nav>
 
-      {/* Authentication buttons */}
+      {/* Authentication buttons
       <div className="auth-buttons">
         <button className="auth-btn" onClick={handleLoginClick}>
           התחברות
@@ -55,8 +55,8 @@ const Intro = () => {
         <button className="auth-btn" onClick={handleRegisterClick}>
           הרשמה
         </button>
-        {/* <img src="/interactivelogo.png" alt="Logo" className="logo-navbar" /> */}
-      </div>
+        {/* <img src="/interactivelogo.png" alt="Logo" className="logo-navbar" />
+      </div> */}
 
       {/* Hero Section */}
       <section id="בית" className="section">
@@ -114,10 +114,6 @@ const Intro = () => {
             פנימית עדינה, המאפשרים תהליך של שינוי, ריפוי והתחדשות.
           </div>
         </div>
-      </section>
-
-      <section id="השיעורים שלי" className="section">
-        <h2>השיעורים שלי</h2>
       </section>
 
       <section id="?שניצור קשר" className="section contact-content">
