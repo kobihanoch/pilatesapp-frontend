@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useAuthContext } from "../../context/authContext";
 import LoadingSpinner from "../../components/Loading/LoadingSpinner";
 import TopBar from "../../components/HomeComponents/TopBar";
@@ -20,13 +20,16 @@ const HomePage = () => {
     error,
   } = useSessions();
 
-  if (loading) return <LoadingSpinner text="טוען פרטי משתמש..." />;
+  if (loading || loadingSessions)
+    return <LoadingSpinner text="טוען פרטי משתמש..." />;
 
   return (
     <div style={styles.container}>
       <TopBar fullName={fullName} gender={gender} onLogout={auth.logout} />
       <WorkoutSection upcomingWorkouts={upcomingWorkouts} />
-      <SignupSection availableSessions={availableSessions ?? []} />
+      {availableSessions && (
+        <SignupSection availableSessions={availableSessions ?? []} />
+      )}
     </div>
   );
 };
