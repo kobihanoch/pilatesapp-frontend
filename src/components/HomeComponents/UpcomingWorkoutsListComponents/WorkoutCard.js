@@ -1,13 +1,8 @@
 import React from "react";
 import { FaMapMarkerAlt, FaUsers } from "react-icons/fa";
 import { unregisterFromSelectedSession } from "../../../services/sessionService";
-
-const WorkoutCard = ({
-  session,
-  formatDate,
-  updatedSessions,
-  setUpdatedSessions,
-}) => {
+import { formatDate } from "../../../utils/homeUtils";
+const WorkoutCard = ({ session, updatedSessions, setUpdatedSessions }) => {
   // Handles unregister from a session
   const handleUnregister = async (sessionId) => {
     const isConfirmed = window.confirm(

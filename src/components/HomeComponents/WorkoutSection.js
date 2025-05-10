@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import WorkoutCard from "./UpcomingWorkoutsListComponents/WorkoutCard";
 
-const WorkoutSection = ({ upcomingWorkouts, formatDate }) => {
+const WorkoutSection = ({ upcomingWorkouts }) => {
   const [updatedSessions, setUpdatedSessions] = useState(upcomingWorkouts);
 
   return (
@@ -13,7 +13,6 @@ const WorkoutSection = ({ upcomingWorkouts, formatDate }) => {
             <WorkoutCard
               key={session._id}
               session={session}
-              formatDate={formatDate}
               updatedSessions={updatedSessions}
               setUpdatedSessions={setUpdatedSessions}
             />
