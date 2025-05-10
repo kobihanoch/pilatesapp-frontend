@@ -51,38 +51,39 @@ const SignupSection = ({ availableSessions }) => {
   return (
     <div
       style={{
-        borderColor: "black",
-        alignSelf: "center",
-        width: "100%",
-        display: "flex",
-        flexDirection: "column",
+        display: "grid",
+        gridTemplateRows: "auto auto 1fr",
         height: "80vh",
-        paddingBottom: "0px",
+        width: "90%",
+        margin: "0 auto",
+        gap: "20px",
+        paddingBottom: "20px",
       }}
     >
       <h3 style={styles.sectionTitle}>אימונים זמינים להרשמה</h3>
+
       <SelectDate
         selectedDate={selectedDate}
         setSelectedDate={setSelectedDate}
-      ></SelectDate>
+      />
+
       <div
         style={{
-          overflowX: "scroll",
+          overflowY: "visible",
+          borderRadius: "10px",
           display: "flex",
-          width: "90%",
-          alignSelf: "center",
-          flex: 9,
-          flexDirection: "row",
-          marginTop: "30px",
-          gap: 20,
+          width: "100%",
+          flexDirection: "column",
+          gap: "20px",
         }}
       >
-        {sessions?.map((ses) => (
-          <AvailableSessionItem
-            key={ses._id}
-            session={ses}
-          ></AvailableSessionItem>
-        ))}
+        {sessions && sessions.length > 0 ? (
+          sessions?.map((ses) => (
+            <AvailableSessionItem key={ses._id} session={ses} />
+          ))
+        ) : (
+          <p>לא נמצאו אימונים לתאריך זה</p>
+        )}
       </div>
     </div>
   );
@@ -94,7 +95,6 @@ const styles = {
     color: "black",
     marginBottom: 12,
     marginTop: 20,
-    paddingRight: 10,
     flex: 1,
     marginTop: "40px",
   },

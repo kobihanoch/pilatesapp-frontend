@@ -18,3 +18,13 @@ export const addComponentToDate = (date, compName, newVal) => {
   } else return date;
   return splitedDate.join("-");
 };
+
+export const getDayName = (dateStr) => {
+  try {
+    const date = new Date(dateStr);
+    const days = ["א'", "ב'", "ג'", "ד'", "ה'", "ו'", "שבת"];
+    return "יום " + days[date.getDay()];
+  } catch {
+    return "";
+  }
+};
