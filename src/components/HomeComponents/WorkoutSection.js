@@ -5,7 +5,7 @@ const WorkoutSection = ({ upcomingWorkouts }) => {
   const [updatedSessions, setUpdatedSessions] = useState(upcomingWorkouts);
 
   return (
-    <>
+    <div style={{ flex: 4, width: "90%", alignSelf: "center" }}>
       <h3 style={styles.sectionTitle}>האימונים הקרובים שלי</h3>
       <div style={styles.horizontalScroll}>
         {updatedSessions?.length > 0 ? (
@@ -21,7 +21,7 @@ const WorkoutSection = ({ upcomingWorkouts }) => {
           <p style={{ padding: 16 }}>אין אימונים קרובים</p>
         )}
       </div>
-    </>
+    </div>
   );
 };
 
@@ -31,7 +31,6 @@ const styles = {
     color: "black",
     marginBottom: 12,
     marginTop: 20,
-    paddingRight: 10,
   },
   horizontalScroll: {
     display: "flex",
