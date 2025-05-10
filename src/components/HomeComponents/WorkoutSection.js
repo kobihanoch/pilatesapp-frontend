@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import WorkoutCard from "./UpcomingWorkoutsListComponents/WorkoutCard";
 
 const WorkoutSection = ({ upcomingWorkouts }) => {
-  const [updatedSessions, setUpdatedSessions] = useState(upcomingWorkouts);
+  const [updatedSessions, setUpdatedSessions] = useState(
+    upcomingWorkouts.sort((a, b) => new Date(a.date) - new Date(b.date))
+  );
 
   return (
     <div style={{ flex: 4, width: "90%", alignSelf: "center" }}>

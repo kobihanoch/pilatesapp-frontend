@@ -18,6 +18,9 @@ export const registerToSelectedSession = async (sessionId) => {
     return response.data;
   } catch (error) {
     console.log(error);
+    if (error.response.status == 400) {
+      throw "אתם רשומים כבר לאימון זה.";
+    }
     throw error.response.data.message;
   }
 };

@@ -1,5 +1,6 @@
 import React from "react";
 import { formatDate } from "../../../utils/homeUtils";
+import { registerToSelectedSession } from "../../../services/sessionService";
 
 const getStatusStyle = (status) => {
   const base = {
@@ -21,6 +22,16 @@ const getStatusStyle = (status) => {
     default:
       return { ...base, backgroundColor: "#FFB74D" };
   }
+};
+
+const registerToSession = async (sessionId) => {
+  try {
+    await registerToSelectedSession(sessionId);
+  } catch (e) {
+    alert(e);
+    return;
+  }
+  alert("ההרשמה בוצעה בהצלחה!");
 };
 
 const AvailableSessionItem = ({ session }) => {
@@ -121,6 +132,9 @@ const AvailableSessionItem = ({ session }) => {
         }}
         onMouseLeave={(e) => {
           e.currentTarget.style.backgroundColor = "#4FC3F7";
+        }}
+        onClick={(e) => {
+          registerToSession(session._id);
         }}
       >
         הרשמה
