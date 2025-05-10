@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import WorkoutCard from "./UpcomingWorkoutsListComponents/WorkoutCard";
 
-const WorkoutSection = ({ upcomingWorkouts, formatDate }) => {
-  const [updatedSessions, setUpdatedSessions] = useState(upcomingWorkouts);
+const WorkoutSection = ({ upcomingWorkouts }) => {
+  const [updatedSessions, setUpdatedSessions] = useState(
+    upcomingWorkouts.sort((a, b) => new Date(a.date) - new Date(b.date))
+  );
 
   return (
-    <>
+    <div style={{ flex: 4, width: "90%", alignSelf: "center" }}>
       <h3 style={styles.sectionTitle}>האימונים הקרובים שלי</h3>
       <div style={styles.horizontalScroll}>
         {updatedSessions?.length > 0 ? (
@@ -13,7 +15,6 @@ const WorkoutSection = ({ upcomingWorkouts, formatDate }) => {
             <WorkoutCard
               key={session._id}
               session={session}
-              formatDate={formatDate}
               updatedSessions={updatedSessions}
               setUpdatedSessions={setUpdatedSessions}
             />
@@ -22,7 +23,7 @@ const WorkoutSection = ({ upcomingWorkouts, formatDate }) => {
           <p style={{ padding: 16 }}>אין אימונים קרובים</p>
         )}
       </div>
-    </>
+    </div>
   );
 };
 
@@ -32,7 +33,6 @@ const styles = {
     color: "black",
     marginBottom: 12,
     marginTop: 20,
-    paddingRight: 10,
   },
   horizontalScroll: {
     display: "flex",

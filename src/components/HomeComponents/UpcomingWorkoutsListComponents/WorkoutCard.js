@@ -1,97 +1,85 @@
 import React from "react";
 import { FaMapMarkerAlt, FaUsers } from "react-icons/fa";
 import { unregisterFromSelectedSession } from "../../../services/sessionService";
+import { formatDate } from "../../../utils/homeUtils";
 
-const WorkoutCard = ({
-  session,
-  formatDate,
-  updatedSessions,
-  setUpdatedSessions,
-}) => {
-  // Handles unregister from a session
+const WorkoutCard = ({ session, updatedSessions, setUpdatedSessions }) => {
   const handleUnregister = async (sessionId) => {
-    const isConfirmed = window.confirm(
-      "האם אתה בטוח שברצונך לבטל את הרישום לאימון?"
-    );
+    const isConfirmed = window.confirm("האם אתה בטוח שברצונך לבטל את הרישום?");
+    if (!isConfirmed) return;
 
-    if (isConfirmed) {
-      try {
-        await unregisterFromSelectedSession(sessionId);
-        setUpdatedSessions(
-          updatedSessions.filter((session) => session._id !== sessionId)
-        );
-        alert("ביטול הרישום לאימון בוצע בהצלחה!");
-      } catch (e) {
-        alert(e);
-      }
-    } else {
-      alert("לא בוצע ביטול רישום.");
+    try {
+      await unregisterFromSelectedSession(sessionId);
+      setUpdatedSessions(updatedSessions.filter((s) => s._id !== sessionId));
+      alert("ההרשמה בוטלה בהצלחה");
+    } catch (e) {
+      alert(e?.message || "שגיאה");
     }
   };
 
   return (
     <div
-      style={styles.workoutCard}
+      style={styles.card}
       onMouseEnter={(e) =>
-        (e.currentTarget.style.transform = "translateY(-4px)")
+        (e.currentTarget.style.boxShadow = styles.cardHover.boxShadow)
       }
-      onMouseLeave={(e) => (e.currentTarget.style.transform = "translateY(0)")}
+      onMouseLeave={(e) =>
+        (e.currentTarget.style.boxShadow = styles.card.boxShadow)
+      }
     >
-      <div style={styles.cardTop}>
+      <div style={styles.header}>
         <div style={styles.dateBox}>
-          <p style={styles.cardDate}>{formatDate(session.date)}</p>
-          <p style={styles.cardTime}>{session.time}</p>
+          <span style={styles.dateText}>{formatDate(session.date)}</span>
+          <span style={styles.timeText}>{session.time}</span>
         </div>
-        <span style={styles.statusBadge(session.status)}>{session.status}</span>
+        <span style={styles.status(session.status)}>{session.status}</span>
       </div>
 
-      <h4 style={styles.cardTitle}>{session.type}</h4>
+      <h3 style={styles.title}>{session.type}</h3>
 
-      <div style={styles.infoRow}>
-        <FaMapMarkerAlt style={styles.icon} />
-        <p style={styles.cardInfo}>{session.location}</p>
+      <div style={styles.row}>
+        <FaMapMarkerAlt size={14} style={styles.icon} />
+        <span style={styles.detailText}>{session.location}</span>
       </div>
 
-      <div style={styles.infoRow}>
-        <FaUsers style={styles.icon} />
-        <p style={styles.cardInfo}>
+      <div style={styles.row}>
+        <FaUsers size={14} style={styles.icon} />
+        <span style={styles.detailText}>
           {session.participants?.length ?? 0}/{session.maxParticipants} משתתפים
-        </p>
+        </span>
       </div>
 
-      {session.notes && <p style={styles.cardNotes}>הערה: {session.notes}</p>}
+      {session.notes && <p style={styles.notes}>הערה: {session.notes}</p>}
 
       <button
-        style={styles.cancelButton}
+        style={styles.button}
         onClick={() => handleUnregister(session._id)}
       >
-        ביטול הרשמה
+        ביטול רישום
       </button>
     </div>
   );
 };
 
 const styles = {
-  workoutCard: {
+  card: {
     minWidth: 260,
-    backgroundColor: "#fff",
-    padding: 20,
-    borderRadius: 18,
-    color: "#222",
-    boxShadow: "0 6px 14px rgba(0,0,0,0.08)",
-    flexShrink: 0,
-    scrollSnapAlign: "start",
+    backgroundColor: "#FFFFFF",
+    padding: "20px",
+    borderRadius: "16px",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.06)",
     display: "flex",
     flexDirection: "column",
-    justifyContent: "flex-start",
-    alignItems: "flex-start",
-    transition: "transform 0.2s ease, box-shadow 0.2s ease",
-    cursor: "pointer",
+    gap: "10px",
+    transition: "box-shadow 0.3s ease",
+    marginInlineEnd: "16px",
   },
-  cardTop: {
+  cardHover: {
+    boxShadow: "0 6px 20px rgba(0,0,0,0.1)",
+  },
+  header: {
     display: "flex",
     justifyContent: "space-between",
-    width: "100%",
     alignItems: "center",
   },
   dateBox: {
@@ -99,69 +87,63 @@ const styles = {
     flexDirection: "column",
     alignItems: "flex-start",
   },
-  cardDate: {
-    fontSize: 14,
+  dateText: {
+    fontSize: "0.9rem",
+    color: "#444",
     fontWeight: "500",
-    color: "#555",
   },
-  cardTime: {
-    fontSize: 13,
-    color: "#888",
-    marginTop: 2,
+  timeText: {
+    fontSize: "0.8rem",
+    color: "#777",
   },
-  statusBadge: (status) => ({
-    fontSize: 12,
+  status: (status) => ({
+    fontSize: "0.75rem",
     padding: "4px 10px",
-    borderRadius: "12px",
+    borderRadius: "10px",
+    fontWeight: "600",
     backgroundColor:
       status === "בוטל"
         ? "#ffe5e5"
         : status === "הושלם"
-        ? "#e0ffe0"
-        : "#e6f4ff",
-    color: status === "בוטל" ? "#a00" : status === "הושלם" ? "#0a0" : "#0077cc",
-    fontWeight: "bold",
-    whiteSpace: "nowrap",
+        ? "#e0f5e0"
+        : "#fff6e5",
+    color: status === "בוטל" ? "#a00" : status === "הושלם" ? "#0a0" : "#d76629",
   }),
-  cardTitle: {
-    fontSize: 20,
+  title: {
+    fontSize: "1.1rem",
+    color: "#1e1e1e",
+    margin: "6px 0",
     fontWeight: "600",
-    color: "#1a1a1a",
-    marginBottom: 12,
   },
-  infoRow: {
+  row: {
     display: "flex",
     alignItems: "center",
-    gap: 6,
-    marginBottom: 4,
+    gap: "6px",
   },
   icon: {
-    marginLeft: 8,
+    color: "#d76629",
   },
-  cardInfo: {
-    fontSize: 14,
+  detailText: {
+    fontSize: "0.9rem",
     color: "#444",
   },
-  cardNotes: {
-    fontSize: 13,
-    color: "#555",
+  notes: {
+    fontSize: "0.85rem",
     fontStyle: "italic",
-    marginTop: 8,
-    alignSelf: "flex-start",
+    color: "#666",
+    marginTop: "6px",
   },
-  cancelButton: {
+  button: {
     marginTop: "auto",
-    alignSelf: "stretch",
-    backgroundColor: "#ffeaea",
-    color: "#aa0000",
+    backgroundColor: "#ffe9e1",
+    color: "#d76629",
     border: "none",
     padding: "10px",
-    borderRadius: "10px",
-    fontSize: 15,
-    fontWeight: "500",
+    borderRadius: "8px",
+    fontWeight: "600",
+    fontSize: "0.95rem",
     cursor: "pointer",
-    transition: "background-color 0.2s ease",
-    marginTop: 16,
+    transition: "background 0.2s ease",
   },
 };
 
