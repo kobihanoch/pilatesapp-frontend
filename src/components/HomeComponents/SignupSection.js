@@ -1,11 +1,52 @@
 import React, { useState, useEffect } from "react";
 import AvailableSessionItem from "./SignUpSectionListComponents/AvailableSessionItem";
+import { addComoponentToDate } from "../../utils/homeUtils";
+import SelectDate from "./SignUpSectionListComponents/SelectDate";
+import { fetchAllSessionsForYear } from "../../services/sessionService";
 
 const SignupSection = ({ availableSessions }) => {
+  // Date modification
   const [selectedDate, setSelectedDate] = useState(() => {
     const today = new Date();
     return today.toISOString().split("T")[0];
   });
+  const [sessions, setSessions] = useState(() => {
+    return availableSessions.filter(
+      (ses) => ses.date.split("T")[0] === selectedDate
+    );
+  });
+
+  console.log(
+    "Filtered: ",
+    availableSessions.filter((ses) => ses.date.split("T")[0] === selectedDate)
+  );
+
+  useEffect(() => {
+    const fetchSessions = async () => {
+      const selected = new Date(selectedDate);
+      const currentYear = new Date().getFullYear();
+      const isDateInCurrentYear = selected.getFullYear() === currentYear;
+      if (!isDateInCurrentYear) {
+        try {
+          const sessionsF = await fetchAllSessionsForYear(selectedDate);
+          setSessions(() => {
+            return sessionsF.filter(
+              (ses) => ses.date.split("T")[0] === selectedDate
+            );
+          });
+        } catch (e) {
+          alert(e);
+        }
+      } else {
+        setSessions(() => {
+          return availableSessions.filter(
+            (ses) => ses.date.split("T")[0] === selectedDate
+          );
+        });
+      }
+    };
+    fetchSessions();
+  }, [selectedDate]);
 
   return (
     <div
@@ -16,40 +57,30 @@ const SignupSection = ({ availableSessions }) => {
         display: "flex",
         flexDirection: "column",
         height: "80vh",
-        paddingBottom: "100px",
+        paddingBottom: "0px",
       }}
     >
       <h3 style={styles.sectionTitle}>אימונים זמינים להרשמה</h3>
-      <span
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          gap: 20,
-          alignSelf: "center",
-        }}
-      >
-        <p>תאריך רצוי</p>
-        <input
-          type="date"
-          value={selectedDate}
-          onChange={(e) => setSelectedDate(e.target.value)}
-        ></input>
-      </span>
+      <SelectDate
+        selectedDate={selectedDate}
+        setSelectedDate={setSelectedDate}
+      ></SelectDate>
       <div
         style={{
-          overflowY: "scroll",
+          overflowX: "scroll",
           display: "flex",
           width: "90%",
           alignSelf: "center",
           flex: 9,
-          flexDirection: "column",
+          flexDirection: "row",
           marginTop: "30px",
+          gap: 20,
         }}
       >
-        {availableSessions?.map((session) => (
+        {sessions?.map((ses) => (
           <AvailableSessionItem
-            key={session._id}
-            session={session}
+            key={ses._id}
+            session={ses}
           ></AvailableSessionItem>
         ))}
       </div>

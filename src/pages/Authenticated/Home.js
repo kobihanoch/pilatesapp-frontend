@@ -18,7 +18,7 @@ const HomePage = () => {
     sessions: availableSessions,
     loading: loadingSessions,
     error,
-  } = useSessions();
+  } = useSessions(new Date().toISOString().split("T")[0]);
 
   if (loading || loadingSessions)
     return <LoadingSpinner text="טוען פרטי משתמש..." />;
@@ -39,8 +39,10 @@ const styles = {
     fontFamily: '"M PLUS Rounded 1c", sans-serif',
     backgroundColor: "white",
     padding: 0,
-    minHeight: "100vh",
+    height: "100vh",
     direction: "rtl",
+    display: "flex",
+    flexDirection: "column",
   },
 };
 

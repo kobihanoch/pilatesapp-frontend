@@ -23,10 +23,13 @@ export const registerToSelectedSession = async (sessionId) => {
 };
 
 // Gets all sessions until next month
-export const fetchAllSessionsUntilNextMonth = async () => {
+export const fetchAllSessionsForYear = async (selectedDate) => {
   try {
-    const response = await api.get(`api/sessions/soon`);
-    console.log(response.data);
+    console.log("Front calling API");
+    const response = await api.get(`api/sessions/soon`, {
+      params: { date: selectedDate },
+    });
+    //console.log(response.data);
     return response.data;
   } catch (error) {
     console.log(error);

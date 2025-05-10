@@ -5,7 +5,7 @@ const AvailableSessionItem = ({ session }) => {
   return (
     <div
       style={{
-        width: "100%",
+        width: "130px",
         height: "150px",
         marginBottom: "12px",
         borderRadius: "12px",

@@ -9,11 +9,11 @@ export const formatDate = (dateStr) => {
 
 export const addComponentToDate = (date, compName, newVal) => {
   const splitedDate = date.split("-");
-  if (compName == "day") {
+  if (compName === "day") {
     splitedDate[2] = newVal;
-  } else if (compName == "month") {
+  } else if (compName === "month") {
     splitedDate[1] = newVal;
-  } else if (compName == "year") {
+  } else if (compName === "year") {
     splitedDate[0] = newVal;
   } else return date;
   return splitedDate.join("-");
