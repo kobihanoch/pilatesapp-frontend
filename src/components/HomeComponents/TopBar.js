@@ -20,6 +20,7 @@ const styles = {
     justifyContent: "space-between",
     alignItems: "center",
     color: "#fff",
+    flex: 1,
   },
   userName: {
     fontSize: 20,
