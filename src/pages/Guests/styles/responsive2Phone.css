@@ -1,0 +1,102 @@
+/* -------------------- Responsive (Phone & iPad) -------------------- */
+@media (max-width: 480px) {
+  .navbar {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nav-buttons {
+    justify-content: flex-end;
+    gap: 0.5rem;
+    font-weight: bold;
+    max-width: 110%;
+  }
+
+  .nav-buttons button {
+    font-size: 1.5rem;
+    padding: 1rem 0.2rem;
+    min-width: 60px;
+    font-weight: bold;
+    white-space: nowrap;
+    flex-grow: 1;
+  }
+
+  .auth-buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: bold;
+    margin-top: 0.7rem;
+    margin-left: 0.5rem;
+  }
+
+  .auth-btn {
+    font-size: 1.3rem;
+    padding: 0.3rem 0.8rem;
+    font-weight: bold;
+  }
+
+  .logo-navbar {
+    width: 80px;
+    height: auto;
+  }
+
+  .hero-logo-img {
+    width: 250px;
+  }
+
+  .hero-logo {
+    margin-bottom: -5rem;
+    margin-top: -2rem;
+  }
+
+  .hero h1 {
+    font-size: 4rem;
+    margin-top: 1rem;
+  }
+
+  /*aboutme section*/
+  .aboutme-block {
+    flex-direction: column;
+  }
+  .aboutme-block.left,
+  .aboutme-block.right {
+    flex-direction: column;
+  }
+  /*------------------------------------------*/
+  /*Contact me section*/
+  .whatsapp-button {
+    gap: 0.9rem;
+    padding: 0.1rem 0.5rem 0.1rem 0.6rem;
+  }
+
+  .whatsapp-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  /*photo inside Contact me*/
+  .contact-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .contact-text {
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .background-img {
+    width: 100%;
+    height: auto;
+  }
+
+  .corner-logo {
+    width: 50px; /* a bit bigger for mobile */
+    bottom: 5px;
+    right: 8px;
+  }
+}

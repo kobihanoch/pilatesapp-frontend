@@ -1,17 +1,16 @@
-import "./Intro.css";
+import "./styles/layout.css";
+import "./styles/navbar.css";
+import "./styles/hero.css";
+import "./styles/aboutMeSection.css";
+import "./styles/contactMeSection.css";
+import "./styles/responsive2Phone.css";
+import "./styles/myClassesSection.css";
+
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Intro = () => {
   const navigate = useNavigate();
-  const handleLoginClick = () => {
-    // Future: navigate("/intro/login");
-  };
-
-  const handleRegisterClick = () => {
-    // Future: navigate("/intro/register");
-  };
-
   const [animateLogo, setAnimateLogo] = useState(false);
 
   const scrollToSection = (id) => {
@@ -69,7 +68,7 @@ const Intro = () => {
             />
           </div>
           <h1>רותם פילאטיס</h1>
-          {/*<p>description here...</p>*/}
+          {/*<p>description here/Guests.</p>*/}
           <button className="get-started-btn" onClick={handleGetStarted}>
             GET STARTED
           </button>
@@ -116,6 +115,58 @@ const Intro = () => {
         </div>
       </section>
 
+      <section id="השיעורים שלי" className="my-classes-section">
+        <div className="classes-overlay">
+          <h2>השיעורים שלי</h2>
+          <div className="classes-grid">
+            <div
+              className="class-card"
+              style={{ backgroundImage: "url('/pilat.jpg')" }}
+            >
+              פילאטיס
+            </div>
+            <div
+              className="class-card"
+              style={{ backgroundImage: "url('/yogapic.jpg')" }}
+            >
+              יוגה
+            </div>
+            <div
+              className="class-card"
+              style={{ backgroundImage: "url('/medicatepic.jpg')" }}
+            >
+              מדיטציות
+            </div>
+            <div
+              className="class-card"
+              style={{ backgroundImage: "url('/mindfoolnes.jpg')" }}
+            >
+              מיינדפולנס
+            </div>
+            <div
+              className="class-card"
+              style={{
+                backgroundImage: "url('/groupPrac.jpg')",
+                backgroundPosition: "center 80% ", // scrolls image upward
+                backgroundSize: "120%", // zoom-in
+              }}
+            >
+              סדנאות לארגונים
+            </div>
+            <div
+              className="class-card"
+              style={{
+                backgroundImage: "url('/classesyog.jpg')",
+                backgroundPosition: "center 80%", // scrolls image upward
+                backgroundSize: "100%", // zoom-in
+              }}
+            >
+              שיעורים פרטיים וקבוצתיים
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section id="?שניצור קשר" className="section contact-content">
         <div className="contact-text">
           <h2>צור קשר</h2>
@@ -125,7 +176,7 @@ const Intro = () => {
           {/* Link Logos Button */}
           <div className="social-links">
             <a
-              href="https://chat.whatsapp.com/HS1onF48PcR3kmY5pZuw3Q"
+              href="https:/chat.whatsapp.com/HS1onF48PcR3kmY5pZuw3Q"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -136,7 +187,7 @@ const Intro = () => {
               />
             </a>
             <a
-              href="https://www.instagram.com/pilates_yoga.with.rotem?igsh=MW45cDZxZnYwdHlseA%3D%3D&utm_source=qr"
+              href="https:/www.instagram.com/pilates_yoga.with.rotem?igsh=MW45cDZxZnYwdHlseA%3D%3D&utm_source=qr"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -150,7 +201,7 @@ const Intro = () => {
 
           {/* WhatsApp Button */}
           <a
-            href="https://wa.me/972504671935"
+            href="https:/wa.me/972504671935"
             target="_blank"
             rel="noopener noreferrer"
             className="whatsapp-button"

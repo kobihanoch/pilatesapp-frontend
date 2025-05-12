@@ -1,5 +1,4 @@
-/* -------------------- General page setup -------------------- */
-.intro-page {
+-------------------- General page setup -------------------- .intro-page {
   font-family: "M PLUS Rounded 1c", sans-serif;
   margin: 0;
   padding: 0;
@@ -41,7 +40,7 @@
   color: rgb(6, 4, 4);
   font-family: "Amatic SC", cursive;
   font-size: 1.6rem;
-  margin-top: 0.7rem; /* ⬅️ Add margin to push them downward */
+  margin-top: 0.7rem; /* Add margin to push them downward */
   margin-left: 0.5rem;
   padding: 0.3rem 0.8rem;
   border: none;

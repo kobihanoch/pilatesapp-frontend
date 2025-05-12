@@ -9,7 +9,7 @@ const hostname = window.location.hostname;
 // Uncomment by production or dev environment
 
 // ------{PRODUCTION}-------
-//export const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+export const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 // ------{DEVELOPMENT}-------
-export const API_BASE_URL = `http://${hostname}:5000`;
+//export const API_BASE_URL = `http://${hostname}:5000`;
