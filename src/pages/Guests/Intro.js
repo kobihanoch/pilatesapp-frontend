@@ -151,8 +151,8 @@ const Intro = () => {
               className="class-card"
               style={{
                 backgroundImage: "url('/groupPrac.jpg')",
-                backgroundPosition: "center 80% ", // scrolls image upward
-                backgroundSize: "120%", // zoom-in
+                backgroundPosition: "center 80%",
+                backgroundSize: "120%",
               }}
             >
               סדנאות לארגונים
@@ -161,8 +161,8 @@ const Intro = () => {
               className="class-card"
               style={{
                 backgroundImage: "url('/classesyog.jpg')",
-                backgroundPosition: "center 80%", // scrolls image upward
-                backgroundSize: "100%", // zoom-in
+                backgroundPosition: "center 80%",
+                backgroundSize: "100%",
               }}
             >
               שיעורים פרטיים וקבוצתיים

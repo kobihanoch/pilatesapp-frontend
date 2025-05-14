@@ -1,7 +1,7 @@
 .my-classes-section {
   position: relative;
   overflow: hidden;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -15,7 +15,7 @@
   text-align: center;
   background-color: transparent;
   backdrop-filter: none !important;
-  -webkit-backdrop-filter: blur(4px); /* Safari support */
+  -webkit-backdrop-filter: blur(4px); /* Safari */
   backdrop-filter: blur(4px);
 }
 
@@ -28,10 +28,11 @@
 
 .classes-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* exactly 3 columns */
+  grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
   margin-top: 2rem;
 }
+
 .class-card {
   background-size: cover;
   background-position: center;
@@ -47,8 +48,10 @@
   text-shadow: 1px 1px 4px #000;
 }
 
+/* 📱 עיצוב מותאם לנייד */
 @media (max-width: 768px) {
   .classes-grid {
+    grid-template-columns: 1fr;
     gap: 1rem;
   }
 
@@ -61,7 +64,7 @@
 
   .classes-overlay {
     overflow-x: hidden;
-    padding: 1rem; /* reduce padding on small screens if needed */
+    padding: 1rem;
     box-sizing: border-box;
   }
 }
