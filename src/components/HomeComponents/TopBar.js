@@ -94,6 +94,9 @@ const styles = {
     justifyContent: "center",
     cursor: "pointer",
     transition: "background-color 0.2s ease",
+    outline: "none",
+    WebkitTapHighlightColor: "transparent",
+    color: "rgb(71, 71, 71)",
   },
 };
 
