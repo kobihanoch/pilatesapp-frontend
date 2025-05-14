@@ -16,11 +16,6 @@ const SignupSection = ({ availableSessions }) => {
     );
   });
 
-  console.log(
-    "Filtered: ",
-    availableSessions.filter((ses) => ses.date.split("T")[0] === selectedDate)
-  );
-
   useEffect(() => {
     const fetchSessions = async () => {
       const selected = new Date(selectedDate);
