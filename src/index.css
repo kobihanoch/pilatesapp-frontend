@@ -1,13 +1,30 @@
+@import "./pages/Guests/styles/layout.css";
+@import "./pages/Guests/styles/navbar.css";
+@import "./pages/Guests/styles/hero.css";
+@import "./pages/Guests/styles/aboutMeSection.css";
+@import "./pages/Guests/styles/contactMeSection.css";
+@import "./pages/Guests/styles/responsive2Phone.css";
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  padding: 0;
+  box-sizing: border-box;
+  /*font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;*/
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+body,
+input,
+select,
+textarea,
+button {
+  font-family: "M PLUS Rounded 1c", sans-serif;
+}
+
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }

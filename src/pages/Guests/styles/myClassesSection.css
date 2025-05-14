@@ -1,0 +1,70 @@
+.my-classes-section {
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.classes-overlay {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding: 2rem;
+  text-align: center;
+  background-color: transparent;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: blur(4px); /* Safari */
+  backdrop-filter: blur(4px);
+}
+
+.my-classes-section h2 {
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  color: #222;
+  font-family: "Amatic SC", cursive;
+}
+
+.classes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.class-card {
+  background-size: cover;
+  background-position: center;
+  height: 200px;
+  border-radius: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  color: white;
+  font-size: 1.8rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-shadow: 1px 1px 4px #000;
+}
+
+/* 📱 עיצוב מותאם לנייד */
+@media (max-width: 768px) {
+  .classes-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .class-card {
+    height: 100px;
+    font-size: 0.8rem;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .classes-overlay {
+    overflow-x: hidden;
+    padding: 1rem;
+    box-sizing: border-box;
+  }
+}

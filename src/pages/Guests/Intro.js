@@ -1,12 +1,233 @@
-import React from "react";
+import "./styles/layout.css";
+import "./styles/navbar.css";
+import "./styles/hero.css";
+import "./styles/aboutMeSection.css";
+import "./styles/contactMeSection.css";
+import "./styles/responsive2Phone.css";
+import "./styles/myClassesSection.css";
+
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Intro = () => {
+  const navigate = useNavigate();
+  const [animateLogo, setAnimateLogo] = useState(false);
+
+  const scrollToSection = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const handleGetStarted = () => {
+    navigate("/intro/auth");
+  };
+
+  const triggerLogoAnimation = () => {
+    setAnimateLogo(true);
+    setTimeout(() => setAnimateLogo(false), 1200);
+  };
+
   return (
-    <div>
-      <h1>Welcome to the Intro Page</h1>
-      <p>This is the introduction page of our application.</p>;
-      <p>Here you can find information about the app and its features.</p>
-      <p>Feel free to explore and learn more about what we offer.</p>
+    <div className="intro-page">
+      {/* Navbar */}
+      <nav className="navbar">
+        {/* Navigation buttons */}
+        <div className="nav-buttons">
+          <button onClick={() => scrollToSection("בית")}>בית</button>
+          <button onClick={() => scrollToSection("קצת עליי")}>קצת עליי</button>
+          <button onClick={() => scrollToSection("השיעורים שלי")}>
+            השיעורים שלי
+          </button>
+          <button onClick={() => scrollToSection("?שניצור קשר")}>
+            ?שניצור קשר
+          </button>
+        </div>
+      </nav>
+
+      {/* Authentication buttons
+      <div className="auth-buttons">
+        <button className="auth-btn" onClick={handleLoginClick}>
+          התחברות
+        </button>
+        <button className="auth-btn" onClick={handleRegisterClick}>
+          הרשמה
+        </button>
+        {/* <img src="/interactivelogo.png" alt="Logo" className="logo-navbar" />
+      </div> */}
+
+      {/* Hero Section */}
+      <section id="בית" className="section">
+        <div className="hero">
+          <div className="hero-logo">
+            <img
+              src="/RotemLogo.png"
+              alt="Rotem Logo"
+              className="hero-logo-img"
+            />
+          </div>
+          <h1>רותם פילאטיס</h1>
+          {/*<p>description here/Guests.</p>*/}
+          <button className="get-started-btn" onClick={handleGetStarted}>
+            GET STARTED
+          </button>
+        </div>
+      </section>
+
+      <section id="קצת עליי" className="aboutme-section">
+        {/* Block 1 */}
+        <div className="aboutme-block left">
+          <div className="bubble">
+            <img src="/aboutme1.png" alt="Rotem 1" />
+          </div>
+          <div className="bubble-text">
+            אני רותם, מורה מוסמכת לפילאטיס, יוגה, מדיטציות, והילינג. אני מנחה
+            מדיטציות, מתרגלת מיינדפולנס ומעבירה שיעורים פרטיים ובקבוצות . אני
+            עובדת מתוך אהבה עמוקה לעולם התנועה והריפוי ומלווה לאורך הדרך נשים
+            וגברים בתהליכי שינוי חיבור וצמיחה.
+          </div>
+        </div>
+
+        {/* Block 2 */}
+        <div className="aboutme-block right">
+          <div className="bubble">
+            <img src="/aboutme2.jpg" alt="Rotem 2" />
+          </div>
+          <div className="bubble-text">
+            בעיניי תנועה היא שפה המבטאת חיבור בין גוף ונפש, וכך אני גם מעבירה את
+            האימונים שלי. אני משלבת גישות שמזמינות כל אחד להתחבר לעצמו, להתחזק
+            ולהתמלא באנרגיה מחודשת החל מהגוף- השער הישיר, ומשם מתאפשרת ירידה
+            לרבדים עמוקים ועדינים הקיימים בנו.
+          </div>
+        </div>
+
+        {/* Block 3 */}
+        <div className="aboutme-block left">
+          <div className="bubble">
+            <img
+              src="/aboutme3.jpg"
+              alt="Rotem 3"
+              className="bubble-image third"
+            />
+          </div>
+          <div className="bubble-text">
+            אני מאמינה בהתמדה, הקשבה פנימית, באיזון בין עבודה פיזית עמוקה להקשבה
+            פנימית עדינה, המאפשרים תהליך של שינוי, ריפוי והתחדשות במטרה לטיפוח
+            החיבור הין הגוף לנפש.
+          </div>
+        </div>
+      </section>
+
+      <section id="השיעורים שלי" className="my-classes-section">
+        <div className="classes-overlay">
+          <h2>השיעורים שלי</h2>
+          <div className="classes-grid">
+            <div
+              className="class-card"
+              style={{ backgroundImage: "url('/pilat.jpg')" }}
+            >
+              פילאטיס
+            </div>
+            <div
+              className="class-card"
+              style={{ backgroundImage: "url('/yogapic.jpg')" }}
+            >
+              יוגה
+            </div>
+            <div
+              className="class-card"
+              style={{ backgroundImage: "url('/medicatepic.jpg')" }}
+            >
+              מדיטציות
+            </div>
+            <div
+              className="class-card"
+              style={{ backgroundImage: "url('/mindfoolnes.jpg')" }}
+            >
+              מיינדפולנס
+            </div>
+            <div
+              className="class-card"
+              style={{
+                backgroundImage: "url('/groupPrac.jpg')",
+                backgroundPosition: "center 80%",
+                backgroundSize: "120%",
+              }}
+            >
+              סדנאות לארגונים
+            </div>
+            <div
+              className="class-card"
+              style={{
+                backgroundImage: "url('/classesyog.jpg')",
+                backgroundPosition: "center 80%",
+                backgroundSize: "100%",
+              }}
+            >
+              שיעורים פרטיים וקבוצתיים
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="?שניצור קשר" className="section contact-content">
+        <div className="contact-text">
+          <h2>צור קשר</h2>
+          <p>Phone: 050-123-4567</p>
+          <p>Address: Tel Aviv, Main Street 42</p>
+
+          {/* Link Logos Button */}
+          <div className="social-links">
+            <a
+              href="https:/chat.whatsapp.com/HS1onF48PcR3kmY5pZuw3Q"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src="/WhatssupIcon.png"
+                alt="WhatsApp Group"
+                className="social-icon"
+              />
+            </a>
+            <a
+              href="https:/www.instagram.com/pilates_yoga.with.rotem?igsh=MW45cDZxZnYwdHlseA%3D%3D&utm_source=qr"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src="/InstagramIcon.png"
+                alt="Instagram"
+                className="social-icon"
+              />
+            </a>
+          </div>
+
+          {/* WhatsApp Button */}
+          <a
+            href="https:/wa.me/972504671935"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="whatsapp-button"
+          >
+            <img
+              src="/contactMeLogo.png"
+              alt="Phone Icon"
+              className="whatsapp-icon"
+            />
+            דברו איתי בוואטסאפ
+          </a>
+        </div>
+
+        <div className="contact-image">
+          <img
+            src="/contactme.jpg"
+            alt="Contact Me"
+            className="background-img"
+          />
+          <img src="/YogaLogo2.png" alt="Logo" className="corner-logo" />
+        </div>
+      </section>
     </div>
   );
 };
