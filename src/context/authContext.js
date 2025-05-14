@@ -24,17 +24,17 @@ export const AuthProvider = ({ children }) => {
     const fetchUser = async () => {
       setLoading(true);
       try {
-        await checkIfUserIsAuthenticated();
+        await checkIfUserIsAuthenticated(); // Check authentication 200/401
+        await loadUserData(); // Load user data after checking authentication
+        await loadUserSessions(); // Fetch user sessions
       } catch (error) {
         console.error("Error fetching authenticated user:", error);
         console.log("Setting user to null due to authentication error");
         logout(); // Log out if there's an error
-        setLoading(false);
         return;
+      } finally {
+        setLoading(false);
       }
-      await loadUserData(); // Load user data after checking authentication
-      await loadUserSessions(); // Fetch user sessions
-      setLoading(false);
     };
     fetchUser();
 
@@ -89,7 +89,7 @@ export const AuthProvider = ({ children }) => {
     setLoading(true);
     try {
       const response = await registerUser(user);
-      console.log("User registered:", response.user);
+      //console.log("User registered:", response.user);
       await login(response.user.username, user.password); // Automatically log in after registration
     } catch (error) {
       console.error("Registration failed:", error);

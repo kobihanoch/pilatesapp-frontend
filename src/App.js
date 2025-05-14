@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Authenticated/Home.js";
 import Loginandregister from "./pages/Guests/Loginandregister.js";
@@ -6,6 +6,7 @@ import Intro from "./pages/Guests/Intro.js";
 import { useAuthContext } from "./context/authContext.js";
 import LoadingSpinner from "./components/Loading/LoadingSpinner.js";
 import "./index.css";
+import AdminDashboard from "./pages/Admins/AdminDashboard.js";
 
 // Route for authenticated users
 const PrivateRoute = ({ children }) => {
@@ -13,7 +14,15 @@ const PrivateRoute = ({ children }) => {
   if (loading) {
     return <LoadingSpinner text="טוען..."></LoadingSpinner>;
   }
-  return user ? children : <Navigate to="/" replace />;
+  return user ? (
+    user.role === "admin" ? (
+      <Navigate to="/dashboard" replace />
+    ) : (
+      children
+    )
+  ) : (
+    <Navigate to="/" replace />
+  );
 };
 
 // Route for guests (not authenticated users)
@@ -47,6 +56,16 @@ function App() {
           <GuestRoute>
             <Loginandregister />
           </GuestRoute>
+        }
+      />
+
+      {/* For admins users */}
+      <Route
+        path="/dashboard"
+        element={
+          <PrivateRoute>
+            <AdminDashboard />
+          </PrivateRoute>
         }
       />
 
