@@ -11,9 +11,6 @@ import AdminDashboard from "./pages/Admins/AdminDashboard.js";
 // Route for authenticated users
 const PrivateRoute = ({ children }) => {
   const { user, loading } = useAuthContext();
-  useEffect(() => {
-    console.log("PRIVATE: User is: ", user);
-  }, [user]);
   if (loading) {
     return <LoadingSpinner text="טוען..."></LoadingSpinner>;
   }
@@ -23,9 +20,6 @@ const PrivateRoute = ({ children }) => {
 // Route for admins
 const AdminRoute = ({ children }) => {
   const { user, loading } = useAuthContext();
-  useEffect(() => {
-    console.log("ADMIN: User is: ", user);
-  }, [user]);
   if (loading) {
     return <LoadingSpinner text="טוען..."></LoadingSpinner>;
   }

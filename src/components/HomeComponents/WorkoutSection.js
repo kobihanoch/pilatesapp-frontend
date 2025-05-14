@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import WorkoutCard from "./UpcomingWorkoutsListComponents/WorkoutCard";
 
 const WorkoutSection = ({ upcomingWorkouts }) => {
+  // Show only future/todays upcoming sessions
   const todayStart = new Date().setHours(0, 0, 0, 0);
   const [updatedSessions, setUpdatedSessions] = useState(
     upcomingWorkouts
