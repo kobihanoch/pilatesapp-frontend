@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import WorkoutCard from "./UpcomingWorkoutsListComponents/WorkoutCard";
 
 const WorkoutSection = ({ upcomingWorkouts }) => {
+  const todayStart = new Date().setHours(0, 0, 0, 0);
   const [updatedSessions, setUpdatedSessions] = useState(
-    upcomingWorkouts.sort((a, b) => new Date(a.date) - new Date(b.date))
+    upcomingWorkouts
+      .sort((a, b) => new Date(a.date) - new Date(b.date))
+      .filter((s) => new Date(s.date) >= todayStart)
   );
 
   return (
