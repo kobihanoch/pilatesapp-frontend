@@ -19,7 +19,9 @@ export const registerToSelectedSession = async (sessionId) => {
   } catch (error) {
     console.log(error);
     if (error.response.status == 400) {
-      throw "אתם רשומים כבר לאימון זה.";
+      throw new Error(
+        "לא ניתן להירשם: אתה כבר רשום לאימון זה או שהאימון הסתיים/בוטל."
+      );
     }
     throw error.response.data.message;
   }
