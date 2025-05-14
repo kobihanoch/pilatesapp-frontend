@@ -1,17 +1,16 @@
-import "./Intro.css";
+import "./styles/layout.css";
+import "./styles/navbar.css";
+import "./styles/hero.css";
+import "./styles/aboutMeSection.css";
+import "./styles/contactMeSection.css";
+import "./styles/responsive2Phone.css";
+import "./styles/myClassesSection.css";
+
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Intro = () => {
   const navigate = useNavigate();
-  const handleLoginClick = () => {
-    // Future: navigate("/intro/login");
-  };
-
-  const handleRegisterClick = () => {
-    // Future: navigate("/intro/register");
-  };
-
   const [animateLogo, setAnimateLogo] = useState(false);
 
   const scrollToSection = (id) => {
@@ -69,7 +68,7 @@ const Intro = () => {
             />
           </div>
           <h1>רותם פילאטיס</h1>
-          {/*<p>description here...</p>*/}
+          {/*<p>description here/Guests.</p>*/}
           <button className="get-started-btn" onClick={handleGetStarted}>
             GET STARTED
           </button>
@@ -83,8 +82,10 @@ const Intro = () => {
             <img src="/aboutme1.png" alt="Rotem 1" />
           </div>
           <div className="bubble-text">
-            אני רותם, מורה מוסמכת לפילאטיס, יוגה, הילינג ומנחת ריטריטים ואני
-            עובדת מתוך אהבה עמוקה לעולם התנועה והריפוי.
+            אני רותם, מורה מוסמכת לפילאטיס, יוגה, מדיטציות, והילינג. אני מנחה
+            מדיטציות, מתרגלת מיינדפולנס ומעבירה שיעורים פרטיים ובקבוצות . אני
+            עובדת מתוך אהבה עמוקה לעולם התנועה והריפוי ומלווה לאורך הדרך נשים
+            וגברים בתהליכי שינוי חיבור וצמיחה.
           </div>
         </div>
 
@@ -96,7 +97,8 @@ const Intro = () => {
           <div className="bubble-text">
             בעיניי תנועה היא שפה המבטאת חיבור בין גוף ונפש, וכך אני גם מעבירה את
             האימונים שלי. אני משלבת גישות שמזמינות כל אחד להתחבר לעצמו, להתחזק
-            ולהתמלא באנרגיה מחודשת.
+            ולהתמלא באנרגיה מחודשת החל מהגוף- השער הישיר, ומשם מתאפשרת ירידה
+            לרבדים עמוקים ועדינים הקיימים בנו.
           </div>
         </div>
 
@@ -111,7 +113,60 @@ const Intro = () => {
           </div>
           <div className="bubble-text">
             אני מאמינה בהתמדה, הקשבה פנימית, באיזון בין עבודה פיזית עמוקה להקשבה
-            פנימית עדינה, המאפשרים תהליך של שינוי, ריפוי והתחדשות.
+            פנימית עדינה, המאפשרים תהליך של שינוי, ריפוי והתחדשות במטרה לטיפוח
+            החיבור הין הגוף לנפש.
+          </div>
+        </div>
+      </section>
+
+      <section id="השיעורים שלי" className="my-classes-section">
+        <div className="classes-overlay">
+          <h2>השיעורים שלי</h2>
+          <div className="classes-grid">
+            <div
+              className="class-card"
+              style={{ backgroundImage: "url('/pilat.jpg')" }}
+            >
+              פילאטיס
+            </div>
+            <div
+              className="class-card"
+              style={{ backgroundImage: "url('/yogapic.jpg')" }}
+            >
+              יוגה
+            </div>
+            <div
+              className="class-card"
+              style={{ backgroundImage: "url('/medicatepic.jpg')" }}
+            >
+              מדיטציות
+            </div>
+            <div
+              className="class-card"
+              style={{ backgroundImage: "url('/mindfoolnes.jpg')" }}
+            >
+              מיינדפולנס
+            </div>
+            <div
+              className="class-card"
+              style={{
+                backgroundImage: "url('/groupPrac.jpg')",
+                backgroundPosition: "center 80%",
+                backgroundSize: "120%",
+              }}
+            >
+              סדנאות לארגונים
+            </div>
+            <div
+              className="class-card"
+              style={{
+                backgroundImage: "url('/classesyog.jpg')",
+                backgroundPosition: "center 80%",
+                backgroundSize: "100%",
+              }}
+            >
+              שיעורים פרטיים וקבוצתיים
+            </div>
           </div>
         </div>
       </section>
@@ -125,7 +180,7 @@ const Intro = () => {
           {/* Link Logos Button */}
           <div className="social-links">
             <a
-              href="https://chat.whatsapp.com/HS1onF48PcR3kmY5pZuw3Q"
+              href="https:/chat.whatsapp.com/HS1onF48PcR3kmY5pZuw3Q"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -136,7 +191,7 @@ const Intro = () => {
               />
             </a>
             <a
-              href="https://www.instagram.com/pilates_yoga.with.rotem?igsh=MW45cDZxZnYwdHlseA%3D%3D&utm_source=qr"
+              href="https:/www.instagram.com/pilates_yoga.with.rotem?igsh=MW45cDZxZnYwdHlseA%3D%3D&utm_source=qr"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -150,7 +205,7 @@ const Intro = () => {
 
           {/* WhatsApp Button */}
           <a
-            href="https://wa.me/972504671935"
+            href="https:/wa.me/972504671935"
             target="_blank"
             rel="noopener noreferrer"
             className="whatsapp-button"

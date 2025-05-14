@@ -5,6 +5,7 @@ import Loginandregister from "./pages/Guests/Loginandregister.js";
 import Intro from "./pages/Guests/Intro.js";
 import { useAuthContext } from "./context/authContext.js";
 import LoadingSpinner from "./components/Loading/LoadingSpinner.js";
+import "./index.css";
 
 // Route for authenticated users
 const PrivateRoute = ({ children }) => {

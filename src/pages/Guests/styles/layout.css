@@ -1,0 +1,27 @@
+.intro-page {
+  font-family: "M PLUS Rounded 1c", sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #ffe5b4 30%, #ffffff 100%);
+}
+
+.section {
+  padding: 6rem 2rem;
+  text-align: center;
+}
+
+.section h2 {
+  font-size: 3rem;
+  margin-bottom: 2rem;
+}
+
+#בית {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  scroll-margin-top: 180px;
+}
+
+.auth-buttons-outside {
+  display: none;
+}

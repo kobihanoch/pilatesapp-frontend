@@ -1,3 +1,10 @@
+@import "./pages/Guests/styles/layout.css";
+@import "./pages/Guests/styles/navbar.css";
+@import "./pages/Guests/styles/hero.css";
+@import "./pages/Guests/styles/aboutMeSection.css";
+@import "./pages/Guests/styles/contactMeSection.css";
+@import "./pages/Guests/styles/responsive2Phone.css";
+
 body {
   margin: 0;
   padding: 0;
