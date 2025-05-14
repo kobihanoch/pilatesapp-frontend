@@ -12,9 +12,9 @@ export let globalSetUser = null; // This is a global variable to set the user in
 export let globalLogOut = null; // This is a global variable to log out the user
 
 export const AuthProvider = ({ children }) => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
-  const [sessions, setSessions] = useState(null); // State to hold user sessions
+  const [sessions, setSessions] = useState(null);
   globalSetUser = setUser;
 
   // On load -----------------------------------------------
