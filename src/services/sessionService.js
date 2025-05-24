@@ -27,13 +27,25 @@ export const registerToSelectedSession = async (sessionId) => {
   }
 };
 
-// Gets all sessions until next month
+// Gets all sessions for year period of time
 export const fetchAllSessionsForYear = async (selectedDate) => {
   try {
     console.log("Front calling API");
     const response = await api.get(`api/sessions/soon`, {
       params: { date: selectedDate },
     });
+    //console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error.response.data.message;
+  }
+};
+
+// ADMINS - Fetch all sessions
+export const fetchAllSessions = async () => {
+  try {
+    const response = await api.get(`api/sessions/all`);
     //console.log(response.data);
     return response.data;
   } catch (error) {

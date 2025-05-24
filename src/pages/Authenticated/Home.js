@@ -4,7 +4,7 @@ import LoadingSpinner from "../../components/Loading/LoadingSpinner";
 import TopBar from "../../components/HomeComponents/TopBar";
 import WorkoutSection from "../../components/HomeComponents/WorkoutSection";
 import SignupSection from "../../components/HomeComponents/SignupSection";
-import useSessions from "../../hooks/useSessions";
+import useSessions from "../../hooks/UsersHooks/useSessions";
 
 const HomePage = () => {
   // Auth context
