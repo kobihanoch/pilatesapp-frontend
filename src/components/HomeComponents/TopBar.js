@@ -1,7 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../context/authContext";
-import { FiSettings, FiLogOut } from "react-icons/fi";
+import { FiSettings, FiLogOut, FiHome } from "react-icons/fi";
+import { useLocation } from "react-router-dom";
 
 const TopBar = () => {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ const TopBar = () => {
   const onLogout = () => {
     auth.logout();
   };
+  const isCurrentPageAdminPage = useLocation().pathname.includes("/dashboard");
 
   return (
     <div style={styles.container}>
@@ -24,14 +26,21 @@ const TopBar = () => {
       </div>
 
       <div style={styles.actions}>
-        {isAdmin && (
-          <button
-            style={styles.iconButton}
-            onClick={() => navigate("/dashboard")}
-          >
-            <FiSettings size={20} />
-          </button>
-        )}
+        {/* This feature is only enabled for admins  */}
+        {/* Show home button if in admin page, otherwise show admin page button */}
+        {isAdmin &&
+          (isCurrentPageAdminPage ? (
+            <button style={styles.iconButton} onClick={() => navigate("/home")}>
+              <FiHome size={20} />
+            </button>
+          ) : (
+            <button
+              style={styles.iconButton}
+              onClick={() => navigate("/dashboard")}
+            >
+              <FiSettings size={20} />
+            </button>
+          ))}
         <button style={styles.iconButton} onClick={onLogout}>
           <FiLogOut size={20} />
         </button>
