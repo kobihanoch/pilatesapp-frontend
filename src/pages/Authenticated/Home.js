@@ -8,10 +8,7 @@ import useSessions from "../../hooks/UsersHooks/useSessions";
 
 const HomePage = () => {
   // Auth context
-  const { user, loading, sessions: upcomingWorkouts, auth } = useAuthContext();
-
-  // Gender and full name
-  const { gender, fullName } = user || {};
+  const { loading, sessions: upcomingWorkouts } = useAuthContext();
 
   // All sessions available
   const {
@@ -25,7 +22,6 @@ const HomePage = () => {
 
   return (
     <div style={styles.container}>
-      <TopBar fullName={fullName} gender={gender} onLogout={auth.logout} />
       <WorkoutSection upcomingWorkouts={upcomingWorkouts} />
       {availableSessions && (
         <SignupSection availableSessions={availableSessions ?? []} />

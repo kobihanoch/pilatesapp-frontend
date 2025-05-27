@@ -3,11 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../context/authContext";
 import { FiSettings, FiLogOut } from "react-icons/fi";
 
-const TopBar = ({ fullName, gender, onLogout }) => {
+const TopBar = () => {
   const navigate = useNavigate();
-  const { user } = useAuthContext();
+  const { user, auth } = useAuthContext();
+  const { gender, fullName } = user || {};
   const greeting = gender === "male" ? "ברוך הבא" : "ברוכה הבאה";
   const isAdmin = user?.role === "admin";
+  const onLogout = () => {
+    auth.logout();
+  };
 
   return (
     <div style={styles.container}>

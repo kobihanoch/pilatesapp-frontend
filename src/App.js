@@ -7,6 +7,8 @@ import { useAuthContext } from "./context/authContext.js";
 import LoadingSpinner from "./components/Loading/LoadingSpinner.js";
 import "./index.css";
 import AdminDashboard from "./pages/Admins/AdminDashboard.js";
+import TopBar from "./components/HomeComponents/TopBar.js";
+import AuthenticatedLayout from "./Layouts/AuthenticatedLayout.js";
 
 // Route for authenticated users
 const PrivateRoute = ({ children }) => {
@@ -73,7 +75,9 @@ function App() {
         path="/dashboard"
         element={
           <AdminRoute>
-            <AdminDashboard />
+            <AuthenticatedLayout>
+              <AdminDashboard />
+            </AuthenticatedLayout>
           </AdminRoute>
         }
       />
@@ -83,7 +87,9 @@ function App() {
         path="/home"
         element={
           <PrivateRoute>
-            <Home />
+            <AuthenticatedLayout>
+              <Home />
+            </AuthenticatedLayout>
           </PrivateRoute>
         }
       />
