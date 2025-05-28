@@ -9,6 +9,7 @@ import "./index.css";
 import AdminDashboard from "./pages/Admins/AdminDashboard.js";
 import TopBar from "./components/HomeComponents/TopBar.js";
 import AuthenticatedLayout from "./Layouts/AuthenticatedLayout.js";
+import { ToastContainer } from "react-toastify";
 
 // Route for authenticated users
 const PrivateRoute = ({ children }) => {
@@ -47,53 +48,73 @@ const GuestRoute = ({ children }) => {
 
 function App() {
   return (
-    // Define the routes for the application.
-    // We are protecting the routes using PrivateRoute and GuestRoute components
-    // If a user is authenticated, they will be redirected to the home page if they try to access the login/register page
-    // If a user is not authenticated, they will be redirected to the login/register page if they try to access the home page
-    <Routes>
-      {/* For guests */}
-      <Route
-        path="/"
-        element={
-          <GuestRoute>
-            <Intro />
-          </GuestRoute>
-        }
+    <>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={true}
+        closeOnClick
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
       />
-      <Route
-        path="/intro/auth"
-        element={
-          <GuestRoute>
-            <Loginandregister />
-          </GuestRoute>
-        }
-      />
+      {/*
+      //Define the routes for the application.
+       // We are protecting the routes
+      using PrivateRoute and GuestRoute components 
+      // If a user is
+      authenticated, they will be redirected to the home page if they try to
+      access the login/register page 
+      // If a user is not authenticated, they
+      will be redirected to the login/register page if they try to access the
+      home page
+      */}
+      <Routes>
+        {/* For guests */}
+        <Route
+          path="/"
+          element={
+            <GuestRoute>
+              <Intro />
+            </GuestRoute>
+          }
+        />
+        <Route
+          path="/intro/auth"
+          element={
+            <GuestRoute>
+              <Loginandregister />
+            </GuestRoute>
+          }
+        />
 
-      {/* For admins users */}
-      <Route
-        path="/dashboard"
-        element={
-          <AdminRoute>
-            <AuthenticatedLayout>
-              <AdminDashboard />
-            </AuthenticatedLayout>
-          </AdminRoute>
-        }
-      />
+        {/* For admins users */}
+        <Route
+          path="/dashboard"
+          element={
+            <AdminRoute>
+              <AuthenticatedLayout>
+                <AdminDashboard />
+              </AuthenticatedLayout>
+            </AdminRoute>
+          }
+        />
 
-      {/* For authenticated users */}
-      <Route
-        path="/home"
-        element={
-          <PrivateRoute>
-            <AuthenticatedLayout>
-              <Home />
-            </AuthenticatedLayout>
-          </PrivateRoute>
-        }
-      />
-    </Routes>
+        {/* For authenticated users */}
+        <Route
+          path="/home"
+          element={
+            <PrivateRoute>
+              <AuthenticatedLayout>
+                <Home />
+              </AuthenticatedLayout>
+            </PrivateRoute>
+          }
+        />
+      </Routes>
+    </>
   );
 }
 

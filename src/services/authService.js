@@ -8,7 +8,8 @@ export const loginUser = async (username, password) => {
     const response = await api.post("/api/auth/login", { username, password });
     return response;
   } catch (error) {
-    throw error.response.data.message;
+    console.log(error);
+    throw error;
   }
 };
 
