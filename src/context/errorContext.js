@@ -24,7 +24,9 @@ export const ErrorProvider = ({ children }) => {
   // Toasting auto when new error comes in
   useEffect(() => {
     if (error) {
-      toast.error(`שגיאה ${error.status}: ${error.message}`);
+      toast.error(
+        `שגיאה${error.status ? " " + error.status : ""}: ${error.message}`
+      );
     }
   }, [error]);
 
