@@ -18,15 +18,16 @@ export const ErrorProvider = ({ children }) => {
     setErrorState({ message: error.message, status: error.status || null });
   }, []);
   const clearError = useCallback(() => {
-    setError(null);
+    setErrorState(null);
   }, []);
 
   // Toasting auto when new error comes in
   useEffect(() => {
     if (error) {
-      toast.warn(
+      toast.error(
         `שגיאה${error.status ? " " + error.status : ""}: ${error.message}`
       );
+      clearError();
     }
   }, [error]);
 
