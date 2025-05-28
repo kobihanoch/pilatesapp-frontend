@@ -32,7 +32,7 @@ const styles = {
     justifyContent: "center",
     alignItems: "center",
     height: "100vh",
-    backgroundColor: "#fff0db",
+    backgroundColor: "white",
     overflow: "hidden",
   },
   text: {
