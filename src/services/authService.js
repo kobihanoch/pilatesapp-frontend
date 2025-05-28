@@ -21,11 +21,6 @@ export const logoutUser = async () => {
 
 export const registerUser = async (user) => {
   try {
-    if (!user || !user.username || !user.password || !user.email) {
-      const error_ = new Error("All fields are required");
-      error_.status = 400; // Bad Request
-      throw error_;
-    }
     const response = await api.post("api/users/create", user, {
       withCredentials: false,
     });
