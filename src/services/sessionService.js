@@ -42,7 +42,9 @@ export const fetchAllSessionsForYear = async (selectedDate) => {
 // ADMINS - Fetch all sessions
 export const fetchAllSessions = async () => {
   try {
-    const response = await api.get(`api/sessions/all`);
+    const response = await api.get(`api/sessions/all`, {
+      params: { sortOrder: "desc" },
+    });
     //console.log(response.data);
     return response.data;
   } catch (error) {
