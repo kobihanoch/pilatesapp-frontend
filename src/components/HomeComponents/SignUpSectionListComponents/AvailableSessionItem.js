@@ -3,6 +3,7 @@ import { formatDate } from "../../../utils/homeUtils";
 import { registerToSelectedSession } from "../../../services/sessionService";
 import { useErrorContext } from "../../../context/errorContext";
 import { useAuthContext } from "../../../context/authContext";
+import { toast } from "react-toastify";
 
 const getStatusStyle = (status) => {
   const base = {
@@ -38,7 +39,7 @@ const AvailableSessionItem = ({ session }) => {
       setError(e);
       return;
     }
-    //alert("ההרשמה בוצעה בהצלחה!");
+    toast.success("ההרשמה בוצעה בהצלחה");
   };
 
   return (

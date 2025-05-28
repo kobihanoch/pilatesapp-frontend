@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useAuthContext } from "../../context/authContext";
 import { FiUser, FiLock, FiMail, FiCalendar, FiSmile } from "react-icons/fi";
 import { useErrorContext } from "../../context/errorContext";
+import { toast } from "react-toastify";
 
 const RegisterForm = () => {
   const { register } = useAuthContext();
@@ -86,7 +87,7 @@ const RegisterForm = () => {
         fullName,
       };
       await register(newUser);
-      console.log("Registration successful!");
+      toast.success("הרשמה בוצעה בהצלחה");
     } catch (error) {
       alert(error.message || "שגיאה בהרשמה");
     }
