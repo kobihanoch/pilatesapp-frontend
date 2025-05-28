@@ -14,8 +14,8 @@ export const ErrorProvider = ({ children }) => {
   const [error, setErrorState] = useState(null);
 
   // Functions
-  const setError = useCallback((msg, status = null) => {
-    setErrorState({ message: msg, status: status });
+  const setError = useCallback((error) => {
+    setErrorState({ message: error.message, status: error.status || null });
   }, []);
   const clearError = useCallback(() => {
     setError(null);
