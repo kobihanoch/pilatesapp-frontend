@@ -3,9 +3,11 @@ import AvailableSessionItem from "./SignUpSectionListComponents/AvailableSession
 import { addComoponentToDate } from "../../utils/homeUtils";
 import SelectDate from "./SignUpSectionListComponents/SelectDate";
 import { fetchAllSessionsForYear } from "../../services/sessionService";
+import { useErrorContext } from "../../context/errorContext";
 
 const SignupSection = ({ availableSessions }) => {
   // Date modification
+  const { setError } = useErrorContext();
   const [selectedDate, setSelectedDate] = useState(() => {
     const today = new Date();
     return today.toISOString().split("T")[0];
@@ -30,7 +32,7 @@ const SignupSection = ({ availableSessions }) => {
             );
           });
         } catch (e) {
-          alert(e);
+          setError(e);
         }
       } else {
         setSessions(() => {

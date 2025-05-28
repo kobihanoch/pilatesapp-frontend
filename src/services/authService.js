@@ -1,14 +1,12 @@
 import api from "../api/api";
+import { translateError } from "../utils/translateError";
 
 export const loginUser = async (username, password) => {
   try {
-    if (!username || !password) {
-      throw new Error("Username and password are required");
-    }
     const response = await api.post("/api/auth/login", { username, password });
     return response;
   } catch (error) {
-    throw error.response.data.message;
+    throw translateError(error);
   }
 };
 
@@ -17,7 +15,7 @@ export const logoutUser = async () => {
     await api.post("/api/auth/logout", {});
   } catch (error) {
     console.error("Error logging out:", error);
-    throw error;
+    throw translateError(error);
   }
 };
 
@@ -28,6 +26,6 @@ export const registerUser = async (user) => {
     });
     return response.data;
   } catch (error) {
-    throw error.response.data.message;
+    throw translateError(error);
   }
 };

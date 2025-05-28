@@ -23,7 +23,13 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
+    const skipRefreshRoutes = ["/api/auth/login", "/api/users/create"];
 
+    if (
+      skipRefreshRoutes.some((route) => originalRequest.url.includes(route))
+    ) {
+      return Promise.reject(error);
+    }
     // If refreshing 2nd time - don't try again - set user to null
     if (originalRequest.url.includes("/api/auth/refresh")) {
       if (globalSetUser) {

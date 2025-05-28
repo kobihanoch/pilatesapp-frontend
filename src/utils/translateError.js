@@ -1,0 +1,54 @@
+// src/utils/translateError.js
+export const errorTranslations = {
+  // --- AUTH ---
+  "Invalid credentials": "שם משתמש או סיסמה שגויים",
+  "Username and password are required": "יש להזין שם משתמש וסיסמה",
+  "User not found": "המשתמש לא נמצא",
+  "Not authenticated": "יש להתחבר כדי להמשיך",
+  "Refresh token is blacklisted.": "התחברות פגה תוקף, אנא התחבר מחדש",
+  "No access token, need to refresh.": "אין גישה, יש לרענן התחברות",
+
+  // --- USERS ---
+  "All fields are required": "נא למלא את כל השדות",
+  "Invalid email format": "פורמט אימייל שגוי",
+  "User already exists": "משתמש עם האימייל הזה כבר קיים",
+
+  // --- SESSIONS ---
+  "Session not found": "האימון לא נמצא",
+  "Cannot register to a completed or cancelled session":
+    "לא ניתן להירשם לאימון שהושלם או בוטל",
+  "Already registered to this session": "כבר נרשמת לאימון הזה",
+  "Session is full": "האימון מלא",
+  "Invalid pagination parameters": "פרמטרים לא תקינים בעמודי הדפים",
+
+  // --- By status ---
+  400: "הבקשה לא תקינה",
+  401: "אין הרשאה לבצע פעולה זו",
+  403: "גישה אסורה",
+  404: "המשאב לא נמצא",
+  500: "שגיאה פנימית בשרת",
+
+  // Default
+  DEFAULT: "אירעה שגיאה, נסה שוב מאוחר יותר",
+};
+
+export const translateError = (error) => {
+  if (!error?.response) {
+    const customError = new Error(error.message || "אירעה שגיאה לא צפויה");
+    customError.status = error.status || 500;
+    return customError;
+  }
+
+  const message = error?.response?.data?.message;
+  const status = error?.response?.status || 500;
+
+  const translated =
+    errorTranslations[message] ||
+    errorTranslations[status] ||
+    errorTranslations.DEFAULT;
+
+  const customError = new Error(translated);
+  customError.status = status;
+
+  return customError;
+};
