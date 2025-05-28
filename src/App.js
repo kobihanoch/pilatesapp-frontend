@@ -15,7 +15,7 @@ import { ToastContainer } from "react-toastify";
 const PrivateRoute = ({ children }) => {
   const { user, loading } = useAuthContext();
   if (loading) {
-    return <LoadingSpinner text="טוען..."></LoadingSpinner>;
+    return <LoadingSpinner text="מתחבר..."></LoadingSpinner>;
   }
   return user ? children : <Navigate to="/" replace />;
 };
@@ -24,7 +24,7 @@ const PrivateRoute = ({ children }) => {
 const AdminRoute = ({ children }) => {
   const { user, loading } = useAuthContext();
   if (loading) {
-    return <LoadingSpinner text="טוען..."></LoadingSpinner>;
+    return <LoadingSpinner text="מתחבר למצב ניהול..."></LoadingSpinner>;
   }
   return user ? (
     user?.role === "admin" ? (
