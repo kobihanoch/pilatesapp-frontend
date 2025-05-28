@@ -1,4 +1,5 @@
 import api from "../api/api";
+import { translateError } from "../utils/translateError";
 
 // Unregister a session
 export const unregisterFromSelectedSession = async (sessionId) => {
@@ -7,7 +8,7 @@ export const unregisterFromSelectedSession = async (sessionId) => {
     return response.data;
   } catch (error) {
     console.log(error);
-    throw error.response.data.message;
+    throw translateError(error);
   }
 };
 
@@ -15,15 +16,11 @@ export const unregisterFromSelectedSession = async (sessionId) => {
 export const registerToSelectedSession = async (sessionId) => {
   try {
     const response = await api.post(`/api/sessions/register/${sessionId}`);
+    console.log(response);
     return response.data;
   } catch (error) {
     console.log(error);
-    if (error.response.status == 400) {
-      throw new Error(
-        "לא ניתן להירשם: אתה כבר רשום לאימון זה או שהאימון הסתיים/בוטל."
-      );
-    }
-    throw error.response.data.message;
+    throw translateError(error);
   }
 };
 
@@ -38,7 +35,7 @@ export const fetchAllSessionsForYear = async (selectedDate) => {
     return response.data;
   } catch (error) {
     console.log(error);
-    throw error.response.data.message;
+    throw translateError(error);
   }
 };
 
@@ -50,6 +47,6 @@ export const fetchAllSessions = async () => {
     return response.data;
   } catch (error) {
     console.log(error);
-    throw error.response.data.message;
+    throw translateError(error);
   }
 };
