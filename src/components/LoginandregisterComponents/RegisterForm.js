@@ -40,7 +40,7 @@ const RegisterForm = () => {
       !formData.gender ||
       !formData.fullName
     ) {
-      setError("חובה למלא את כל השדות");
+      setError(new Error("חובה למלא את כל השדות"));
       return false;
     }
 

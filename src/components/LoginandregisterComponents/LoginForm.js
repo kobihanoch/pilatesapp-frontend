@@ -17,7 +17,7 @@ const LoginForm = () => {
 
   const validateLogin = () => {
     if (!formData.username || !formData.password) {
-      setError("חובה למלא שם משתמש וסיסמה");
+      setError(new Error("חובה למלא שם משתמש וסיסמה"));
       return false;
     }
     return true;
