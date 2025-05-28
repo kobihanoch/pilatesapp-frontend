@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { useAuthContext } from "../../context/authContext";
 import { FiUser, FiLock, FiMail, FiCalendar, FiSmile } from "react-icons/fi";
+import { useErrorContext } from "../../context/errorContext";
 
 const RegisterForm = () => {
   const { register } = useAuthContext();
+  const { setError } = useErrorContext();
 
   const today = new Date().toISOString().split("T")[0];
 
@@ -38,32 +40,32 @@ const RegisterForm = () => {
       !formData.gender ||
       !formData.fullName
     ) {
-      alert("חובה למלא את כל השדות");
+      setError("חובה למלא את כל השדות");
       return false;
     }
 
     if (!usernameRegex.test(formData.username)) {
-      alert("שם המשתמש חייב להיות באנגלית בלבד");
+      setError("שם המשתמש חייב להיות באנגלית בלבד");
       return false;
     }
 
     if (!emailRegex.test(formData.email)) {
-      alert("אימייל לא חוקי");
+      setError("אימייל לא חוקי");
       return false;
     }
 
     if (!fullNameRegex.test(formData.fullName)) {
-      alert("שם מלא חייב להכיל רק אותיות ורווחים");
+      setError("שם מלא חייב להכיל רק אותיות ורווחים");
       return false;
     }
 
     if (formData.password !== formData.confirmPassword) {
-      alert("הסיסמאות אינן תואמות");
+      setError("הסיסמאות אינן תואמות");
       return false;
     }
 
     if (formData.password.length < 6) {
-      alert("הסיסמה חייבת להכיל לפחות 6 תווים");
+      setError("הסיסמה חייבת להכיל לפחות 6 תווים");
       return false;
     }
 
