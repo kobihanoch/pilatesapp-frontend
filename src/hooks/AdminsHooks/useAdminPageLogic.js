@@ -15,7 +15,11 @@ const useAdminPageLogic = () => {
     console.log(allUsers);
   }, [allUsers]);
 
-  return { allSessions, allUsers, loading: loadingSessions || loadingUsers };
+  return {
+    allSessions: allSessions?.sessions,
+    allUsers: allUsers?.users,
+    loading: loadingSessions || loadingUsers,
+  };
 };
 
 export default useAdminPageLogic;
