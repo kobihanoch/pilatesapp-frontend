@@ -1,9 +1,12 @@
 import React from "react";
+import AllSessionsTable from "./AllSessionsTable";
 
-const SessionsSection = () => {
+const SessionsSection = ({ sessions }) => {
   return (
     <div>
-      <h1>All sessions</h1>
+      <div style={{ width: "100%", height: "150vh" }}>
+        <AllSessionsTable sessions={sessions} />
+      </div>
     </div>
   );
 };
