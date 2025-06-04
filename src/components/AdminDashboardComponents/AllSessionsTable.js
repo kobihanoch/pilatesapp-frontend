@@ -32,7 +32,6 @@ const AllSessionsTable = ({ sessions }) => {
 
   return (
     <div style={styles.wrapper}>
-      <h2 style={styles.sectionTitle}>ניהול אימונים</h2>
       <div style={styles.tableContainer}>
         <div style={styles.responsiveTableWrapper}>
           <table style={styles.table}>
@@ -97,6 +96,9 @@ const AllSessionsTable = ({ sessions }) => {
                           </div>
                           <div style={styles.infoLine}>
                             <strong>מיקום:</strong> {session.location}
+                          </div>
+                          <div style={styles.infoLine}>
+                            <strong>הערות:</strong> {session.notes}
                           </div>
                         </td>
                       </tr>
