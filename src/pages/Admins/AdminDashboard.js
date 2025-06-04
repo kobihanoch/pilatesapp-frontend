@@ -11,28 +11,82 @@ const AdminDashboard = () => {
   const renderTable = () => {
     switch (visibleTable) {
       case "users":
-        return <UsersSection></UsersSection>;
+        return <UsersSection users={allUsers} />;
       case "sessions":
-        return <SessionsSection></SessionsSection>;
       default:
-        return <SessionsSection></SessionsSection>;
+        return <SessionsSection sessions={allSessions} />;
     }
   };
 
-  if (loading) {
-    return <LoadingSpinner text="טוען נתונים..." />;
-  }
+  if (loading) return <LoadingSpinner text="טוען נתונים..." />;
+
   return (
-    <div style={{ flexDirection: "column", display: "flex" }}>
-      <div style={{ flexDirection: "row", display: "flex" }}>
-        <button onClick={() => setVisibleTable("users")}>ניהול משתמשים</button>
-        <button onClick={() => setVisibleTable("sessions")}>
+    <div style={styles.wrapper}>
+      <h2 style={styles.title}>לוח ניהול</h2>
+      <div style={styles.navButtons}>
+        <button
+          style={{
+            ...styles.navButton,
+            ...(visibleTable === "users" ? styles.activeButton : {}),
+          }}
+          onClick={() => setVisibleTable("users")}
+        >
+          ניהול משתמשים
+        </button>
+        <button
+          style={{
+            ...styles.navButton,
+            ...(visibleTable === "sessions" ? styles.activeButton : {}),
+          }}
+          onClick={() => setVisibleTable("sessions")}
+        >
           ניהול אימונים
         </button>
       </div>
-      <div>{renderTable()}</div>
+      <div style={styles.content}>{renderTable()}</div>
     </div>
   );
+};
+
+const styles = {
+  wrapper: {
+    padding: "1rem",
+    backgroundColor: "#f8fafc",
+    fontFamily: '"M PLUS Rounded 1c", sans-serif',
+    minHeight: "100vh",
+  },
+  title: {
+    fontSize: "1.4rem",
+    fontWeight: 700,
+    textAlign: "center",
+    color: "#1e293b",
+    marginBottom: "1rem",
+  },
+  navButtons: {
+    display: "flex",
+    justifyContent: "center",
+    gap: "1rem",
+    marginBottom: "1.25rem",
+    flexWrap: "wrap",
+  },
+  navButton: {
+    padding: "0.6rem 1.2rem",
+    borderRadius: "8px",
+    backgroundColor: "#e2e8f0",
+    border: "none",
+    fontWeight: 600,
+    fontSize: "1rem",
+    color: "#1e293b",
+    cursor: "pointer",
+    transition: "0.2s ease",
+  },
+  activeButton: {
+    backgroundColor: "#38bdf8",
+    color: "#ffffff",
+  },
+  content: {
+    marginTop: "0.5rem",
+  },
 };
 
 export default AdminDashboard;
