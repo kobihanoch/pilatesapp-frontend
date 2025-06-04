@@ -3,6 +3,7 @@ import { useAuthContext } from "../../context/authContext";
 import { FiUser, FiLock, FiMail, FiCalendar, FiSmile } from "react-icons/fi";
 import { useErrorContext } from "../../context/errorContext";
 import { toast } from "react-toastify";
+import { validateRegister } from "../../utils/registerUtils";
 
 const RegisterForm = () => {
   const { register } = useAuthContext();
@@ -27,57 +28,19 @@ const RegisterForm = () => {
     }));
   };
 
-  const validateRegister = () => {
-    const usernameRegex = /^[a-zA-Z0-9_]+$/;
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const fullNameRegex = /^[א-תa-zA-Z\s]+$/;
-
-    if (
-      !formData.username ||
-      !formData.password ||
-      !formData.confirmPassword ||
-      !formData.email ||
-      !formData.birthDate ||
-      !formData.gender ||
-      !formData.fullName
-    ) {
-      setError(new Error("חובה למלא את כל השדות"));
-      return false;
-    }
-
-    if (!usernameRegex.test(formData.username)) {
-      setError("שם המשתמש חייב להיות באנגלית בלבד");
-      return false;
-    }
-
-    if (!emailRegex.test(formData.email)) {
-      setError("אימייל לא חוקי");
-      return false;
-    }
-
-    if (!fullNameRegex.test(formData.fullName)) {
-      setError("שם מלא חייב להכיל רק אותיות ורווחים");
-      return false;
-    }
-
-    if (formData.password !== formData.confirmPassword) {
-      setError("הסיסמאות אינן תואמות");
-      return false;
-    }
-
-    if (formData.password.length < 6) {
-      setError("הסיסמה חייבת להכיל לפחות 6 תווים");
-      return false;
-    }
-
-    return true;
-  };
-
   const handleRegister = async () => {
-    if (!validateRegister()) return;
     try {
       const { username, password, email, birthDate, gender, fullName } =
         formData;
+      validateRegister(
+        username,
+        password,
+        formData.confirmPassword,
+        email,
+        birthDate,
+        gender,
+        fullName
+      ); // Throws error if not fully filled
       const newUser = {
         username,
         password,
@@ -89,7 +52,7 @@ const RegisterForm = () => {
       await register(newUser);
       toast.success("הרשמה בוצעה בהצלחה");
     } catch (error) {
-      alert(error.message || "שגיאה בהרשמה");
+      setError(error);
     }
   };
 
