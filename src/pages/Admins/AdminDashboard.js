@@ -50,8 +50,6 @@ const AdminDashboard = () => {
 
 const styles = {
   wrapper: {
-    padding: "1rem",
-    backgroundColor: "#f8fafc",
     fontFamily: '"M PLUS Rounded 1c", sans-serif',
     minHeight: "100vh",
   },
