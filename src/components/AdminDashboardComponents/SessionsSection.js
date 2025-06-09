@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
 import AllSessionsTable from "./AllSessionsTable";
+import { fetchFilteredSessions } from "../../services/sessionService";
+import { useErrorContext } from "../../context/errorContext";
 
 const SessionsSection = ({ sessions }) => {
+  // Error context
+  const { setError } = useErrorContext();
+  const [allSessions, setAllSessions] = useState(sessions || []);
+
   const [search, setSearch] = useState("");
   const [sortField, setSortField] = useState("date");
   const [sortOrder, setSortOrder] = useState("asc");
@@ -11,8 +17,27 @@ const SessionsSection = ({ sessions }) => {
   const handleSortOrderChange = (e) => setSortOrder(e.target.value);
 
   useEffect(() => {
-    // Make debounced search request
-    console.log("Create search");
+    const timeout = setTimeout(() => {
+      const fetchData = async () => {
+        try {
+          console.log("Create search");
+          const data = await fetchFilteredSessions(
+            1,
+            10,
+            search,
+            sortField,
+            sortOrder
+          );
+          console.log("Fetched sessions:", data);
+          setAllSessions(data.sessions || []);
+        } catch (e) {
+          setError(e);
+        }
+      };
+      fetchData();
+    }, 500);
+
+    return () => clearTimeout(timeout);
   }, [search, sortField, sortOrder]);
 
   return (
@@ -95,7 +120,7 @@ const SessionsSection = ({ sessions }) => {
       </div>
 
       <div style={{ width: "100%", height: "auto" }}>
-        <AllSessionsTable sessions={sessions} />
+        <AllSessionsTable sessions={allSessions} />
       </div>
     </div>
   );
