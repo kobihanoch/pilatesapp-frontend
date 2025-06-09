@@ -1,9 +1,14 @@
 import React, { useState } from "react";
 import { FiUsers, FiEdit, FiPlus, FiTrash2, FiInfo } from "react-icons/fi";
+import { registerUserToSession } from "../../services/sessionService";
+import { useErrorContext } from "../../context/errorContext";
+import { toast } from "react-toastify";
 
 const AllSessionsTable = ({ sessions }) => {
   const [expandedSessionId, setExpandedSessionId] = useState(null);
   const [infoExpandedId, setInfoExpandedId] = useState(null);
+
+  const { setError } = useErrorContext();
 
   const toggleExpand = (id) => {
     setExpandedSessionId((prev) => (prev === id ? null : id));
@@ -16,7 +21,16 @@ const AllSessionsTable = ({ sessions }) => {
   const getRowBackground = (session) => {
     const isFull = session.participants?.length >= session.maxParticipants;
     const isAvailable = session.status === "מתוכנן";
-    return isFull ? "#ffe4e6" : isAvailable ? "#ecfdf5" : "#f8fafc";
+    return isAvailable ? (isFull ? "#ffe4e6" : "#ecfdf5") : "#f8fafc";
+  };
+
+  const handleRegisterUserToSession = async (sessionId, userId) => {
+    try {
+      await registerUserToSession(sessionId, userId);
+      toast.success("משתמש נרשם בהצלחה!");
+    } catch (e) {
+      setError(e);
+    }
   };
 
   const getIconBtnStyle = {
@@ -134,7 +148,15 @@ const AllSessionsTable = ({ sessions }) => {
                                 אין משתתפים
                               </div>
                             )}
-                            <button style={styles.addBtn}>
+                            <button
+                              style={styles.addBtn}
+                              onClick={() =>
+                                handleRegisterUserToSession(
+                                  session._id,
+                                  "680cd9eb1999ca000fb895ce" // Example user ID
+                                )
+                              }
+                            >
                               <FiPlus /> הוסף משתתף
                             </button>
                           </div>
