@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AllSessionsTable from "./AllSessionsTable";
 
 const SessionsSection = ({ sessions }) => {
@@ -9,6 +9,11 @@ const SessionsSection = ({ sessions }) => {
   const handleSearchChange = (e) => setSearch(e.target.value);
   const handleSortFieldChange = (e) => setSortField(e.target.value);
   const handleSortOrderChange = (e) => setSortOrder(e.target.value);
+
+  useEffect(() => {
+    // Make debounced search request
+    console.log("Create search");
+  }, [search, sortField, sortOrder]);
 
   return (
     <div
