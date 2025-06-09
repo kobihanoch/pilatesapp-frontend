@@ -16,8 +16,8 @@ const useAdminPageLogic = () => {
   }, [allUsers]);
 
   return {
-    allSessions: allSessions?.sessions,
-    allUsers: allUsers?.users,
+    allSessions: allSessions,
+    allUsers: allUsers,
     loading: loadingSessions || loadingUsers,
   };
 };

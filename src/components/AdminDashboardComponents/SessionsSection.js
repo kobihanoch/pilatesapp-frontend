@@ -7,11 +7,14 @@ import SessionFilterSection from "./SessionFilterSection";
 const SessionsSection = ({ sessions }) => {
   // Error context
   const { setError } = useErrorContext();
-  const [allSessions, setAllSessions] = useState(sessions || []);
+
+  const [allSessions, setAllSessions] = useState(sessions?.sessions || []);
+  const [totalPages, setTotalPages] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const [search, setSearch] = useState("");
   const [sortField, setSortField] = useState("date");
-  const [sortOrder, setSortOrder] = useState("asc");
+  const [sortOrder, setSortOrder] = useState("desc");
 
   const handleSearchChange = (e) => setSearch(e.target.value);
   const handleSortFieldChange = (e) => setSortField(e.target.value);
@@ -23,7 +26,7 @@ const SessionsSection = ({ sessions }) => {
         try {
           console.log("Create search");
           const data = await fetchFilteredSessions(
-            1,
+            currentPage,
             10,
             search,
             sortField,
@@ -31,6 +34,7 @@ const SessionsSection = ({ sessions }) => {
           );
           console.log("Fetched sessions:", data);
           setAllSessions(data.sessions || []);
+          setTotalPages(data.totalPages || 1);
         } catch (e) {
           setError(e);
         }
@@ -39,7 +43,34 @@ const SessionsSection = ({ sessions }) => {
     }, 500);
 
     return () => clearTimeout(timeout);
-  }, [search, sortField, sortOrder]);
+  }, [search, sortField, sortOrder, currentPage]);
+
+  const renderPagination = () => {
+    const pages = [];
+    for (let i = 1; i <= totalPages; i++) {
+      pages.push(
+        <button
+          key={i}
+          onClick={() => setCurrentPage(i)}
+          style={{
+            padding: "0.5rem 0.75rem",
+            margin: "0 0.25rem",
+            marginBottom: "5rem",
+            borderRadius: "6px",
+            border: "1px solid #d1d5db",
+            backgroundColor: i === currentPage ? "#2563eb" : "#ffffff",
+            color: i === currentPage ? "#ffffff" : "#111827",
+            cursor: "pointer",
+          }}
+        >
+          {i}
+        </button>
+      );
+    }
+    return (
+      <div style={{ marginTop: "1rem", textAlign: "center" }}>{pages}</div>
+    );
+  };
 
   return (
     <div
@@ -60,6 +91,7 @@ const SessionsSection = ({ sessions }) => {
 
       <div style={{ width: "100%", height: "auto" }}>
         <AllSessionsTable sessions={allSessions} />
+        {renderPagination()}
       </div>
     </div>
   );
