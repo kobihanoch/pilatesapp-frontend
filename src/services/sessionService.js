@@ -88,3 +88,13 @@ export const registerUserToSession = async (sessionId, userId) => {
     throw translateError(error);
   }
 };
+
+// ADMINS - Unregister a user from a session
+export const unregisterUserFromSession = async (sessionId, userId) => {
+  try {
+    const response = api.post(`api/sessions/unregister/${sessionId}/${userId}`);
+    return response.data;
+  } catch (error) {
+    throw translateError(error);
+  }
+};

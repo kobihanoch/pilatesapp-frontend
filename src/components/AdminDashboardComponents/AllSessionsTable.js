@@ -1,14 +1,26 @@
 import React, { useState } from "react";
 import { FiUsers, FiEdit, FiPlus, FiTrash2, FiInfo } from "react-icons/fi";
-import { registerUserToSession } from "../../services/sessionService";
+import {
+  registerUserToSession,
+  unregisterFromSelectedSession,
+} from "../../services/sessionService";
 import { useErrorContext } from "../../context/errorContext";
 import { toast } from "react-toastify";
+import useAdminHandler from "../../hooks/AdminsHooks/useAdminHandler";
 
 const AllSessionsTable = ({ sessions }) => {
   const [expandedSessionId, setExpandedSessionId] = useState(null);
   const [infoExpandedId, setInfoExpandedId] = useState(null);
 
+  // Error context
   const { setError } = useErrorContext();
+
+  // Admin handler functions
+  const {
+    handleRegisterUserToSession,
+    handleUnregisterUserFromSession,
+    loading,
+  } = useAdminHandler();
 
   const toggleExpand = (id) => {
     setExpandedSessionId((prev) => (prev === id ? null : id));
@@ -22,15 +34,6 @@ const AllSessionsTable = ({ sessions }) => {
     const isFull = session.participants?.length >= session.maxParticipants;
     const isAvailable = session.status === "מתוכנן";
     return isAvailable ? (isFull ? "#ffe4e6" : "#ecfdf5") : "#f8fafc";
-  };
-
-  const handleRegisterUserToSession = async (sessionId, userId) => {
-    try {
-      await registerUserToSession(sessionId, userId);
-      toast.success("משתמש נרשם בהצלחה!");
-    } catch (e) {
-      setError(e);
-    }
   };
 
   const getIconBtnStyle = {
@@ -138,7 +141,15 @@ const AllSessionsTable = ({ sessions }) => {
                                   <div>
                                     <strong>אימייל:</strong> {p.email}
                                   </div>
-                                  <button style={styles.removeBtn}>
+                                  <button
+                                    style={styles.removeBtn}
+                                    onClick={() =>
+                                      handleUnregisterUserFromSession(
+                                        session._id,
+                                        "680cd9eb1999ca000fb895ce" // Example user ID
+                                      )
+                                    }
+                                  >
                                     <FiTrash2 /> הסר
                                   </button>
                                 </div>
