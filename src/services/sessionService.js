@@ -98,3 +98,13 @@ export const unregisterUserFromSession = async (sessionId, userId) => {
     throw translateError(error);
   }
 };
+
+// ADMINS - Update session data
+export const updateSession = async (sessionId, sessionData) => {
+  try {
+    const response = await api.put(`api/sessions/${sessionId}`, sessionData);
+    return response.data;
+  } catch (error) {
+    throw translateError(error);
+  }
+};

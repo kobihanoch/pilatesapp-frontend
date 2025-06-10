@@ -4,6 +4,7 @@ import {
   registerUserToSession,
   unregisterFromSelectedSession,
   unregisterUserFromSession,
+  updateSession,
 } from "../../services/sessionService";
 import { toast } from "react-toastify";
 
@@ -35,9 +36,22 @@ const useAdminHandler = () => {
     }
   };
 
+  const handleUpdateSessionData = async (sessionId, sessionData) => {
+    try {
+      setLoading(true);
+      await updateSession(sessionId, sessionData);
+      toast.success("ההרשמה עודכנה בהצלחה!");
+    } catch (error) {
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return {
     handleRegisterUserToSession,
     handleUnregisterUserFromSession,
+    handleUpdateSessionData,
     loading,
   };
 };
