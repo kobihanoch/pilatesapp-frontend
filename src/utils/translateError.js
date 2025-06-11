@@ -20,6 +20,11 @@ export const errorTranslations = {
   "Already registered to this session": "כבר נרשמת לאימון הזה",
   "Session is full": "האימון מלא",
   "Invalid pagination parameters": "פרמטרים לא תקינים בעמודי הדפים",
+  "Cannot unregister from a completed or cancelled session":
+    "לא ניתן לבטל הרשמה מאימון שהושלם או בוטל",
+  "User is not registered to this session": "המשתמש לא רשום לאימון הזה",
+  "Session already cancelled": "האימון כבר בוטל",
+  "Invalid user ID": "מזהה משתמש לא תקין",
 
   // --- By status ---
   400: "הבקשה לא תקינה",
