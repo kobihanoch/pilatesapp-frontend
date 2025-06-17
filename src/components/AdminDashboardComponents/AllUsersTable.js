@@ -28,8 +28,11 @@ const AllUsersTable = ({ users, setUsers }) => {
                     <td style={styles.cell}>{user.fullName}</td>
                     <td style={styles.cell}>{user.username}</td>
                     <td style={styles.cell}>
-                      {user.role === "admin" ? "מנהל" : "משתמש"}
+                      <span style={styles.roleBadge(user.role)}>
+                        {user.role === "admin" ? "מנהל" : "משתמש"}
+                      </span>
                     </td>
+
                     <td style={styles.cell}>
                       <div style={styles.actions}>
                         <button style={styles.iconBtn}>
@@ -144,6 +147,15 @@ const styles = {
     marginBottom: "0.4rem",
     color: "#334155",
   },
+  roleBadge: (role) => ({
+    padding: "4px 10px",
+    borderRadius: "6px",
+    fontSize: "0.8rem",
+    fontWeight: "600",
+    backgroundColor: role === "admin" ? "#dbeafe" : "#f3f4f6",
+    color: role === "admin" ? "#1d4ed8" : "#374151",
+    display: "inline-block",
+  }),
 };
 
 export default AllUsersTable;

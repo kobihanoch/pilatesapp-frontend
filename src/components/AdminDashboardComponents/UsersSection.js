@@ -13,7 +13,7 @@ const UsersSection = ({ users }) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const [search, setSearch] = useState("");
-  const [sortField, setSortField] = useState("username");
+  const [sortField, setSortField] = useState("role");
   const [sortOrder, setSortOrder] = useState("asc");
 
   const handleSearchChange = (e) => setSearch(e.target.value);

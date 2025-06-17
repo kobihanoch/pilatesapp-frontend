@@ -33,7 +33,7 @@ export const fetchAuthenticatedUserSessions = async () => {
 export const fetchAllUsers = async () => {
   try {
     const res = await api.get("/api/users/all", {
-      params: { sortOrder: "desc" },
+      params: { sortOrder: "asc", sortField: "role" },
     });
     return res.data;
   } catch (error) {
