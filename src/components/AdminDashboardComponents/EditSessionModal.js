@@ -4,7 +4,7 @@ import Modal from "../SharedComponents/Modal";
 import useAdminHandler from "../../hooks/AdminsHooks/useAdminHandler";
 import { toast } from "react-toastify";
 
-const EditSessionModal = ({ session, isOpen, onClose }) => {
+const EditSessionModal = ({ session, isOpen, onClose, setSessions }) => {
   const [form, setForm] = useState({});
   const { handleUpdateSessionData } = useAdminHandler();
 
@@ -29,8 +29,11 @@ const EditSessionModal = ({ session, isOpen, onClose }) => {
   };
 
   const handleSubmit = async (sessionId) => {
-    const success = await handleUpdateSessionData(sessionId, form);
-    if (success) {
+    const res = await handleUpdateSessionData(sessionId, form);
+    if (res.success) {
+      setSessions((prev) =>
+        prev.map((s) => (s._id === sessionId ? res.response.session : s))
+      );
       onClose();
     }
   };

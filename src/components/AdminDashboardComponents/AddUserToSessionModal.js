@@ -5,7 +5,7 @@ import useAdminHandler from "../../hooks/AdminsHooks/useAdminHandler";
 import { toast } from "react-toastify";
 import { useErrorContext } from "../../context/errorContext";
 
-const AddUserToSessionModal = ({ sessionId, isOpen, onClose }) => {
+const AddUserToSessionModal = ({ sessionId, isOpen, onClose, setSessions }) => {
   const [username, setUsername] = useState("");
   const { handleAddUserToSession } = useAdminHandler();
   const { setError } = useErrorContext();
@@ -13,8 +13,11 @@ const AddUserToSessionModal = ({ sessionId, isOpen, onClose }) => {
   const handleAdd = async () => {
     if (username.trim() && username.trim() !== "") {
       // Check if username is not empty
-      const success = await handleAddUserToSession(sessionId, username.trim());
-      if (success) {
+      const res = await handleAddUserToSession(sessionId, username.trim());
+      if (res.success) {
+        setSessions((prev) =>
+          prev.map((s) => (s._id === sessionId ? res.response.session : s))
+        );
         onClose();
       }
     } else {

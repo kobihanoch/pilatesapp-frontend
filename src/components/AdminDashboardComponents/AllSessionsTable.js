@@ -11,7 +11,7 @@ import Modal from "../SharedComponents/Modal";
 import EditSessionModal from "./EditSessionModal";
 import AddUserToSessionModal from "./AddUserToSessionModal";
 
-const AllSessionsTable = ({ sessions }) => {
+const AllSessionsTable = ({ sessions, setSessions }) => {
   const [expandedSessionId, setExpandedSessionId] = useState(null);
   const [infoExpandedId, setInfoExpandedId] = useState(null);
 
@@ -22,11 +22,16 @@ const AllSessionsTable = ({ sessions }) => {
   const { setError } = useErrorContext();
 
   // Admin handler functions
-  const {
-    handleRegisterUserToSession,
-    handleUnregisterUserFromSession,
-    loading,
-  } = useAdminHandler();
+  const { handleUnregisterUserFromSession, loading } = useAdminHandler();
+
+  const handleUnregisterUserFromSessionHandler = async (sessionId, userId) => {
+    const res = await handleUnregisterUserFromSession(sessionId, userId);
+    if (res) {
+      setSessions((prev) =>
+        prev.map((s) => (s._id === sessionId ? res.session : s))
+      );
+    }
+  };
 
   const toggleExpand = (id) => {
     setExpandedSessionId((prev) => (prev === id ? null : id));
@@ -157,7 +162,7 @@ const AllSessionsTable = ({ sessions }) => {
                                   <button
                                     style={styles.removeBtn}
                                     onClick={() =>
-                                      handleUnregisterUserFromSession(
+                                      handleUnregisterUserFromSessionHandler(
                                         session._id,
                                         p._id
                                       )
@@ -197,6 +202,7 @@ const AllSessionsTable = ({ sessions }) => {
         session={editingSession}
         isOpen={!!editingSession}
         onClose={() => setEditingSession(null)}
+        setSessions={setSessions}
       />
 
       {/* Modal for Adding User to Session */}
@@ -204,6 +210,7 @@ const AllSessionsTable = ({ sessions }) => {
         sessionId={addingUserSessionId}
         isOpen={!!addingUserSessionId}
         onClose={() => setAddingUserSessionId(null)}
+        setSessions={setSessions}
       />
     </div>
   );

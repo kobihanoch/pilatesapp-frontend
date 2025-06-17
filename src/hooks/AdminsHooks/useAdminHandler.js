@@ -11,23 +11,12 @@ const useAdminHandler = () => {
   const [loading, setLoading] = useState(false);
   const { setError } = useErrorContext();
 
-  const handleRegisterUserToSession = async (sessionId, userId) => {
-    try {
-      setLoading(true);
-      await registerUserToSession(sessionId, userId);
-      toast.success("משתמש נרשם בהצלחה!");
-    } catch (e) {
-      setError(e);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const handleUnregisterUserFromSession = async (sessionId, userId) => {
     try {
       setLoading(true);
-      await unregisterUserFromSession(sessionId, userId);
+      const res = await unregisterUserFromSession(sessionId, userId);
       toast.success("משתמש הוסר מההרשמה בהצלחה!");
+      return res;
     } catch (error) {
       setError(error);
     } finally {
@@ -38,12 +27,12 @@ const useAdminHandler = () => {
   const handleUpdateSessionData = async (sessionId, sessionData) => {
     try {
       setLoading(true);
-      await updateSession(sessionId, sessionData);
+      const res = await updateSession(sessionId, sessionData);
       toast.success("ההרשמה עודכנה בהצלחה!");
-      return true;
+      return { success: true, response: res };
     } catch (error) {
       setError(error);
-      return false;
+      return { success: false, response: null };
     } finally {
       setLoading(false);
     }
@@ -52,19 +41,18 @@ const useAdminHandler = () => {
   const handleAddUserToSession = async (sessionId, username) => {
     try {
       setLoading(true);
-      await registerUserToSession(sessionId, username);
+      const res = await registerUserToSession(sessionId, username);
       toast.success("ההרשמה עודכנה בהצלחה!");
-      return true;
+      return { success: true, response: res };
     } catch (error) {
       setError(error);
-      return false;
+      return { success: false, response: null };
     } finally {
       setLoading(false);
     }
   };
 
   return {
-    handleRegisterUserToSession,
     handleUnregisterUserFromSession,
     handleUpdateSessionData,
     handleAddUserToSession,

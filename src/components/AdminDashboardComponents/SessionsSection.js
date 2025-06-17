@@ -63,7 +63,7 @@ const SessionsSection = ({ sessions }) => {
       />
 
       <div style={{ width: "100%", height: "auto" }}>
-        <AllSessionsTable sessions={allSessions} />
+        <AllSessionsTable sessions={allSessions} setSessions={setAllSessions} />
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
