@@ -1,9 +1,32 @@
 import React, { useState } from "react";
 import { FiUsers, FiEdit, FiPlus, FiTrash2, FiInfo } from "react-icons/fi";
+import {
+  registerUserToSession,
+  unregisterFromSelectedSession,
+} from "../../services/sessionService";
+import { useErrorContext } from "../../context/errorContext";
+import { toast } from "react-toastify";
+import useAdminHandler from "../../hooks/AdminsHooks/useAdminHandler";
+import Modal from "../SharedComponents/Modal";
+import EditSessionModal from "./EditSessionModal";
+import AddUserToSessionModal from "./AddUserToSessionModal";
 
 const AllSessionsTable = ({ sessions }) => {
   const [expandedSessionId, setExpandedSessionId] = useState(null);
   const [infoExpandedId, setInfoExpandedId] = useState(null);
+
+  const [editingSession, setEditingSession] = useState(null);
+  const [addingUserSessionId, setAddingUserSessionId] = useState(null);
+
+  // Error context
+  const { setError } = useErrorContext();
+
+  // Admin handler functions
+  const {
+    handleRegisterUserToSession,
+    handleUnregisterUserFromSession,
+    loading,
+  } = useAdminHandler();
 
   const toggleExpand = (id) => {
     setExpandedSessionId((prev) => (prev === id ? null : id));
@@ -16,7 +39,7 @@ const AllSessionsTable = ({ sessions }) => {
   const getRowBackground = (session) => {
     const isFull = session.participants?.length >= session.maxParticipants;
     const isAvailable = session.status === "מתוכנן";
-    return isFull ? "#ffe4e6" : isAvailable ? "#ecfdf5" : "#f8fafc";
+    return isAvailable ? (isFull ? "#ffe4e6" : "#ecfdf5") : "#f8fafc";
   };
 
   const getIconBtnStyle = {
@@ -70,9 +93,13 @@ const AllSessionsTable = ({ sessions }) => {
                       </td>
                       <td style={styles.cell}>
                         <div style={styles.actions}>
-                          <button style={getIconBtnStyle}>
+                          <button
+                            style={getIconBtnStyle}
+                            onClick={() => setEditingSession(session)}
+                          >
                             <FiEdit />
                           </button>
+
                           <button
                             style={getIconBtnStyle}
                             onClick={() => toggleExpand(session._id)}
@@ -93,6 +120,9 @@ const AllSessionsTable = ({ sessions }) => {
                         <td colSpan="4" style={styles.expandBox}>
                           <div style={styles.infoLine}>
                             <strong>שעה:</strong> {session.time}
+                          </div>
+                          <div style={styles.infoLine}>
+                            <strong>משך זמן:</strong> {session.duration} דקות
                           </div>
                           <div style={styles.infoLine}>
                             <strong>מיקום:</strong> {session.location}
@@ -124,7 +154,15 @@ const AllSessionsTable = ({ sessions }) => {
                                   <div>
                                     <strong>אימייל:</strong> {p.email}
                                   </div>
-                                  <button style={styles.removeBtn}>
+                                  <button
+                                    style={styles.removeBtn}
+                                    onClick={() =>
+                                      handleUnregisterUserFromSession(
+                                        session._id,
+                                        p._id
+                                      )
+                                    }
+                                  >
                                     <FiTrash2 /> הסר
                                   </button>
                                 </div>
@@ -134,7 +172,12 @@ const AllSessionsTable = ({ sessions }) => {
                                 אין משתתפים
                               </div>
                             )}
-                            <button style={styles.addBtn}>
+                            <button
+                              style={styles.addBtn}
+                              onClick={() =>
+                                setAddingUserSessionId(session._id)
+                              }
+                            >
                               <FiPlus /> הוסף משתתף
                             </button>
                           </div>
@@ -148,6 +191,20 @@ const AllSessionsTable = ({ sessions }) => {
           </table>
         </div>
       </div>
+
+      {/* Modal for Editing Session */}
+      <EditSessionModal
+        session={editingSession}
+        isOpen={!!editingSession}
+        onClose={() => setEditingSession(null)}
+      />
+
+      {/* Modal for Adding User to Session */}
+      <AddUserToSessionModal
+        sessionId={addingUserSessionId}
+        isOpen={!!addingUserSessionId}
+        onClose={() => setAddingUserSessionId(null)}
+      />
     </div>
   );
 };
@@ -280,6 +337,37 @@ const styles = {
     color: "#64748b",
     fontStyle: "italic",
     fontSize: "0.8rem",
+  },
+  formGroup: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "0.5rem",
+    marginBottom: "1rem",
+  },
+  input: {
+    padding: "0.65rem",
+    borderRadius: "8px",
+    border: "1px solid #e2e8f0",
+    fontSize: "1rem",
+  },
+  textarea: {
+    padding: "0.65rem",
+    borderRadius: "8px",
+    border: "1px solid #e2e8f0",
+    fontSize: "1rem",
+    resize: "vertical",
+  },
+  submitBtn: {
+    backgroundColor: "#2563eb",
+    color: "#fff",
+    padding: "0.75rem",
+    fontSize: "1rem",
+    border: "none",
+    borderRadius: "8px",
+    fontWeight: "600",
+    cursor: "pointer",
+    marginTop: "1rem",
+    transition: "background 0.2s ease",
   },
 };
 

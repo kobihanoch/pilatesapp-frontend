@@ -52,3 +52,65 @@ export const fetchAllSessions = async () => {
     throw translateError(error);
   }
 };
+
+// ADMINS - Fetch all sessions with filters
+export const fetchFilteredSessions = async (
+  page,
+  limit,
+  search,
+  sortField,
+  sortOrder
+) => {
+  try {
+    const response = await api.get(`api/sessions/all`, {
+      params: {
+        page: page,
+        limit: limit,
+        search: search,
+        sortField: sortField,
+        sortOrder: sortOrder,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw translateError(error);
+  }
+};
+
+// ADMINS - Register a user to a session
+export const registerUserToSession = async (sessionId, username) => {
+  try {
+    const response = await api.post(
+      `api/sessions/register/${sessionId}/${username}`
+    );
+    return response.data;
+  } catch (error) {
+    throw translateError(error);
+  }
+};
+
+// ADMINS - Unregister a user from a session
+export const unregisterUserFromSession = async (sessionId, userId) => {
+  try {
+    const response = await api.post(
+      `api/sessions/unregister/${sessionId}/${userId}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log("Hi");
+    throw translateError(error);
+  }
+};
+
+// ADMINS - Update session data
+export const updateSession = async (sessionId, sessionData) => {
+  try {
+    const response = await api.put(
+      `api/sessions/update/${sessionId}`,
+      sessionData
+    );
+    return response.data;
+  } catch (error) {
+    throw translateError(error);
+  }
+};
