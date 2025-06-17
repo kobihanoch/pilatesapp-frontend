@@ -1,9 +1,12 @@
 // EditSessionModal.js
 import React, { useState, useEffect } from "react";
 import Modal from "../SharedComponents/Modal";
+import useAdminHandler from "../../hooks/AdminsHooks/useAdminHandler";
+import { toast } from "react-toastify";
 
-const EditSessionModal = ({ session, isOpen, onClose, onSave }) => {
+const EditSessionModal = ({ session, isOpen, onClose }) => {
   const [form, setForm] = useState({});
+  const { handleUpdateSessionData } = useAdminHandler();
 
   useEffect(() => {
     if (session) {
@@ -25,8 +28,11 @@ const EditSessionModal = ({ session, isOpen, onClose, onSave }) => {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = () => {
-    onSave(form);
+  const handleSubmit = async (sessionId) => {
+    const success = await handleUpdateSessionData(sessionId, form);
+    if (success) {
+      onClose();
+    }
   };
 
   return (
@@ -121,7 +127,10 @@ const EditSessionModal = ({ session, isOpen, onClose, onSave }) => {
         />
       </div>
 
-      <button style={styles.submitBtn} onClick={handleSubmit}>
+      <button
+        style={styles.submitBtn}
+        onClick={() => handleSubmit(session._id)}
+      >
         שמור
       </button>
     </Modal>

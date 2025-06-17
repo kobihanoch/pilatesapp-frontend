@@ -105,7 +105,10 @@ export const unregisterUserFromSession = async (sessionId, userId) => {
 // ADMINS - Update session data
 export const updateSession = async (sessionId, sessionData) => {
   try {
-    const response = await api.put(`api/sessions/${sessionId}`, sessionData);
+    const response = await api.put(
+      `api/sessions/update/${sessionId}`,
+      sessionData
+    );
     return response.data;
   } catch (error) {
     throw translateError(error);

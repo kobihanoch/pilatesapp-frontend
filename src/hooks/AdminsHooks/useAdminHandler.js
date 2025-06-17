@@ -41,8 +41,10 @@ const useAdminHandler = () => {
       setLoading(true);
       await updateSession(sessionId, sessionData);
       toast.success("ההרשמה עודכנה בהצלחה!");
+      return true;
     } catch (error) {
       setError(error);
+      return false;
     } finally {
       setLoading(false);
     }
