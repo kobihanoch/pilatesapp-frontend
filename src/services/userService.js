@@ -40,3 +40,27 @@ export const fetchAllUsers = async () => {
     throw translateError(error);
   }
 };
+
+// ADMINS - Fetch all sessions with filters
+export const fetchFilteredUsers = async (
+  page,
+  limit,
+  search,
+  sortField,
+  sortOrder
+) => {
+  try {
+    const response = await api.get(`api/users/all`, {
+      params: {
+        page: page,
+        limit: limit,
+        search: search,
+        sortField: sortField,
+        sortOrder: sortOrder,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw translateError(error);
+  }
+};
