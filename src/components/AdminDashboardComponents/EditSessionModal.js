@@ -62,7 +62,7 @@ const EditSessionModal = ({ session, isOpen, onClose }) => {
       </div>
 
       <div style={styles.formGroup}>
-        <label>משך:</label>
+        <label>משך זמן (דקות):</label>
         <input
           name="duration"
           type="number"

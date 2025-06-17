@@ -122,6 +122,9 @@ const AllSessionsTable = ({ sessions }) => {
                             <strong>שעה:</strong> {session.time}
                           </div>
                           <div style={styles.infoLine}>
+                            <strong>משך זמן:</strong> {session.duration} דקות
+                          </div>
+                          <div style={styles.infoLine}>
                             <strong>מיקום:</strong> {session.location}
                           </div>
                           <div style={styles.infoLine}>
