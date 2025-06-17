@@ -255,6 +255,7 @@ const styles = {
     boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
     height: "64px",
     transition: "all 0.2s ease",
+    textAlign: "center",
   },
   cell: {
     verticalAlign: "middle",
