@@ -25,6 +25,7 @@ export const errorTranslations = {
   "User is not registered to this session": "המשתמש לא רשום לאימון הזה",
   "Session already cancelled": "האימון כבר בוטל",
   "Invalid user ID": "מזהה משתמש לא תקין",
+  "User already registered to this session": "משתמש כבר רשום לאימון הזה",
 
   // --- By status ---
   400: "הבקשה לא תקינה",
