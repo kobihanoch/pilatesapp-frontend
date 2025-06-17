@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useErrorContext } from "../../context/errorContext";
 import {
   registerUserToSession,
-  unregisterFromSelectedSession,
   unregisterUserFromSession,
   updateSession,
 } from "../../services/sessionService";
@@ -50,10 +49,25 @@ const useAdminHandler = () => {
     }
   };
 
+  const handleAddUserToSession = async (sessionId, username) => {
+    try {
+      setLoading(true);
+      await registerUserToSession(sessionId, username);
+      toast.success("ההרשמה עודכנה בהצלחה!");
+      return true;
+    } catch (error) {
+      setError(error);
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return {
     handleRegisterUserToSession,
     handleUnregisterUserFromSession,
     handleUpdateSessionData,
+    handleAddUserToSession,
     loading,
   };
 };

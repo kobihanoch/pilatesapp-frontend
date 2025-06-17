@@ -1,13 +1,24 @@
 // AddUserToSessionModal.js
 import React, { useState } from "react";
 import Modal from "../SharedComponents/Modal";
+import useAdminHandler from "../../hooks/AdminsHooks/useAdminHandler";
+import { toast } from "react-toastify";
+import { useErrorContext } from "../../context/errorContext";
 
-const AddUserToSessionModal = ({ isOpen, onClose, onSubmit }) => {
+const AddUserToSessionModal = ({ sessionId, isOpen, onClose }) => {
   const [username, setUsername] = useState("");
+  const { handleAddUserToSession } = useAdminHandler();
+  const { setError } = useErrorContext();
 
-  const handleAdd = () => {
-    if (username.trim()) {
-      onSubmit(username.trim());
+  const handleAdd = async () => {
+    if (username.trim() && username.trim() !== "") {
+      // Check if username is not empty
+      const success = await handleAddUserToSession(sessionId, username.trim());
+      if (success) {
+        onClose();
+      }
+    } else {
+      setError(new Error("שם משתמש לא יכול להיות ריק"));
     }
   };
 

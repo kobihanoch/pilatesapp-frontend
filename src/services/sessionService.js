@@ -78,10 +78,10 @@ export const fetchFilteredSessions = async (
 };
 
 // ADMINS - Register a user to a session
-export const registerUserToSession = async (sessionId, userId) => {
+export const registerUserToSession = async (sessionId, username) => {
   try {
     const response = await api.post(
-      `api/sessions/register/${sessionId}/${userId}`
+      `api/sessions/register/${sessionId}/${username}`
     );
     return response.data;
   } catch (error) {
