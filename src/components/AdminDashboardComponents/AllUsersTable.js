@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { FiEdit, FiTrash2, FiInfo } from "react-icons/fi";
+import EditUserModal from "./EditUserModal";
 
 const AllUsersTable = ({ users, setUsers }) => {
   const [infoExpandedId, setInfoExpandedId] = useState(null);
+  const [editingUser, setEditingUser] = useState(null);
 
   const toggleInfoExpand = (id) => {
     setInfoExpandedId((prev) => (prev === id ? null : id));
@@ -32,10 +34,12 @@ const AllUsersTable = ({ users, setUsers }) => {
                         {user.role === "admin" ? "מנהל" : "משתמש"}
                       </span>
                     </td>
-
                     <td style={styles.cell}>
                       <div style={styles.actions}>
-                        <button style={styles.iconBtn}>
+                        <button
+                          style={styles.iconBtn}
+                          onClick={() => setEditingUser(user)}
+                        >
                           <FiEdit />
                         </button>
                         <button style={styles.iconBtn}>
@@ -77,6 +81,13 @@ const AllUsersTable = ({ users, setUsers }) => {
           </table>
         </div>
       </div>
+      {/* Modal for Editing User */}
+      <EditUserModal
+        user={editingUser}
+        isOpen={!!editingUser}
+        onClose={() => setEditingUser(null)}
+        setUsers={setUsers}
+      />
     </div>
   );
 };
@@ -108,7 +119,7 @@ const styles = {
     height: "44px",
   },
   row: {
-    backgroundColor: "#ffffff",
+    backgroundColor: "#f8fafc",
     borderRadius: "10px",
     boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
     height: "64px",

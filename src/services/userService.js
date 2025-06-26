@@ -64,3 +64,13 @@ export const fetchFilteredUsers = async (
     throw translateError(error);
   }
 };
+
+// For admins
+export const updateUser = async (userId, userData) => {
+  try {
+    const response = await api.put(`api/users/update/${userId}`, userData);
+    return response.data;
+  } catch (error) {
+    throw translateError(error);
+  }
+};

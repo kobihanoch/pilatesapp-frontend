@@ -6,6 +6,7 @@ import {
   updateSession,
 } from "../../services/sessionService";
 import { toast } from "react-toastify";
+import { updateUser } from "../../services/userService";
 
 const useAdminHandler = () => {
   const [loading, setLoading] = useState(false);
@@ -52,10 +53,25 @@ const useAdminHandler = () => {
     }
   };
 
+  const handleUpdateUserData = async (userId, userData) => {
+    try {
+      setLoading(true);
+      const res = await updateUser(userId, userData);
+      toast.success("שינוי פרטי המשתמש בוצע בהצלחה!");
+      return { success: true, response: res };
+    } catch (error) {
+      setError(error);
+      return { success: false, response: null };
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return {
     handleUnregisterUserFromSession,
     handleUpdateSessionData,
     handleAddUserToSession,
+    handleUpdateUserData,
     loading,
   };
 };
