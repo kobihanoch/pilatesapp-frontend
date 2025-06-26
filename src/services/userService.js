@@ -74,3 +74,13 @@ export const updateUser = async (userId, userData) => {
     throw translateError(error);
   }
 };
+
+// For admins
+export const deleteUser = async (userId) => {
+  try {
+    const response = await api.delete(`api/users/delete/${userId}`);
+    return response.data;
+  } catch (error) {
+    throw translateError(error);
+  }
+};

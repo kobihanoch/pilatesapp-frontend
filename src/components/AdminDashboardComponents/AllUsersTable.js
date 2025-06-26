@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { FiEdit, FiTrash2, FiInfo } from "react-icons/fi";
 import EditUserModal from "./EditUserModal";
+import useAdminHandler from "../../hooks/AdminsHooks/useAdminHandler";
 
 const AllUsersTable = ({ users, setUsers }) => {
   const [infoExpandedId, setInfoExpandedId] = useState(null);
   const [editingUser, setEditingUser] = useState(null);
+  const { handleDeleteUser } = useAdminHandler();
 
   const toggleInfoExpand = (id) => {
     setInfoExpandedId((prev) => (prev === id ? null : id));
@@ -42,7 +44,15 @@ const AllUsersTable = ({ users, setUsers }) => {
                         >
                           <FiEdit />
                         </button>
-                        <button style={styles.iconBtn}>
+                        <button
+                          style={styles.iconBtn}
+                          onClick={() => {
+                            const confirmed = window.confirm(
+                              "האם אתה בטוח שברצונך למחוק את המשתמש?"
+                            );
+                            if (confirmed) handleDeleteUser(user._id);
+                          }}
+                        >
                           <FiTrash2 />
                         </button>
                         <button

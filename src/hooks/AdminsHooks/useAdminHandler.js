@@ -6,7 +6,7 @@ import {
   updateSession,
 } from "../../services/sessionService";
 import { toast } from "react-toastify";
-import { updateUser } from "../../services/userService";
+import { deleteUser, updateUser } from "../../services/userService";
 
 const useAdminHandler = () => {
   const [loading, setLoading] = useState(false);
@@ -67,11 +67,26 @@ const useAdminHandler = () => {
     }
   };
 
+  const handleDeleteUser = async (userId) => {
+    try {
+      setLoading(true);
+      const res = await deleteUser(userId);
+      toast.success("!משתמש נמחק בהצלחה");
+      return { success: true, response: res };
+    } catch (error) {
+      setError(error);
+      return { success: false, response: null };
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return {
     handleUnregisterUserFromSession,
     handleUpdateSessionData,
     handleAddUserToSession,
     handleUpdateUserData,
+    handleDeleteUser,
     loading,
   };
 };

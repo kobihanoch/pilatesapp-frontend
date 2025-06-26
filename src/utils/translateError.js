@@ -8,10 +8,18 @@ export const errorTranslations = {
   "Refresh token is blacklisted.": "התחברות פגה תוקף, אנא התחבר מחדש",
   "No access token, need to refresh.": "אין גישה, יש לרענן התחברות",
 
+  // NEW
+  "Already logged out": "כבר נותקת מהמערכת",
+  "No refresh token provided": "לא סופק אסימון רענון",
+
   // --- USERS ---
   "All fields are required": "נא למלא את כל השדות",
   "Invalid email format": "פורמט אימייל שגוי",
   "User already exists": "משתמש עם האימייל הזה כבר קיים",
+
+  // NEW
+  "Invalid role value": "ערך תפקיד לא חוקי",
+  "Invalid gender value": "ערך מגדר לא חוקי",
 
   // --- SESSIONS ---
   "Session not found": "האימון לא נמצא",
@@ -26,6 +34,10 @@ export const errorTranslations = {
   "Session already cancelled": "האימון כבר בוטל",
   "Invalid user ID": "מזהה משתמש לא תקין",
   "User already registered to this session": "משתמש כבר רשום לאימון הזה",
+
+  // NEW
+  "Cannot update a cancelled or completed session":
+    "לא ניתן לעדכן אימון שבוטל או הושלם",
 
   // --- By status ---
   400: "הבקשה לא תקינה",
