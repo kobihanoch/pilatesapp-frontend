@@ -4,10 +4,16 @@ import { fetchFilteredSessions } from "../../services/sessionService";
 import { useErrorContext } from "../../context/errorContext";
 import SessionFilterSection from "./SessionFilterSection";
 import Pagination from "../SharedComponents/Pagination";
+import Modal from "../SharedComponents/Modal";
+import CreateSessionModal from "./CreateSessionModal";
 
 const SessionsSection = ({ sessions }) => {
   // Error context
   const { setError } = useErrorContext();
+
+  // Modal control
+  const [isCreateSessionModalOpen, setIsCreateSessionModalOpen] =
+    useState(false);
 
   const [allSessions, setAllSessions] = useState(sessions?.sessions || []);
   const [totalPages, setTotalPages] = useState(50);
@@ -63,12 +69,26 @@ const SessionsSection = ({ sessions }) => {
       />
 
       <div style={{ width: "100%", height: "auto" }}>
+        <button
+          onClick={() => {
+            setIsCreateSessionModalOpen(true);
+          }}
+        >
+          יצירת אימון חדש
+        </button>
         <AllSessionsTable sessions={allSessions} setSessions={setAllSessions} />
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
           onPageChange={(page) => setCurrentPage(page)}
         />
+        {/* Modal for creating a new session */}
+        <CreateSessionModal
+          isOpen={isCreateSessionModalOpen}
+          onClose={() => {
+            setIsCreateSessionModalOpen(false);
+          }}
+        ></CreateSessionModal>
       </div>
     </div>
   );
