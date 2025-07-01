@@ -6,6 +6,7 @@ import SessionFilterSection from "./SessionFilterSection";
 import Pagination from "../SharedComponents/Pagination";
 import Modal from "../SharedComponents/Modal";
 import CreateSessionModal from "./CreateSessionModal";
+import { FiPlus } from "react-icons/fi";
 
 const SessionsSection = ({ sessions }) => {
   // Error context
@@ -69,13 +70,27 @@ const SessionsSection = ({ sessions }) => {
       />
 
       <div style={{ width: "100%", height: "auto" }}>
-        <button
-          onClick={() => {
-            setIsCreateSessionModalOpen(true);
-          }}
-        >
-          יצירת אימון חדש
-        </button>
+        <div style={{ textAlign: "center", marginBottom: "1rem" }}>
+          <button
+            onClick={() => setIsCreateSessionModalOpen(true)}
+            style={{
+              backgroundColor: "#2563eb",
+              color: "#fff",
+              padding: "0.75rem 1.25rem",
+              fontSize: "1rem",
+              border: "none",
+              borderRadius: "8px",
+              fontWeight: "600",
+              cursor: "pointer",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "0.5rem",
+            }}
+          >
+            <FiPlus size={20} />
+            יצירת אימון חדש
+          </button>
+        </div>
         <AllSessionsTable sessions={allSessions} setSessions={setAllSessions} />
         <Pagination
           currentPage={currentPage}
