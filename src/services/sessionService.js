@@ -114,3 +114,14 @@ export const updateSession = async (sessionId, sessionData) => {
     throw translateError(error);
   }
 };
+
+// ADMINS - Create a new session
+export const createSession__ = async (sessionData) => {
+  try {
+    const response = await api.post(`api/sessions/create`, sessionData);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw translateError(error);
+  }
+};

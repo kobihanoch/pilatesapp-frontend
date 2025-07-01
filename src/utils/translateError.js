@@ -16,8 +16,6 @@ export const errorTranslations = {
   "All fields are required": "נא למלא את כל השדות",
   "Invalid email format": "פורמט אימייל שגוי",
   "User already exists": "משתמש עם האימייל הזה כבר קיים",
-
-  // NEW
   "Invalid role value": "ערך תפקיד לא חוקי",
   "Invalid gender value": "ערך מגדר לא חוקי",
 
@@ -34,6 +32,11 @@ export const errorTranslations = {
   "Session already cancelled": "האימון כבר בוטל",
   "Invalid user ID": "מזהה משתמש לא תקין",
   "User already registered to this session": "משתמש כבר רשום לאימון הזה",
+  "Max participants must be greater than 0":
+    "מספר המשתתפים המקסימלי חייב להיות גדול מ-0",
+  "Duration must be greater than 0": "משך האימון חייב להיות גדול מ-0",
+  "Invalid status": "סטטוס לא חוקי",
+  "Cannot create a session in the past": "לא ניתן ליצור אימון בעבר",
 
   // NEW
   "Cannot update a cancelled or completed session":
