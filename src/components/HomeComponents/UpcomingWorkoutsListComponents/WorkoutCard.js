@@ -2,8 +2,11 @@ import React from "react";
 import { FaMapMarkerAlt, FaUsers } from "react-icons/fa";
 import { unregisterFromSelectedSession } from "../../../services/sessionService";
 import { formatDate } from "../../../utils/homeUtils";
+import { useErrorContext } from "../../../context/errorContext";
+import { toast } from "react-toastify";
 
 const WorkoutCard = ({ session, updatedSessions, setUpdatedSessions }) => {
+  const { setError } = useErrorContext();
   const handleUnregister = async (sessionId) => {
     const isConfirmed = window.confirm("האם אתה בטוח שברצונך לבטל את הרישום?");
     if (!isConfirmed) return;
@@ -11,9 +14,9 @@ const WorkoutCard = ({ session, updatedSessions, setUpdatedSessions }) => {
     try {
       await unregisterFromSelectedSession(sessionId);
       setUpdatedSessions(updatedSessions.filter((s) => s._id !== sessionId));
-      alert("ההרשמה בוטלה בהצלחה");
+      toast.info("ביטול הרישום בוצע בהצלחה");
     } catch (e) {
-      alert(e?.message || "שגיאה");
+      setError(e);
     }
   };
 

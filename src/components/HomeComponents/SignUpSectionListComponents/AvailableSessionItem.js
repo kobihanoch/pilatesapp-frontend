@@ -1,6 +1,9 @@
 import React from "react";
 import { formatDate } from "../../../utils/homeUtils";
 import { registerToSelectedSession } from "../../../services/sessionService";
+import { useErrorContext } from "../../../context/errorContext";
+import { useAuthContext } from "../../../context/authContext";
+import { toast } from "react-toastify";
 
 const getStatusStyle = (status) => {
   const base = {
@@ -24,17 +27,21 @@ const getStatusStyle = (status) => {
   }
 };
 
-const registerToSession = async (sessionId) => {
-  try {
-    await registerToSelectedSession(sessionId);
-  } catch (e) {
-    alert(e);
-    return;
-  }
-  alert("ההרשמה בוצעה בהצלחה!");
-};
-
 const AvailableSessionItem = ({ session }) => {
+  const { setError } = useErrorContext();
+  const { setSessions } = useAuthContext();
+
+  const registerToSession = async (sessionId) => {
+    try {
+      const res = await registerToSelectedSession(sessionId);
+      setSessions((prev) => [...prev, res.session]);
+    } catch (e) {
+      setError(e);
+      return;
+    }
+    toast.success("ההרשמה בוצעה בהצלחה");
+  };
+
   return (
     <div
       style={{
@@ -52,6 +59,7 @@ const AvailableSessionItem = ({ session }) => {
         gap: "12px",
         transition: "box-shadow 0.3s ease",
         position: "relative", // enable absolute label
+        opacity: session?.status === "הושלם" ? 0.5 : 1,
       }}
     >
       {/* Status Label */}
@@ -127,6 +135,7 @@ const AvailableSessionItem = ({ session }) => {
           cursor: "pointer",
           transition: "background-color 0.3s ease",
         }}
+        disabled={session?.status === "הושלם"}
         onMouseEnter={(e) => {
           e.currentTarget.style.backgroundColor = "#29B6F6";
         }}

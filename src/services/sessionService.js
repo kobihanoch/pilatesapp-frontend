@@ -1,4 +1,5 @@
 import api from "../api/api";
+import { translateError } from "../utils/translateError";
 
 // Unregister a session
 export const unregisterFromSelectedSession = async (sessionId) => {
@@ -7,7 +8,7 @@ export const unregisterFromSelectedSession = async (sessionId) => {
     return response.data;
   } catch (error) {
     console.log(error);
-    throw error.response.data.message;
+    throw translateError(error);
   }
 };
 
@@ -15,17 +16,15 @@ export const unregisterFromSelectedSession = async (sessionId) => {
 export const registerToSelectedSession = async (sessionId) => {
   try {
     const response = await api.post(`/api/sessions/register/${sessionId}`);
+    console.log(response);
     return response.data;
   } catch (error) {
     console.log(error);
-    if (error.response.status == 400) {
-      throw "אתם רשומים כבר לאימון זה.";
-    }
-    throw error.response.data.message;
+    throw translateError(error);
   }
 };
 
-// Gets all sessions until next month
+// Gets all sessions for year period of time
 export const fetchAllSessionsForYear = async (selectedDate) => {
   try {
     console.log("Front calling API");
@@ -36,6 +35,93 @@ export const fetchAllSessionsForYear = async (selectedDate) => {
     return response.data;
   } catch (error) {
     console.log(error);
-    throw error.response.data.message;
+    throw translateError(error);
+  }
+};
+
+// ADMINS - Fetch all sessions
+export const fetchAllSessions = async () => {
+  try {
+    const response = await api.get(`api/sessions/all`, {
+      params: { sortOrder: "desc" },
+    });
+    //console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw translateError(error);
+  }
+};
+
+// ADMINS - Fetch all sessions with filters
+export const fetchFilteredSessions = async (
+  page,
+  limit,
+  search,
+  sortField,
+  sortOrder
+) => {
+  try {
+    const response = await api.get(`api/sessions/all`, {
+      params: {
+        page: page,
+        limit: limit,
+        search: search,
+        sortField: sortField,
+        sortOrder: sortOrder,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw translateError(error);
+  }
+};
+
+// ADMINS - Register a user to a session
+export const registerUserToSession = async (sessionId, username) => {
+  try {
+    const response = await api.post(
+      `api/sessions/register/${sessionId}/${username}`
+    );
+    return response.data;
+  } catch (error) {
+    throw translateError(error);
+  }
+};
+
+// ADMINS - Unregister a user from a session
+export const unregisterUserFromSession = async (sessionId, userId) => {
+  try {
+    const response = await api.post(
+      `api/sessions/unregister/${sessionId}/${userId}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log("Hi");
+    throw translateError(error);
+  }
+};
+
+// ADMINS - Update session data
+export const updateSession = async (sessionId, sessionData) => {
+  try {
+    const response = await api.put(
+      `api/sessions/update/${sessionId}`,
+      sessionData
+    );
+    return response.data;
+  } catch (error) {
+    throw translateError(error);
+  }
+};
+
+// ADMINS - Create a new session
+export const createSession__ = async (sessionData) => {
+  try {
+    const response = await api.post(`api/sessions/create`, sessionData);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw translateError(error);
   }
 };

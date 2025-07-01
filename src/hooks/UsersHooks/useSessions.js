@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { fetchAllSessionsForYear } from "../services/sessionService";
+import { fetchAllSessionsForYear } from "../../services/sessionService";
 
 const useSessions = (selectedDate) => {
   const [sessions, setSessions] = useState(null);
