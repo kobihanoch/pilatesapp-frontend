@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useErrorContext } from "../../context/errorContext";
 import {
+  createSession,
+  createSession__,
   registerUserToSession,
   unregisterUserFromSession,
   updateSession,
@@ -81,12 +83,27 @@ const useAdminHandler = () => {
     }
   };
 
+  const handleCreateSession = async (sessionData) => {
+    try {
+      setLoading(true);
+      const res = await createSession__(sessionData);
+      toast.success("אימון נוצר בהצלחה!");
+      return { success: true, response: res };
+    } catch (error) {
+      setError(error);
+      return { success: false, response: null };
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return {
     handleUnregisterUserFromSession,
     handleUpdateSessionData,
     handleAddUserToSession,
     handleUpdateUserData,
     handleDeleteUser,
+    handleCreateSession,
     loading,
   };
 };

@@ -88,6 +88,7 @@ const SessionsSection = ({ sessions }) => {
           onClose={() => {
             setIsCreateSessionModalOpen(false);
           }}
+          setSessions={setAllSessions}
         ></CreateSessionModal>
       </div>
     </div>
