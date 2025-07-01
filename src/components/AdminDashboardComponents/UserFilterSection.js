@@ -1,6 +1,6 @@
 import React from "react";
 
-const SessionFilterSection = ({
+const UserFilterSection = ({
   search,
   handleSearchChange,
   sortField,
@@ -26,7 +26,7 @@ const SessionFilterSection = ({
           type="text"
           value={search}
           onChange={handleSearchChange}
-          placeholder="חיפוש לפי שעה, סוג, מיקום או הערות..."
+          placeholder="חיפוש לפי שם, מייל, תפקיד או מגדר..."
           style={{
             padding: "0.75rem 1rem",
             borderRadius: "8px",
@@ -61,10 +61,11 @@ const SessionFilterSection = ({
             paddingLeft: "2.5rem",
           }}
         >
-          <option value="date">תאריך</option>
-          <option value="type">סוג</option>
-          <option value="time">שעה</option>
-          <option value="location">מיקום</option>
+          <option value="username">שם משתמש</option>
+          <option value="fullName">שם מלא</option>
+          <option value="email">אימייל</option>
+          <option value="role">תפקיד</option>
+          <option value="gender">מגדר</option>
         </select>
 
         <select
@@ -96,4 +97,4 @@ const SessionFilterSection = ({
   );
 };
 
-export default SessionFilterSection;
+export default UserFilterSection;
