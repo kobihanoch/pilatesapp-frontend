@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { useAuthContext } from "../../context/authContext";
 import { FiUser, FiLock } from "react-icons/fi";
+import { useErrorContext } from "../../context/errorContext";
+import { validateLogin } from "../../utils/loginUtils";
 
 const LoginForm = () => {
   const { auth } = useAuthContext();
+  const { setError } = useErrorContext();
   const [formData, setFormData] = useState({ username: "", password: "" });
 
   const handleChange = (e) => {
@@ -13,21 +16,13 @@ const LoginForm = () => {
     }));
   };
 
-  const validateLogin = () => {
-    if (!formData.username || !formData.password) {
-      alert("חובה למלא שם משתמש וסיסמה");
-      return false;
-    }
-    return true;
-  };
-
   const handleLogin = async () => {
-    if (!validateLogin()) return;
     try {
+      validateLogin(formData.username, formData.password); // Throws expection if form is not fully filled
       await auth.login(formData.username, formData.password);
       console.log("Login successful!");
     } catch (error) {
-      alert(error || "שגיאה בהתחברות");
+      setError(error);
     }
   };
 

@@ -1,70 +1,159 @@
-# Getting Started with Create React App
+# PilatesApp Frontend 🧘‍♀️🖥️
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A modern, production-ready frontend for Pilates studio management, delivering a seamless user and admin experience for booking, managing, and overseeing Pilates training sessions. Built with React, this project is architected for clarity, maintainability, and scalability, and is designed to work with the official [PilatesApp Backend](https://github.com/kobihanoch/pilatesapp-backend).
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## Table of Contents
 
-### `npm start`
+- [Project Overview](#project-overview)
+- [Architecture](#architecture)
+- [Tech Stack](#tech-stack)
+- [Installation](#installation)
+- [Running the Project](#running-the-project)
+- [Connecting to the Backend](#connecting-to-the-backend)
+- [Main Features](#main-features)
+- [Contribution](#contribution)
+- [Responsible Use](#responsible-use)
+- [License](#license)
+- [Contact](#contact)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Project Overview ✨
 
-### `npm test`
+PilatesApp Frontend is the user interface for a real Pilates studio management system.  
+It supports all user journeys: guests (newcomers), authenticated members, and studio administrators.  
+The system is structured for clear separation of concerns, robust navigation, and role-based UI, ensuring each type of user receives a tailored experience.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## Architecture 🏗️
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+The application is built in a modular, scalable fashion:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- **Component-Driven UI**:  
+  All UI elements are organized in the `src/components` directory, grouped by feature (e.g., `HomeComponents`, `LoginandregisterComponents`, `Loading`).  
+  This enables reuse, easier testing, and clean code separation.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- **Page-Based Routing**:  
+  The `src/pages` directory is divided by user role:
 
-### `npm run eject`
+  - `Admins/` (e.g., [AdminDashboard.js](https://github.com/kobihanoch/pilatesapp-frontend/blob/feature/adminpage/src/pages/Admins/AdminDashboard.js)) – Full admin dashboard for user/session management.
+  - `Authenticated/` (e.g., [Home.js](https://github.com/kobihanoch/pilatesapp-frontend/blob/feature/adminpage/src/pages/Authenticated/Home.js)) – Authenticated user home and personal session management.
+  - `Guests/` (e.g., [Intro.js](https://github.com/kobihanoch/pilatesapp-frontend/blob/feature/adminpage/src/pages/Guests/Intro.js), [Loginandregister.js](https://github.com/kobihanoch/pilatesapp-frontend/blob/feature/adminpage/src/pages/Guests/Loginandregister.js)) – Welcome/landing, registration, and login pages.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- **Layout Abstraction**:  
+  The `src/Layouts` directory contains layout components (e.g., [AuthenticatedLayout.js](https://github.com/kobihanoch/pilatesapp-frontend/blob/feature/adminpage/src/Layouts/AuthenticatedLayout.js)), providing a consistent look and logic for each user context, reducing duplication and improving maintainability.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- **Service Layer**:  
+  The `src/services` folder centralizes all API calls, keeping data-fetching logic separate from UI components.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- **State and Context Management**:  
+  Shared app state is managed using React Context in `src/context`, supporting authentication, user data, and more.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- **Hooks & Utilities**:  
+  Custom hooks (`src/hooks`) and utilities (`src/utils`) encapsulate logic for reuse and separation of concerns.
 
-## Learn More
+- **Styling**:  
+  Styles are modular (per component/page) and organized under each feature, with additional shared/global styles.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+---
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Tech Stack 🛠️
 
-### Code Splitting
+- **React.js** with Hooks and Context API
+- **React Router** for navigation
+- **Axios** for HTTP/API requests
+- **CSS Modules** and custom styles
+- **Jest** & **React Testing Library** for testing
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+---
 
-### Analyzing the Bundle Size
+## Installation 🚀
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```bash
+git clone https://github.com/kobihanoch/pilatesapp-frontend.git
+cd pilatesapp-frontend
+git checkout feature/adminpage
+npm install
+```
 
-### Making a Progressive Web App
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Running the Project 🏃
 
-### Advanced Configuration
+```bash
+npm start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+The app will be available at `http://localhost:3000`.
 
-### Deployment
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## Connecting to the Backend 🔗
 
-### `npm run build` fails to minify
+This frontend is built to work with the official PilatesApp backend:  
+👉 [PilatesApp Backend](https://github.com/kobihanoch/pilatesapp-backend)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Clone and run the backend project as described in its README for full functionality (authentication, booking, admin, etc).
+
+---
+
+## Main Features 🌟
+
+- **Role-Based User Experience**:
+
+  - Guests: Welcome page, registration, and login
+  - Authenticated Users: Book, view, and manage Pilates sessions, update profile, see personalized info
+  - Admins: Full dashboard for managing users and sessions, with advanced tools and analytics
+
+- **Separation of Concerns**:
+
+  - UI, data-fetching, and business logic are clearly separated for maintainability and scalability.
+
+- **Responsive Design**:
+
+  - Mobile-friendly and desktop-optimized layouts.
+
+- **Reusable Components**:
+
+  - All visual and logic elements are modular and reusable.
+
+- **Testing**:
+  - Built-in tests for core components and logic.
+
+---
+
+## Contribution 🤝
+
+Contributions are welcome!
+
+- Fork the repo and create your branch (`git checkout -b feature/your-feature`)
+- Commit your changes (`git commit -am 'Add new feature'`)
+- Push to the branch (`git push origin feature/your-feature`)
+- Open a Pull Request
+
+Please open an issue to discuss significant changes before submitting a PR.
+
+---
+
+## Responsible Use ⚠️
+
+> **Warning:**  
+> This code is provided for educational and development purposes only. Misuse, unauthorized deployment, or use in violation of applicable laws and regulations is strictly prohibited.  
+> **Do not share, expose, or use the code for malicious or unethical purposes.**
+
+---
+
+## License 📝
+
+This project is licensed under the MIT License. See the `LICENSE` file for details.
+
+---
+
+## Contact 📧
+
+For questions, suggestions, or collaboration inquiries, please contact:  
+**Kobi Hanoch**  
+✉️ kobikobi622@gmail.com
