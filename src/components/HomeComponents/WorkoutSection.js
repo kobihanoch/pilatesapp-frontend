@@ -2,10 +2,9 @@ import React, { useEffect, useState } from "react";
 import WorkoutCard from "./UpcomingWorkoutsListComponents/WorkoutCard";
 import { useAuthContext } from "../../context/authContext";
 import { filterRegisteredSessionToThisWeekSessions } from "../../utils/sharedUtils";
+import AllSessionsModal from "./UpcomingWorkoutsListComponents/AllSessionsModal";
 
 const WorkoutSection = ({ upcomingWorkouts }) => {
-  // Show only future/todays upcoming sessions
-  const todayStart = new Date().setHours(0, 0, 0, 0);
   // All session user is registered to - SORTED
   const { sessions: updatedSessions, setSessions: setUpdatedSessions } =
     useAuthContext();
@@ -15,6 +14,10 @@ const WorkoutSection = ({ upcomingWorkouts }) => {
     return filterRegisteredSessionToThisWeekSessions(updatedSessions);
   });
 
+  // Modal state for viewing all sessions user is registered to
+  const [showSessionsModal, setShowSessionsModal] = useState(false);
+
+  // Update this week's upcoming sessions when all sessions user is registered to is loaded
   useEffect(() => {
     if (updatedSessions) {
       setSessionsThisWeek(
@@ -29,15 +32,35 @@ const WorkoutSection = ({ upcomingWorkouts }) => {
       <h3 style={{ fontSize: "1rem", color: "grey", marginTop: -10 }}>
         צפייה באימונים אליהם את/ה רשום/ה השבוע
       </h3>
+
+      {/* Sessions counter for the rest of the week */}
+      {/* >>>>>>>>>>>>> WIP - Need to style, add all upcoming workouts modal to view a list of them <<<<<<<<<<<<< */}
       <p>
-        {sessionsThisWeek.length == 1
+        {sessionsThisWeek.upcomingSessions.length -
+          sessionsThisWeek.cancledSessionsCount ===
+        1
           ? "נשאר עוד אימון אחד השבוע"
-          : "נשארו עוד " + sessionsThisWeek.length + " אימונים השבוע"}
+          : "נשארו עוד " +
+            (sessionsThisWeek.upcomingSessions.length -
+              sessionsThisWeek.cancledSessionsCount) +
+            " אימונים השבוע"}
       </p>
-      <button>צפייה בהכל</button>
+
+      {/* CTA for viewing all upcoming sessions */}
+      <button onClick={() => setShowSessionsModal(true)}>צפייה בהכל</button>
+
+      {/* All sessions user is registered to modal */}
+      <AllSessionsModal
+        isOpen={showSessionsModal}
+        onClose={() => setShowSessionsModal(false)}
+        sessions={updatedSessions}
+        setUpdatedSessions={setUpdatedSessions}
+        updatedSessions={updatedSessions}
+      ></AllSessionsModal>
+
       <div style={styles.horizontalScroll}>
-        {sessionsThisWeek?.length > 0 ? (
-          sessionsThisWeek.map((session) => (
+        {sessionsThisWeek?.upcomingSessions.length > 0 ? (
+          sessionsThisWeek.upcomingSessions.map((session) => (
             <WorkoutCard
               key={session._id}
               session={session}
