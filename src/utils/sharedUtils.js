@@ -24,10 +24,15 @@ export const filterRegisteredSessionToThisWeekSessions = (sessions) => {
     return sessionWeek === thisWeek && sessionYear === thisYear;
   });
 
+  let cancledCount = filteredSessions.filter((s) => s.status === "בוטל").length;
+
   // Sort from sooner to latest
   filteredSessions = filteredSessions.sort(
     (a, b) => new Date(a.date) - new Date(b.date)
   );
 
-  return filteredSessions;
+  return {
+    upcomingSessions: filteredSessions,
+    cancledSessionsCount: cancledCount,
+  };
 };
