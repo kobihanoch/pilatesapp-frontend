@@ -1,31 +1,34 @@
 import React from "react";
-import { formatDate } from "../../../utils/homeUtils";
+import { formatDate, getDayName } from "../../../utils/homeUtils";
 import { registerToSelectedSession } from "../../../services/sessionService";
 import { useErrorContext } from "../../../context/errorContext";
 import { useAuthContext } from "../../../context/authContext";
 import { toast } from "react-toastify";
+import { FiMapPin } from "react-icons/fi";
+import {
+  FaMapMarked,
+  FaMapMarkedAlt,
+  FaMapMarkerAlt,
+  FaMarkdown,
+  FaMarker,
+  FaRegClock,
+  FaRegCommentDots,
+  FaStickyNote,
+  FaUsers,
+} from "react-icons/fa";
 
-const getStatusStyle = (status) => {
-  const base = {
-    position: "absolute",
-    top: "16px",
-    left: "16px",
-    padding: "4px 10px",
-    borderRadius: "8px",
-    fontSize: "0.75rem",
-    fontWeight: "600",
-    color: "#fff",
-  };
-
-  switch (status) {
-    case "בוטל":
-      return { ...base, backgroundColor: "#EF5350" };
-    case "הושלם":
-      return { ...base, backgroundColor: "#9CCC65" };
-    default:
-      return { ...base, backgroundColor: "#FFB74D" };
-  }
-};
+const getDayLabelStyle = () => ({
+  display: "inline-block",
+  padding: "4px 14px",
+  borderRadius: "999px",
+  fontSize: "0.9rem",
+  fontWeight: "1000",
+  backgroundColor: "#4FC3F7",
+  color: "white",
+  textAlign: "center",
+  letterSpacing: "0.5px",
+  boxShadow: "inset 0 0 3px rgba(0,0,0,0.05)",
+});
 
 const AvailableSessionItem = ({ session }) => {
   const { setError } = useErrorContext();
@@ -35,116 +38,57 @@ const AvailableSessionItem = ({ session }) => {
     try {
       const res = await registerToSelectedSession(sessionId);
       setSessions((prev) => [...prev, res.session]);
+      toast.success("ההרשמה בוצעה בהצלחה");
     } catch (e) {
       setError(e);
-      return;
     }
-    toast.success("ההרשמה בוצעה בהצלחה");
   };
 
   return (
-    <div
-      style={{
-        width: "100%",
-        maxWidth: "100%",
-        boxSizing: "border-box",
-        overflow: "hidden",
-        marginBottom: "20px",
-        borderRadius: "16px",
-        backgroundColor: "#FFFFFF",
-        boxShadow: "0 2px 10px rgba(0, 0, 0, 0.05)",
-        padding: "16px",
-        display: "flex",
-        flexDirection: "column",
-        gap: "12px",
-        transition: "box-shadow 0.3s ease",
-        position: "relative", // enable absolute label
-        opacity: session?.status === "הושלם" ? 0.5 : 1,
-      }}
-    >
-      {/* Status Label */}
-      <div style={getStatusStyle(session.status)}>{session.status}</div>
-
-      {/* Header Info */}
-      <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-        <div
-          style={{
-            width: "56px",
-            height: "56px",
-            backgroundColor: "#E0F7FA",
-            borderRadius: "12px",
-            flexShrink: 0,
-          }}
-        ></div>
-        <div>
-          <p style={{ fontWeight: "600", fontSize: "1.1rem", margin: 0 }}>
-            {session.type}
-          </p>
-          <p style={{ fontSize: "0.85rem", margin: 0, color: "#6B6B6B" }}>
-            {formatDate(session.date)} | {session.time}
-          </p>
-        </div>
+    <div style={styles.card}>
+      {/* Title + Time */}
+      <div style={styles.titleSection}>
+        <h3 style={styles.title}>{session.type}</h3>
+        <p style={styles.date}>
+          {formatDate(session.date)} | {session.time}
+        </p>
       </div>
 
-      {/* Divider */}
-      <div
-        style={{
-          height: "1px",
-          backgroundColor: "#EEEEEE",
-          width: "100%",
-        }}
-      ></div>
+      <div style={styles.divider} />
 
-      {/* Details Section */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          rowGap: "8px",
-          columnGap: "12px",
-          fontSize: "0.85rem",
-          color: "#4B4B4B",
-        }}
-      >
+      {/* Details Grid */}
+      <div style={styles.detailsGrid}>
         <div>
-          <strong>מיקום:</strong> <br />
+          <FaMapMarkerAlt style={{ marginLeft: "5px" }}></FaMapMarkerAlt>
           {session.location}
         </div>
         <div>
-          <strong>הערות:</strong> <br />
-          {session.notes}
+          <FaRegCommentDots style={styles.icon} />
+          {session.notes || "ללא"}
         </div>
         <div>
-          <strong>משתתפים:</strong> <br />
-          {session.maxParticipants} / {session.participants.length}
+          <FaUsers style={styles.icon} />
+          {session.participants?.length ?? 0}/{session.maxParticipants} משתתפים
+        </div>
+        <div>
+          <FaRegClock style={styles.icon} />
+          {session.duration} דקות
         </div>
       </div>
 
-      {/* CTA */}
+      {/* Register Button */}
       <button
-        style={{
-          marginTop: "12px",
-          width: "100%",
-          height: "44px",
-          backgroundColor: "#4FC3F7",
-          color: "#FFFFFF",
-          border: "none",
-          borderRadius: "10px",
-          fontWeight: "600",
-          fontSize: "1rem",
-          cursor: "pointer",
-          transition: "background-color 0.3s ease",
-        }}
+        type="button"
+        title="הרשמה"
         disabled={session?.status === "הושלם"}
+        style={styles.registerBtn}
         onMouseEnter={(e) => {
-          e.currentTarget.style.backgroundColor = "#29B6F6";
+          e.currentTarget.style.background = "#29B6F6";
         }}
         onMouseLeave={(e) => {
-          e.currentTarget.style.backgroundColor = "#4FC3F7";
+          e.currentTarget.style.background = "#4FC3F7";
         }}
-        onClick={(e) => {
-          registerToSession(session._id);
-        }}
+        onClick={() => registerToSession(session._id)}
       >
         הרשמה
       </button>
@@ -153,3 +97,69 @@ const AvailableSessionItem = ({ session }) => {
 };
 
 export default AvailableSessionItem;
+
+const styles = {
+  card: {
+    background: "#fff",
+    padding: "32px 36px",
+    borderRadius: "24px",
+    boxShadow: "0 8px 24px rgba(0, 0, 0, 0.04)",
+    display: "flex",
+    flexDirection: "column",
+    gap: "20px",
+    transition: "all 0.3s ease-in-out",
+    marginBottom: "32px",
+    position: "relative",
+    minWidth: "280px",
+    maxWidth: "500px",
+    marginInline: "auto",
+    opacity: (session) => (session?.status === "הושלם" ? 0.5 : 1),
+  },
+  icon: {
+    marginLeft: "5px",
+  },
+  titleSection: {
+    textAlign: "center",
+    display: "flex",
+    flexDirection: "column",
+    gap: "8px",
+  },
+  title: {
+    margin: 0,
+    fontSize: "1.4rem",
+    fontWeight: "700",
+    color: "#2f2f2f",
+  },
+  date: {
+    margin: 0,
+    fontSize: "0.95rem",
+    color: "#777",
+  },
+  divider: {
+    height: "1px",
+    background: "linear-gradient(to right, #e0e0e0, #fff)",
+    opacity: 0.6,
+  },
+  detailsGrid: {
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    rowGap: "16px",
+    columnGap: "28px",
+    color: "#4e4e4e",
+    fontSize: "0.9rem",
+  },
+  registerBtn: {
+    alignSelf: "center",
+    background: "#4FC3F7",
+    color: "white",
+    border: "none",
+    borderRadius: "8px",
+    width: "100%",
+    padding: "10px 16px",
+    fontSize: "1rem",
+    fontWeight: 800,
+    cursor: "pointer",
+    transition: "all 0.2s ease-in-out",
+    boxShadow: "none",
+  },
+};

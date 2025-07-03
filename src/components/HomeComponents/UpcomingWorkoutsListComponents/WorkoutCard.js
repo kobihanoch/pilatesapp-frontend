@@ -1,20 +1,27 @@
 import React from "react";
-import { FaMapMarkerAlt, FaUsers, FaTimes } from "react-icons/fa";
+import {
+  FaMapMarkerAlt,
+  FaUsers,
+  FaTimes,
+  FaRegCommentDots,
+  FaRegClock,
+} from "react-icons/fa";
 import { unregisterFromSelectedSession } from "../../../services/sessionService";
 import { formatDate, getDayName } from "../../../utils/homeUtils";
 import { useErrorContext } from "../../../context/errorContext";
 import { toast } from "react-toastify";
 
-const getStatusStyle = (status) => ({
+const getDayLabelStyle = () => ({
   display: "inline-block",
-  padding: "6px 18px",
+  padding: "4px 14px",
   borderRadius: "999px",
-  fontSize: "0.75rem",
-  fontWeight: "600",
-  background: "linear-gradient(135deg, #4fc3f7, #0288d1)",
-  color: "#fff",
+  fontSize: "0.9rem",
+  fontWeight: "1000",
+  backgroundColor: "#4FC3F7",
+  color: "white",
   textAlign: "center",
   letterSpacing: "0.5px",
+  boxShadow: "inset 0 0 3px rgba(0,0,0,0.05)",
 });
 
 const WorkoutCard = ({ session, updatedSessions, setUpdatedSessions }) => {
@@ -34,130 +41,145 @@ const WorkoutCard = ({ session, updatedSessions, setUpdatedSessions }) => {
   };
 
   return (
-    <div
-      style={{
-        background: "#fff",
-        padding: "40px 48px",
-        borderRadius: "28px",
-        boxShadow: "0 12px 32px rgba(0, 0, 0, 0.05)",
-        display: "flex",
-        flexDirection: "column",
-        gap: "24px",
-        transition: "all 0.3s ease-in-out",
-        marginBottom: "40px",
-        position: "relative",
-        minWidth: "280px",
-        maxWidth: "500px",
-        marginInline: "auto",
-      }}
-    >
+    <div style={styles.card}>
       {/* Day label */}
-      <div style={getStatusStyle(session.status)}>
+      <div style={getDayLabelStyle()}>
         {(() => {
           const date = new Date(session.date);
+          const today = new Date();
           const tomorrow = new Date();
-          tomorrow.setDate(tomorrow.getDate() + 1);
+          tomorrow.setDate(today.getDate() + 1);
+
+          const isToday =
+            date.getFullYear() === today.getFullYear() &&
+            date.getMonth() === today.getMonth() &&
+            date.getDate() === today.getDate();
 
           const isTomorrow =
             date.getFullYear() === tomorrow.getFullYear() &&
             date.getMonth() === tomorrow.getMonth() &&
             date.getDate() === tomorrow.getDate();
 
-          return isTomorrow ? "מחר" : getDayName(session.date);
+          if (isToday) return "היום";
+          if (isTomorrow) return "מחר";
+          return getDayName(session.date);
         })()}
       </div>
 
-      <div
-        style={{
-          textAlign: "center",
-          display: "flex",
-          flexDirection: "column",
-          gap: "10px",
-        }}
-      >
-        <h3
-          style={{
-            margin: 0,
-            fontSize: "1.5rem",
-            fontWeight: "700",
-            color: "#333",
-          }}
-        >
-          {session.type}
-        </h3>
-        <p style={{ margin: 0, fontSize: "0.95rem", color: "#6e6e6e" }}>
+      {/* Title + Time */}
+      <div style={styles.titleSection}>
+        <h3 style={styles.title}>{session.type}</h3>
+        <p style={styles.date}>
           {formatDate(session.date)} | {session.time}
         </p>
       </div>
 
-      <div
-        style={{
-          height: "1px",
-          background: "linear-gradient(to right, #4FC3F7, #fff)",
-          opacity: 0.7,
-        }}
-      ></div>
+      <div style={styles.divider} />
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          rowGap: "20px",
-          columnGap: "32px",
-          color: "#4e4e4e",
-          fontSize: "0.95rem",
-        }}
-      >
+      {/* Details Grid */}
+      <div style={styles.detailsGrid}>
         <div>
-          <strong>מיקום:</strong>
-          <br />
-          <FaMapMarkerAlt style={{ marginInlineStart: 6 }} /> {session.location}
+          <FaMapMarkerAlt style={{ marginLeft: "5px" }}></FaMapMarkerAlt>
+          {session.location}
         </div>
         <div>
-          <strong>הערות:</strong>
-          <br />
+          <FaRegCommentDots style={styles.icon} />
           {session.notes || "ללא"}
         </div>
         <div>
-          <strong>משתתפים:</strong>
-          <br />
-          <FaUsers style={{ marginInlineStart: 6 }} />{" "}
-          {session.participants?.length ?? 0}/{session.maxParticipants}
+          <FaUsers style={styles.icon} />
+          {session.participants?.length ?? 0}/{session.maxParticipants} משתתפים
+        </div>
+        <div>
+          <FaRegClock style={styles.icon} />
+          {session.duration} דקות
         </div>
       </div>
 
+      {/* Unregister Button */}
       <button
-        style={{
-          alignSelf: "center",
-          width: "56px",
-          aspectRatio: "1",
-          borderRadius: "50%",
-          border: "none",
-          background: "#ff6b6b",
-          color: "white",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          fontWeight: "bold",
-          fontSize: "1.2rem",
-          transition: "all 0.2s ease-in-out",
-          cursor: "pointer",
-        }}
+        type="button"
+        title="בטל רישום"
+        style={styles.unregBtn}
         onMouseEnter={(e) => {
-          e.currentTarget.style.background = "#e34e4e";
-          e.currentTarget.style.transform = "scale(1.08)";
+          e.currentTarget.style.background = "#f0f0f0";
+          e.currentTarget.style.border = "1px solid #ccc";
         }}
         onMouseLeave={(e) => {
-          e.currentTarget.style.background = "#ff6b6b";
-          e.currentTarget.style.transform = "scale(1)";
+          e.currentTarget.style.background = "#f9f9f9";
+          e.currentTarget.style.border = "1px solid transparent";
         }}
         onClick={() => handleUnregister(session._id)}
-        title="בטל רישום"
       >
-        <FaTimes />
+        ביטול רישום
       </button>
     </div>
   );
 };
 
 export default WorkoutCard;
+
+const styles = {
+  card: {
+    background: "#fff",
+    padding: "32px 36px",
+    borderRadius: "24px",
+    boxShadow: "0 8px 24px rgba(0, 0, 0, 0.04)",
+    display: "flex",
+    flexDirection: "column",
+    gap: "20px",
+    transition: "all 0.3s ease-in-out",
+    marginBottom: "32px",
+    position: "relative",
+    minWidth: "280px",
+    maxWidth: "500px",
+    marginInline: "auto",
+  },
+  titleSection: {
+    textAlign: "center",
+    display: "flex",
+    flexDirection: "column",
+    gap: "8px",
+  },
+  title: {
+    margin: 0,
+    fontSize: "1.4rem",
+    fontWeight: "700",
+    color: "#2f2f2f",
+  },
+  date: {
+    margin: 0,
+    fontSize: "0.95rem",
+    color: "#777",
+  },
+  divider: {
+    height: "1px",
+    background: "linear-gradient(to right, #e0e0e0, #fff)",
+    opacity: 0.6,
+  },
+  detailsGrid: {
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    rowGap: "16px",
+    columnGap: "28px",
+    color: "#4e4e4e",
+    fontSize: "0.9rem",
+  },
+  unregBtn: {
+    alignSelf: "center",
+    background: "#f9f9f9",
+    color: "#444",
+    border: "1px solid transparent",
+    borderRadius: "8px",
+    width: "100%",
+    padding: "6px 16px",
+    fontSize: "1rem",
+    fontWeight: 800,
+    cursor: "pointer",
+    transition: "all 0.2s ease-in-out",
+    boxShadow: "none",
+  },
+  icon: {
+    marginLeft: "5px",
+  },
+};

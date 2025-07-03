@@ -78,16 +78,16 @@ const AllSessionsModal = ({
               title="בטל רישום"
               style={styles.unregBtn}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = "#e34e4e";
-                e.currentTarget.style.transform = "scale(1.08)";
+                e.currentTarget.style.background = "#f0f0f0";
+                e.currentTarget.style.border = "1px solid #ccc";
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.background = "#ff6b6b";
-                e.currentTarget.style.transform = "scale(1)";
+                e.currentTarget.style.background = "#f9f9f9";
+                e.currentTarget.style.border = "1px solid transparent";
               }}
               onClick={() => handleUnregister(s._id)}
             >
-              <FaTimes />
+              ביטול רישום
             </button>
           </div>
         ))}
@@ -150,18 +150,16 @@ const styles = {
   },
   unregBtn: {
     alignSelf: "center",
-    width: "48px",
-    aspectRatio: "1",
-    borderRadius: "50%",
-    border: "none",
-    background: "#ff6b6b",
-    color: "white",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    fontWeight: "bold",
-    fontSize: "1.1rem",
-    transition: "all 0.2s ease-in-out",
+    width: "100%",
+    background: "#f9f9f9",
+    color: "#444",
+    border: "1px solid transparent",
+    borderRadius: "8px",
+    padding: "6px 16px",
+    fontSize: "0.85rem",
+    fontWeight: 800,
     cursor: "pointer",
+    transition: "all 0.2s ease-in-out",
+    boxShadow: "none",
   },
 };

@@ -49,7 +49,7 @@ const SignupSection = ({ availableSessions }) => {
     <div
       style={{
         display: "grid",
-        gridTemplateRows: "auto auto 1fr",
+        gridTemplateRows: "auto auto auto 1fr",
         height: "80vh",
         width: "90%",
         margin: "0 auto",
@@ -58,6 +58,9 @@ const SignupSection = ({ availableSessions }) => {
       }}
     >
       <h3 style={styles.sectionTitle}>אימונים זמינים להרשמה</h3>
+      <h3 style={{ fontSize: "1rem", color: "grey", marginTop: -30 }}>
+        בחרו תאריך רצוי לאימון
+      </h3>
 
       <SelectDate
         selectedDate={selectedDate}
@@ -88,12 +91,10 @@ const SignupSection = ({ availableSessions }) => {
 
 const styles = {
   sectionTitle: {
-    fontSize: 25,
+    fontSize: "1.7rem",
     color: "black",
     marginBottom: 12,
     marginTop: 20,
-    flex: 1,
-    marginTop: "40px",
   },
 };
 
