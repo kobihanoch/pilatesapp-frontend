@@ -1,3 +1,5 @@
+import { getISOWeek, getYear } from "date-fns";
+
 export const validateForm = (formData) => {
   for (const key in formData) {
     if (
@@ -9,4 +11,23 @@ export const validateForm = (formData) => {
     }
   }
   return true; // Form is valid
+};
+
+export const filterRegisteredSessionToThisWeekSessions = (sessions) => {
+  const thisWeek = getISOWeek(new Date());
+  const thisYear = getYear(new Date());
+
+  // Filter sessions to only include those from the current week
+  let filteredSessions = sessions.filter((s) => {
+    const sessionWeek = getISOWeek(new Date(s.date));
+    const sessionYear = getYear(new Date(s.date));
+    return sessionWeek === thisWeek && sessionYear === thisYear;
+  });
+
+  // Sort from sooner to latest
+  filteredSessions = filteredSessions.sort(
+    (a, b) => new Date(a.date) - new Date(b.date)
+  );
+
+  return filteredSessions;
 };

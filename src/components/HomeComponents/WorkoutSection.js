@@ -1,24 +1,43 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import WorkoutCard from "./UpcomingWorkoutsListComponents/WorkoutCard";
 import { useAuthContext } from "../../context/authContext";
+import { filterRegisteredSessionToThisWeekSessions } from "../../utils/sharedUtils";
 
 const WorkoutSection = ({ upcomingWorkouts }) => {
   // Show only future/todays upcoming sessions
   const todayStart = new Date().setHours(0, 0, 0, 0);
-  /*const [updatedSessions, setUpdatedSessions] = useState(
-    upcomingWorkouts
-      .sort((a, b) => new Date(a.date) - new Date(b.date))
-      .filter((s) => new Date(s.date) >= todayStart)
-  );*/
+  // All session user is registered to - SORTED
   const { sessions: updatedSessions, setSessions: setUpdatedSessions } =
     useAuthContext();
+
+  // Sessions for this week only - SORTED
+  const [sessionsThisWeek, setSessionsThisWeek] = useState(() => {
+    return filterRegisteredSessionToThisWeekSessions(updatedSessions);
+  });
+
+  useEffect(() => {
+    if (updatedSessions) {
+      setSessionsThisWeek(
+        filterRegisteredSessionToThisWeekSessions(updatedSessions)
+      );
+    }
+  }, [updatedSessions]);
 
   return (
     <div style={{ flex: 4, width: "90%", alignSelf: "center" }}>
       <h3 style={styles.sectionTitle}>האימונים הקרובים שלי</h3>
+      <h3 style={{ fontSize: "1rem", color: "grey", marginTop: -10 }}>
+        צפייה באימונים אליהם את/ה רשום/ה השבוע
+      </h3>
+      <p>
+        {sessionsThisWeek.length == 1
+          ? "נשאר עוד אימון אחד השבוע"
+          : "נשארו עוד " + sessionsThisWeek.length + " אימונים השבוע"}
+      </p>
+      <button>צפייה בהכל</button>
       <div style={styles.horizontalScroll}>
-        {updatedSessions?.length > 0 ? (
-          updatedSessions.map((session) => (
+        {sessionsThisWeek?.length > 0 ? (
+          sessionsThisWeek.map((session) => (
             <WorkoutCard
               key={session._id}
               session={session}
@@ -36,7 +55,7 @@ const WorkoutSection = ({ upcomingWorkouts }) => {
 
 const styles = {
   sectionTitle: {
-    fontSize: 25,
+    fontSize: "1.7rem",
     color: "black",
     marginBottom: 12,
     marginTop: 20,
