@@ -23,7 +23,7 @@ export const checkIfUserIsAuthenticated = async () => {
 
 export const fetchAuthenticatedUserSessions = async () => {
   try {
-    const response = await api.get("/api/sessions/my");
+    const response = await api.get("/api/sessions/myupcoming");
     return response.data;
   } catch (error) {
     throw translateError(error);
