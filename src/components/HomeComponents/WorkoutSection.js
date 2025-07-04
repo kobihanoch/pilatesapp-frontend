@@ -40,14 +40,13 @@ const modalContent = {
 };
 
 const WorkoutSection = () => {
-  /* ---------- Context ---------- */
   const {
     completedSessions,
     sessions: updatedSessions,
     setSessions: setUpdatedSessions,
+    user,
   } = useAuthContext();
 
-  /* ---------- Responsive check ---------- */
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
     const checkIfMobile = () => {
@@ -58,7 +57,6 @@ const WorkoutSection = () => {
     return () => window.removeEventListener("resize", checkIfMobile);
   }, []);
 
-  /* ---------- This-week data ---------- */
   const [sessionsThisWeek, setSessionsThisWeek] = useState(() => {
     return filterRegisteredSessionToThisWeekSessions(updatedSessions);
   });
@@ -69,10 +67,8 @@ const WorkoutSection = () => {
     }
   );
 
-  /* ---------- Modal ---------- */
   const [showSessionsModal, setShowSessionsModal] = useState(false);
 
-  /* ---------- Sync on sessions change ---------- */
   useEffect(() => {
     if (updatedSessions) {
       setSessionsThisWeek(
@@ -81,7 +77,6 @@ const WorkoutSection = () => {
     }
   }, [updatedSessions]);
 
-  /* ---------- Derived numbers ---------- */
   const remaining =
     sessionsThisWeek.upcomingSessions.length -
     sessionsThisWeek.cancledSessionsCount;
@@ -89,7 +84,6 @@ const WorkoutSection = () => {
   const total = remaining + completed;
   const progress = total ? (completed / total) * 100 : 0;
 
-  /* ---------- Render ---------- */
   return (
     <motion.div
       style={{ flex: 4, width: "90%", alignSelf: "center" }}
@@ -97,6 +91,24 @@ const WorkoutSection = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
+      {/* ----- Header greeting ----- */}
+      <motion.div
+        style={{ textAlign: "center", marginBottom: 24 }}
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        <h2 style={{ fontSize: "1.5rem", fontWeight: 600, color: "#1e293b" }}>
+          שלום, {user?.fullName}! 👋
+        </h2>
+        <p style={{ color: "#64748b", fontSize: "0.95rem", marginTop: 6 }}>
+          הנה הסקירה השבועית שלך לאימונים הקרובים
+        </p>
+        <span style={styles.totalBadge}>
+          סה"כ {completedSessions.length} אימונים עד כה
+        </span>
+      </motion.div>
+
       {/* ----- Weekly stats box ----- */}
       <motion.div
         style={styles.statsContainer}
@@ -107,7 +119,6 @@ const WorkoutSection = () => {
         <h3 style={styles.heading}>נתוני האימונים לשבוע הנוכחי</h3>
 
         <div style={styles.cardsWrapper}>
-          {/* Completed */}
           <motion.div
             style={styles.statCard}
             variants={cardVariants}
@@ -122,7 +133,6 @@ const WorkoutSection = () => {
             <p style={styles.label}>אימונים בוצעו</p>
           </motion.div>
 
-          {/* Remaining */}
           <motion.div
             style={{
               ...styles.statCard,
@@ -143,19 +153,26 @@ const WorkoutSection = () => {
           </motion.div>
         </div>
 
-        {/* Progress bar */}
+        {/* Progress bar with label */}
         {total > 0 && (
-          <motion.div style={styles.progressBar}>
-            <motion.div
-              style={{
-                ...styles.progressFill,
-                backgroundColor: progress === 100 ? "#34d399" : "#4FC3F7",
-              }}
-              initial={{ width: 0 }}
-              animate={{ width: `${progress}%` }}
-              transition={{ type: "spring", stiffness: 140, damping: 20 }}
-            />
-          </motion.div>
+          <div>
+            <p
+              style={{ fontSize: "0.85rem", color: "#64748b", marginBottom: 8 }}
+            >
+              התקדמות שבועית — {Math.round(progress)}%
+            </p>
+            <motion.div style={styles.progressBar}>
+              <motion.div
+                style={{
+                  ...styles.progressFill,
+                  backgroundColor: progress === 100 ? "#34d399" : "#4FC3F7",
+                }}
+                initial={{ width: 0 }}
+                animate={{ width: `${progress}%` }}
+                transition={{ type: "spring", stiffness: 140, damping: 20 }}
+              />
+            </motion.div>
+          </div>
         )}
       </motion.div>
 
@@ -179,7 +196,6 @@ const WorkoutSection = () => {
           </motion.button>
         </div>
 
-        {/* ----- Modal with animation ----- */}
         <AnimatePresence>
           {showSessionsModal && (
             <motion.div
@@ -216,7 +232,6 @@ const WorkoutSection = () => {
           )}
         </AnimatePresence>
 
-        {/* ----- Horizontal list of upcoming sessions ----- */}
         <motion.div
           style={styles.horizontalScroll}
           drag={isMobile ? false : "x"}
@@ -249,7 +264,6 @@ const WorkoutSection = () => {
   );
 };
 
-/* ---------- Styles ---------- */
 const styles = {
   statsContainer: {
     borderRadius: 12,
@@ -302,10 +316,10 @@ const styles = {
   },
   progressBar: {
     backgroundColor: "#e2e8f0",
-    height: 8,
+    height: 10,
     borderRadius: 999,
     overflow: "hidden",
-    marginTop: 28,
+    marginTop: 8,
   },
   progressFill: {
     height: "100%",
@@ -347,6 +361,16 @@ const styles = {
     direction: "rtl",
     scrollBehavior: "smooth",
     padding: "8px 8px 24px",
+  },
+  totalBadge: {
+    display: "inline-block",
+    backgroundColor: "#4FC3F7",
+    color: "white",
+    fontSize: "0.85rem",
+    fontWeight: 600,
+    padding: "6px 12px",
+    borderRadius: 999,
+    marginTop: 10,
   },
 };
 
