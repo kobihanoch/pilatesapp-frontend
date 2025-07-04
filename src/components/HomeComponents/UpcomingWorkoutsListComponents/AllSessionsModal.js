@@ -7,6 +7,8 @@ import {
   FaRegCalendarAlt,
   FaStickyNote,
   FaTimes,
+  FaRegClock,
+  FaRegCommentDots,
 } from "react-icons/fa";
 import { formatDate, getDayName } from "../../../utils/homeUtils";
 import { useErrorContext } from "../../../context/errorContext.js";
@@ -40,37 +42,35 @@ const AllSessionsModal = ({
     <Modal isOpen={isOpen} onClose={onClose}>
       <div style={styles.wrapper}>
         {sessions.map((s) => (
-          <div key={s._id} className="session-card" style={styles.card}>
-            <div style={styles.day}>{getDayName(s.date)}</div>
+          <div key={s._id} style={styles.card}>
             <h4 style={styles.title}>{s.type}</h4>
-            <div style={styles.row}>
-              <FaRegCalendarAlt />
+            <div style={styles.day}></div>
+            <div
+              style={{
+                fontSize: "0.8rem",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "rgb(105, 105, 105)",
+                marginTop: "-10px",
+              }}
+            >
               <span>
-                {formatDate(s.date)} | {s.time} ({s.duration} דקות)
+                {getDayName(s.date)} | {formatDate(s.date)} | {s.time} (
+                {s.duration} דקות)
               </span>
             </div>
-            <div>
-              <div style={styles.label}>מיקום:</div>
-              <div style={styles.row}>
-                <FaMapMarkerAlt />
-                <span>{s.location}</span>
-              </div>
+            <div style={styles.detailContainer}>
+              <FaMapMarkerAlt style={styles.icon}></FaMapMarkerAlt>
+              {s.location}
             </div>
-            <div>
-              <div style={styles.label}>משתתפים:</div>
-              <div style={styles.row}>
-                <FaUsers />
-                <span>
-                  {s.participants?.length ?? 0} מתוך {s.maxParticipants}
-                </span>
-              </div>
+            <div style={styles.detailContainer}>
+              <FaRegCommentDots style={styles.icon} />
+              {s.notes || "ללא"}
             </div>
-            <div>
-              <div style={styles.label}>הערות:</div>
-              <div style={styles.row}>
-                <FaStickyNote />
-                <span>{s.notes?.trim() ? s.notes : "ללא"}</span>
-              </div>
+            <div style={styles.detailContainer}>
+              <FaUsers style={styles.icon} />
+              {s.participants?.length ?? 0}/{s.maxParticipants} משתתפים
             </div>
 
             <button
@@ -122,14 +122,14 @@ const styles = {
     transition: "all 0.2s ease-in-out",
   },
   day: {
-    fontSize: "0.95rem",
+    fontSize: "0.8rem",
     fontWeight: 700,
-    color: "#5c5c5c",
+    color: "rgb(105, 105, 105)",
     alignSelf: "center",
   },
   title: {
     margin: 0,
-    fontSize: "1.1rem",
+    fontSize: "1.3rem",
     fontWeight: 700,
     textAlign: "center",
     color: "#2d2d2d",
@@ -161,5 +161,15 @@ const styles = {
     cursor: "pointer",
     transition: "all 0.2s ease-in-out",
     boxShadow: "none",
+  },
+  icon: {
+    marginLeft: "5px",
+    fontSize: "0.8rem",
+  },
+  detailContainer: {
+    color: "black",
+    display: "flex",
+    alignItems: "center",
+    fontSize: "0.9rem",
   },
 };
