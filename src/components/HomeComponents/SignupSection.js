@@ -1,9 +1,24 @@
 import React, { useState, useEffect } from "react";
 import AvailableSessionItem from "./SignUpSectionListComponents/AvailableSessionItem";
-import { addComoponentToDate } from "../../utils/homeUtils";
 import SelectDate from "./SignUpSectionListComponents/SelectDate";
 import { fetchAllSessionsForYear } from "../../services/sessionService";
 import { useErrorContext } from "../../context/errorContext";
+import { motion } from "framer-motion";
+
+/* ---------- Motion variants ---------- */
+const containerVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+};
+
+const listVariants = {
+  hidden: { opacity: 0, x: 40 },
+  visible: (i) => ({
+    opacity: 1,
+    x: 0,
+    transition: { delay: i * 0.07, type: "spring", stiffness: 120 },
+  }),
+};
 
 const SignupSection = ({ availableSessions }) => {
   const { setError } = useErrorContext();
@@ -45,34 +60,57 @@ const SignupSection = ({ availableSessions }) => {
   }, [selectedDate]);
 
   return (
-    <div style={styles.container}>
+    <motion.div
+      style={styles.container}
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+    >
       <div style={{ paddingLeft: 20, paddingRight: 20 }}>
         <h3 style={styles.sectionTitle}>אימונים זמינים להרשמה</h3>
-        <p style={styles.subTitle}>בחרו תאריך רצוי לאימון</p>
+        <motion.p
+          style={styles.subTitle}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3 }}
+        >
+          בחרו תאריך רצוי לאימון
+        </motion.p>
       </div>
 
-      <div
-        style={{
-          paddingLeft: "20px",
-          paddingRight: "20px",
-        }}
+      <motion.div
+        style={{ paddingLeft: 20, paddingRight: 20 }}
+        initial={{ scale: 0.95, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.4, delay: 0.2 }}
       >
         <SelectDate
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
         />
-      </div>
+      </motion.div>
 
-      <div style={styles.sessionsList}>
+      <motion.div style={styles.sessionsList}>
         {sessions && sessions.length > 0 ? (
-          sessions.map((ses) => (
-            <AvailableSessionItem key={ses._id} session={ses} />
+          sessions.map((ses, idx) => (
+            <motion.div
+              key={ses._id}
+              custom={idx}
+              variants={listVariants}
+              initial="hidden"
+              animate="visible"
+              style={{ flex: "0 0 auto" }}
+            >
+              <AvailableSessionItem session={ses} />
+            </motion.div>
           ))
         ) : (
-          <p>לא נמצאו אימונים לתאריך זה</p>
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+            לא נמצאו אימונים לתאריך זה
+          </motion.p>
         )}
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 
@@ -82,14 +120,14 @@ const styles = {
     gridTemplateRows: "auto auto auto 1fr",
     width: "90%",
     margin: "0 auto",
-    gap: "20px",
+    gap: 20,
     boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
     borderRadius: 12,
     marginTop: 40,
   },
   sectionTitle: {
     color: "#0f172a",
-    fontWeight: "700",
+    fontWeight: 700,
     fontSize: "1.15rem",
     marginBottom: 6,
   },
@@ -100,12 +138,13 @@ const styles = {
     textAlign: "center",
   },
   sessionsList: {
-    overflowX: "scroll",
-    borderRadius: "10px",
+    overflowX: "auto",
+    borderRadius: 10,
     display: "flex",
     width: "100%",
     flexDirection: "row",
-    gap: "20px",
+    gap: 20,
+    padding: "0 20px 20px",
   },
 };
 
