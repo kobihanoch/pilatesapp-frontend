@@ -79,7 +79,7 @@ const WorkoutCard = ({ session, updatedSessions, setUpdatedSessions }) => {
       {/* Details Grid */}
       <div style={styles.detailsGrid}>
         <div>
-          <FaMapMarkerAlt style={{ marginLeft: "5px" }}></FaMapMarkerAlt>
+          <FaMapMarkerAlt style={styles.icon}></FaMapMarkerAlt>
           {session.location}
         </div>
         <div>
@@ -124,16 +124,17 @@ const styles = {
     background: "#fff",
     padding: "32px 36px",
     borderRadius: "24px",
-    boxShadow: "0 8px 24px rgba(0, 0, 0, 0.04)",
+    border: "rgb(235, 235, 235) 0.8px solid",
     display: "flex",
     flexDirection: "column",
     gap: "20px",
     transition: "all 0.3s ease-in-out",
     marginBottom: "32px",
     position: "relative",
-    minWidth: "280px",
+    minWidth: "240px",
     maxWidth: "500px",
     marginInline: "auto",
+    marginTop: "18px",
   },
   titleSection: {
     textAlign: "center",

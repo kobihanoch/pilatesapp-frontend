@@ -30,6 +30,15 @@ export const fetchAuthenticatedUserSessions = async () => {
   }
 };
 
+export const fetchAuthenticatedUserCompletedSessions = async () => {
+  try {
+    const response = await api.get("/api/sessions/mycompleted");
+    return response.data;
+  } catch (error) {
+    throw translateError(error);
+  }
+};
+
 export const fetchAllUsers = async () => {
   try {
     const res = await api.get("/api/users/all", {
