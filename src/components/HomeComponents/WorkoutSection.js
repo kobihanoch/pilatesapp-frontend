@@ -1,10 +1,15 @@
-import React, { useEffect, useState } from "react";
-import WorkoutCard from "./UpcomingWorkoutsListComponents/WorkoutCard";
-import AllSessionsModal from "./UpcomingWorkoutsListComponents/AllSessionsModal";
+import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { FiAward, FiCheckCircle } from "react-icons/fi";
 import { useAuthContext } from "../../context/authContext";
-import { filterRegisteredSessionToThisWeekSessions } from "../../utils/sharedUtils";
-import { FiCheckCircle, FiAward } from "react-icons/fi";
-import { motion, AnimatePresence } from "framer-motion";
+import {
+  filterRegisteredSessionToThisWeekSessions,
+  filterUpcomingSessionsToAWeekFromTodayPeriod,
+  filterUpcomingSessionToThisWeek,
+  filterUpcomingSessionToThisWeekSessions,
+} from "../../utils/sharedUtils";
+import AllSessionsModal from "./UpcomingWorkoutsListComponents/AllSessionsModal";
+import WorkoutCard from "./UpcomingWorkoutsListComponents/WorkoutCard";
 
 /* ---------- Motion variants ---------- */
 const cardVariants = {
@@ -57,13 +62,20 @@ const WorkoutSection = () => {
     return () => window.removeEventListener("resize", checkIfMobile);
   }, []);
 
+  // Sessions for this sunday to saturday week
   const [sessionsThisWeek, setSessionsThisWeek] = useState(() => {
-    return filterRegisteredSessionToThisWeekSessions(updatedSessions);
+    return filterUpcomingSessionToThisWeek(updatedSessions);
   });
 
+  // Sessions for a week ahead
+  const [sessionsInAWeekPeriod, setSessionsInAWeekPeriod] = useState(() => {
+    return filterUpcomingSessionsToAWeekFromTodayPeriod(updatedSessions);
+  });
+
+  // Sessions completed this sunday to saturday period
   const [completedSessionsThisWeek, setCompletedSessionsThisWeek] = useState(
     () => {
-      return filterRegisteredSessionToThisWeekSessions(completedSessions);
+      return filterUpcomingSessionToThisWeek(completedSessions);
     }
   );
 
@@ -71,9 +83,7 @@ const WorkoutSection = () => {
 
   useEffect(() => {
     if (updatedSessions) {
-      setSessionsThisWeek(
-        filterRegisteredSessionToThisWeekSessions(updatedSessions)
-      );
+      setSessionsThisWeek(filterUpcomingSessionToThisWeek(updatedSessions));
     }
   }, [updatedSessions]);
 

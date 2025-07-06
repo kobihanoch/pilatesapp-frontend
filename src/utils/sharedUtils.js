@@ -13,9 +13,34 @@ export const validateForm = (formData) => {
   return true; // Form is valid
 };
 
-export const filterRegisteredSessionToThisWeekSessions = (sessions) => {
-  console.log("All upcoming: ", sessions);
+export const filterUpcomingSessionsToAWeekFromTodayPeriod = (sessions) => {
+  const today = new Date();
 
+  // Get 6 days ahead of today
+  const nextWeekMinusDay = new Date(today);
+  nextWeekMinusDay.setDate(today.getDate() + 6);
+  nextWeekMinusDay.setHours(23, 59, 59, 999);
+
+  let filteredSessions = sessions.filter((session) => {
+    const sessionDate = new Date(session.date);
+    return sessionDate >= today && sessionDate <= nextWeekMinusDay;
+  });
+
+  // Filter only cancled sessions
+  let cancledCount = filteredSessions.filter((s) => s.status === "בוטל").length;
+
+  // Sort from sooner to latest
+  filteredSessions = filteredSessions.sort(
+    (a, b) => new Date(a.date) - new Date(b.date)
+  );
+
+  return {
+    upcomingSessions: filteredSessions,
+    cancledSessionsCount: cancledCount,
+  };
+};
+
+export const filterUpcomingSessionToThisWeek = (sessions) => {
   // Get today's dat
   const today = new Date();
   // Set sunday from 00:00:00:00
@@ -23,14 +48,10 @@ export const filterRegisteredSessionToThisWeekSessions = (sessions) => {
   thisWeekSundayMorning.setDate(today.getDate() - today.getDay()); // Returns sunday (0)
   thisWeekSundayMorning.setHours(0, 0, 0, 0);
 
-  console.log("Sunday: ", thisWeekSundayMorning);
-
   // Set saturday until 23:59:59:999
   const thisWeekSaturdayNight = new Date();
   thisWeekSaturdayNight.setDate(thisWeekSundayMorning.getDate() + 6);
   thisWeekSaturdayNight.setHours(23, 59, 59, 999);
-
-  console.log("Saturday: ", thisWeekSaturdayNight);
 
   // Filter sessions to only include those from the current week
   let filteredSessions = sessions.filter((s) => {
