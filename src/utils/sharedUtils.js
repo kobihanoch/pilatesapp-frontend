@@ -13,7 +13,8 @@ export const validateForm = (formData) => {
   return true; // Form is valid
 };
 
-export const filterUpcomingSessionsToAWeekFromTodayPeriod = (sessions) => {
+// A week ahead period
+export const filterUpcomingSessionsToAWeekAhead = (sessions) => {
   const today = new Date();
 
   // Get 6 days ahead of today
@@ -40,16 +41,17 @@ export const filterUpcomingSessionsToAWeekFromTodayPeriod = (sessions) => {
   };
 };
 
-export const filterUpcomingSessionToThisWeek = (sessions) => {
+// An Israeli calendar week
+export const filterUpcomingSessionsToThisWeek = (sessions) => {
   // Get today's dat
   const today = new Date();
   // Set sunday from 00:00:00:00
-  const thisWeekSundayMorning = new Date(); // Returns sunday (0)
+  const thisWeekSundayMorning = new Date(today); // Returns sunday (0)
   thisWeekSundayMorning.setDate(today.getDate() - today.getDay()); // Returns sunday (0)
   thisWeekSundayMorning.setHours(0, 0, 0, 0);
 
   // Set saturday until 23:59:59:999
-  const thisWeekSaturdayNight = new Date();
+  const thisWeekSaturdayNight = new Date(thisWeekSundayMorning);
   thisWeekSaturdayNight.setDate(thisWeekSundayMorning.getDate() + 6);
   thisWeekSaturdayNight.setHours(23, 59, 59, 999);
 

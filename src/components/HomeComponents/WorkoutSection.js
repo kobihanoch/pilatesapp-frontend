@@ -3,10 +3,9 @@ import { useEffect, useState } from "react";
 import { FiAward, FiCheckCircle } from "react-icons/fi";
 import { useAuthContext } from "../../context/authContext";
 import {
-  filterRegisteredSessionToThisWeekSessions,
-  filterUpcomingSessionsToAWeekFromTodayPeriod,
+  filterUpcomingSessionsToAWeekAhead,
+  filterUpcomingSessionsToThisWeek,
   filterUpcomingSessionToThisWeek,
-  filterUpcomingSessionToThisWeekSessions,
 } from "../../utils/sharedUtils";
 import AllSessionsModal from "./UpcomingWorkoutsListComponents/AllSessionsModal";
 import WorkoutCard from "./UpcomingWorkoutsListComponents/WorkoutCard";
@@ -64,29 +63,38 @@ const WorkoutSection = () => {
 
   // Sessions for this sunday to saturday week
   const [sessionsThisWeek, setSessionsThisWeek] = useState(() => {
-    return filterUpcomingSessionToThisWeek(updatedSessions);
+    return filterUpcomingSessionsToThisWeek(updatedSessions);
   });
 
   // Sessions for a week ahead
   const [sessionsInAWeekPeriod, setSessionsInAWeekPeriod] = useState(() => {
-    return filterUpcomingSessionsToAWeekFromTodayPeriod(updatedSessions);
+    return filterUpcomingSessionsToAWeekAhead(updatedSessions);
   });
 
   // Sessions completed this sunday to saturday period
   const [completedSessionsThisWeek, setCompletedSessionsThisWeek] = useState(
     () => {
-      return filterUpcomingSessionToThisWeek(completedSessions);
+      return filterUpcomingSessionsToThisWeek(completedSessions);
     }
   );
 
   const [showSessionsModal, setShowSessionsModal] = useState(false);
 
+  // Use effects for live updates
   useEffect(() => {
-    if (updatedSessions) {
-      setSessionsThisWeek(filterUpcomingSessionToThisWeek(updatedSessions));
-    }
+    setSessionsThisWeek(filterUpcomingSessionsToThisWeek(updatedSessions));
+    setSessionsInAWeekPeriod(
+      filterUpcomingSessionsToAWeekAhead(updatedSessions)
+    );
   }, [updatedSessions]);
 
+  useEffect(() => {
+    setCompletedSessionsThisWeek(
+      filterUpcomingSessionsToThisWeek(completedSessions)
+    );
+  }, [completedSessions]);
+
+  // Stats calculating
   const remaining =
     sessionsThisWeek.upcomingSessions.length -
     sessionsThisWeek.cancledSessionsCount;
