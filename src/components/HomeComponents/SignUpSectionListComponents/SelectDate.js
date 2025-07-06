@@ -99,7 +99,7 @@ const SelectDate = ({ selectedDate, setSelectedDate }) => {
         <div
           style={{
             textAlign: "center",
-            color: "#4FC3F7",
+            color: "rgb(215, 191, 166)",
             fontWeight: "600",
             fontSize: "0.95rem",
           }}
@@ -128,7 +128,7 @@ const labelStyle = {
 const selectStyle = {
   width: "100%",
   padding: "10px 12px",
-  border: "1px solid #D0EAF5",
+  border: "1px solid rgb(215, 191, 166)",
   borderRadius: "10px",
   backgroundColor: "#FFFFFF",
   color: "#2E2E2E",

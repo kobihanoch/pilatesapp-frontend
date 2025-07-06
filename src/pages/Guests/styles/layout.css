@@ -3,7 +3,7 @@
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  background: linear-gradient(to bottom, #ffe5b4 30%, #ffffff 100%);
+  background: linear-gradient(to bottom, rgb(239, 230, 222) 30%, #ffffff 100%);
 }
 
 .section {

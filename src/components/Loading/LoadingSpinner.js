@@ -10,7 +10,7 @@ const LoadingSpinner = ({ text = "טוען..." }) => {
           width: 60px;
           height: 60px;
           border: 8px solid rgb(229, 209, 196);
-          border-top: 8px solid #f4b183;
+          border-top: 8px solid rgb(215, 191, 166);
           border-radius: 50%;
           animation: spin 1s ease-in-out infinite;
         }

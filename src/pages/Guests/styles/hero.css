@@ -24,9 +24,10 @@
 }
 
 .get-started-btn {
-  background-color: #f2c890;
-  color: rgb(11, 1, 1);
+  background-color: rgb(215, 191, 166);
+  color: white;
   font-size: 1.2rem;
+  direction: rtl;
   padding: 0.8rem 2rem;
   border: none;
   font-weight: bold;
@@ -36,5 +37,6 @@
 }
 
 .get-started-btn:hover {
-  background-color: #f4bc73;
+  background-color: #a6836c;
+  transform: scale(1.03);
 }

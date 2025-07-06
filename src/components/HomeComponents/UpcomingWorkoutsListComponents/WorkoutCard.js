@@ -17,7 +17,7 @@ const getDayLabelStyle = () => ({
   borderRadius: "999px",
   fontSize: "0.9rem",
   fontWeight: "1000",
-  backgroundColor: "#4FC3F7",
+  backgroundColor: "rgb(215, 191, 166)",
   color: "white",
   textAlign: "center",
   letterSpacing: "0.5px",

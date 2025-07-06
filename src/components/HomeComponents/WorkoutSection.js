@@ -183,7 +183,7 @@ const WorkoutSection = () => {
               <motion.div
                 style={{
                   ...styles.progressFill,
-                  backgroundColor: progress === 100 ? "#34d399" : "#4FC3F7",
+                  backgroundColor: progress === 100 ? "#34d399" : "#D7BFA6",
                 }}
                 initial={{ width: 0 }}
                 animate={{ width: `${progress}%` }}
@@ -305,7 +305,7 @@ const styles = {
     marginBottom: 16,
   },
   statCard: {
-    background: "linear-gradient(135deg, #29B6F6, rgb(102, 199, 244))",
+    background: "linear-gradient(135deg, #D7BFA6, rgb(183, 164, 144))",
     borderRadius: 12,
     padding: 16,
     minWidth: 100,
@@ -382,7 +382,7 @@ const styles = {
   },
   totalBadge: {
     display: "inline-block",
-    backgroundColor: "#4FC3F7",
+    backgroundColor: "#D7BFA6",
     color: "white",
     fontSize: "0.85rem",
     fontWeight: 600,

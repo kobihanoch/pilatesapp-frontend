@@ -83,10 +83,10 @@ const AvailableSessionItem = ({ session }) => {
         disabled={session?.status === "הושלם"}
         style={styles.registerBtn}
         onMouseEnter={(e) => {
-          e.currentTarget.style.background = "#29B6F6";
+          e.currentTarget.style.background = "rgb(171, 151, 130)";
         }}
         onMouseLeave={(e) => {
-          e.currentTarget.style.background = "#4FC3F7";
+          e.currentTarget.style.background = "rgb(215, 191, 166)";
         }}
         onClick={() => registerToSession(session._id)}
       >
@@ -150,7 +150,7 @@ const styles = {
   },
   registerBtn: {
     alignSelf: "center",
-    background: "#4FC3F7",
+    background: "rgb(215, 191, 166)",
     color: "white",
     border: "none",
     borderRadius: "8px",
