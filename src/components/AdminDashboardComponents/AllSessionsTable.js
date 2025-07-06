@@ -44,17 +44,17 @@ const AllSessionsTable = ({ sessions, setSessions }) => {
   const getRowBackground = (session) => {
     const isFull = session.participants?.length >= session.maxParticipants;
     const isAvailable = session.status === "מתוכנן";
-    return isAvailable ? (isFull ? "#ffe4e6" : "#ecfdf5") : "#f8fafc";
+    return isAvailable ? (isFull ? "#ffe4e6" : "#ecfdf5") : "#fefaf7";
   };
 
   const getIconBtnStyle = {
-    backgroundColor: "#e0f2fe",
-    border: "1px solid #bae6fd",
+    backgroundColor: "#f5eee8",
+    border: "1px solid #d7bfa6",
     borderRadius: "8px",
     cursor: "pointer",
     fontSize: "1rem",
     padding: "6px 10px",
-    color: "#0369a1",
+    color: "#6e4c3b",
     transition: "0.2s ease",
   };
 
@@ -220,7 +220,7 @@ const styles = {
   wrapper: {
     padding: "1rem 0.5rem",
     fontFamily: '"M PLUS Rounded 1c", sans-serif',
-    backgroundColor: "#f9fafb",
+    backgroundColor: "white",
   },
   tableContainer: {
     width: "100%",
@@ -234,7 +234,7 @@ const styles = {
     fontSize: "1.4rem",
     fontWeight: "700",
     marginBottom: "1rem",
-    color: "#1e293b",
+    color: "#4a3f35",
     textAlign: "center",
   },
   table: {
@@ -246,17 +246,19 @@ const styles = {
     fontSize: "0.95rem",
   },
   headerRow: {
-    backgroundColor: "#f1f5f9",
+    backgroundColor: "#f5eee8",
     height: "44px",
+    color: "#4a3f35",
   },
   row: {
-    backgroundColor: "#ffffff",
+    backgroundColor: "#fefaf7",
     borderRadius: "10px",
     boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
     height: "64px",
     transition: "all 0.2s ease",
     textAlign: "center",
   },
+
   cell: {
     verticalAlign: "middle",
     padding: "0.4rem 0.5rem",
@@ -269,14 +271,14 @@ const styles = {
     alignItems: "center",
   },
   iconBtn: {
-    backgroundColor: "#e2e8f0",
-    border: "none",
-    borderRadius: "6px",
+    backgroundColor: "#e9ddd2",
+    border: "1px solid #d7bfa6",
+    borderRadius: "8px",
     cursor: "pointer",
     fontSize: "1rem",
-    padding: "5px 8px",
-    color: "#1e293b",
-    transition: "background-color 0.2s ease",
+    padding: "6px 10px",
+    color: "#6e4c3b",
+    transition: "0.2s ease",
   },
   statusBadge: (status) => ({
     padding: "4px 8px",
@@ -285,19 +287,19 @@ const styles = {
     fontWeight: "600",
     backgroundColor:
       status === "מתוכנן"
-        ? "#fef08a"
+        ? "#f3eae3"
         : status === "הושלם"
-        ? "#bbf7d0"
-        : "#fecaca",
+        ? "#d8e7d1"
+        : "#f6d7d7",
     color:
       status === "מתוכנן"
-        ? "#92400e"
+        ? "#5a493d"
         : status === "הושלם"
-        ? "#166534"
-        : "#991b1b",
+        ? "#3d5c3b"
+        : "#8b2e2e",
   }),
   expandBox: {
-    backgroundColor: "#f1f5f9",
+    backgroundColor: "#f5eee8",
     padding: "1rem 1rem",
     fontSize: "0.9rem",
     borderRadius: "0 0 10px 10px",
@@ -305,7 +307,7 @@ const styles = {
   },
   infoLine: {
     marginBottom: "0.4rem",
-    color: "#334155",
+    color: "#4a3f35",
   },
   participantsList: {
     display: "flex",
@@ -314,15 +316,15 @@ const styles = {
     marginTop: "0.75rem",
   },
   participantCard: {
-    backgroundColor: "#fff",
+    backgroundColor: "#ffffff",
     padding: "0.65rem 0.85rem",
     borderRadius: "8px",
-    border: "1px solid #e2e8f0",
+    border: "1px solid #e0d6cd",
   },
   removeBtn: {
     marginTop: "0.4rem",
-    backgroundColor: "#fee2e2",
-    color: "#b91c1c",
+    backgroundColor: "#f6d7d7",
+    color: "#8b2e2e",
     border: "none",
     borderRadius: "6px",
     padding: "0.4rem 0.65rem",
@@ -332,8 +334,8 @@ const styles = {
   },
   addBtn: {
     alignSelf: "start",
-    backgroundColor: "#d1fae5",
-    color: "#166534",
+    backgroundColor: "#e0e4cc",
+    color: "#3b5935",
     border: "none",
     borderRadius: "6px",
     padding: "0.55rem 1rem",
@@ -342,7 +344,7 @@ const styles = {
     cursor: "pointer",
   },
   noParticipants: {
-    color: "#64748b",
+    color: "#7b6e6e",
     fontStyle: "italic",
     fontSize: "0.8rem",
   },
@@ -355,18 +357,18 @@ const styles = {
   input: {
     padding: "0.65rem",
     borderRadius: "8px",
-    border: "1px solid #e2e8f0",
+    border: "1px solid #d7bfa6",
     fontSize: "1rem",
   },
   textarea: {
     padding: "0.65rem",
     borderRadius: "8px",
-    border: "1px solid #e2e8f0",
+    border: "1px solid #d7bfa6",
     fontSize: "1rem",
     resize: "vertical",
   },
   submitBtn: {
-    backgroundColor: "#2563eb",
+    backgroundColor: "#d7bfa6",
     color: "#fff",
     padding: "0.75rem",
     fontSize: "1rem",

@@ -74,18 +74,29 @@ const SessionsSection = ({ sessions }) => {
           <button
             onClick={() => setIsCreateSessionModalOpen(true)}
             style={{
-              backgroundColor: "#2563eb",
-              color: "#fff",
-              padding: "0.75rem 1.25rem",
-              fontSize: "1rem",
+              backgroundColor: "#d7bfa6",
+              color: "#ffffff",
+              padding: "0.75rem 1.6rem",
+              fontSize: "1.05rem",
               border: "none",
-              borderRadius: "8px",
-              fontWeight: "600",
+              borderRadius: "12px",
+              fontWeight: 700,
               cursor: "pointer",
               display: "inline-flex",
               alignItems: "center",
-              gap: "0.5rem",
+              gap: "0.55rem",
+              transition: "background-color 0.25s ease, transform 0.2s ease",
             }}
+            onMouseEnter={(e) =>
+              (e.currentTarget.style.backgroundColor = "#b89c87")
+            } // hover כהה-יותר
+            onMouseLeave={(e) =>
+              (e.currentTarget.style.backgroundColor = "#d7bfa6")
+            }
+            onMouseDown={(e) =>
+              (e.currentTarget.style.transform = "scale(0.97)")
+            }
+            onMouseUp={(e) => (e.currentTarget.style.transform = "scale(1)")}
           >
             <FiPlus size={20} />
             יצירת אימון חדש

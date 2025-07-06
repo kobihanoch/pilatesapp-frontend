@@ -54,10 +54,10 @@ const styles = {
     minHeight: "100vh",
   },
   title: {
-    fontSize: "1.4rem",
+    fontSize: "1.6rem",
     fontWeight: 700,
     textAlign: "center",
-    color: "#1e293b",
+    color: "#5a493d",
     marginBottom: "1rem",
   },
   navButtons: {
@@ -68,18 +68,18 @@ const styles = {
     flexWrap: "wrap",
   },
   navButton: {
-    padding: "0.6rem 1.2rem",
-    borderRadius: "8px",
-    backgroundColor: "#e2e8f0",
+    padding: "0.6rem 1.4rem",
+    borderRadius: "12px",
+    backgroundColor: "#f3eae3",
     border: "none",
     fontWeight: 600,
-    fontSize: "1rem",
-    color: "#1e293b",
+    fontSize: "1.1rem",
+    color: "#4a3f35",
     cursor: "pointer",
-    transition: "0.2s ease",
+    transition: "all 0.2s ease-in-out",
   },
   activeButton: {
-    backgroundColor: "#38bdf8",
+    backgroundColor: "#d7bfa6",
     color: "#ffffff",
   },
   content: {
