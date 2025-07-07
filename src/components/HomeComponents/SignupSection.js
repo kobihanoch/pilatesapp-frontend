@@ -101,7 +101,10 @@ const SignupSection = ({ availableSessions }) => {
               animate="visible"
               style={{ flex: "0 0 auto" }}
             >
-              <AvailableSessionItem session={ses} />
+              <AvailableSessionItem
+                session={ses}
+                setAllSessions={setSessions}
+              />
             </motion.div>
           ))
         ) : (

@@ -30,14 +30,21 @@ const getDayLabelStyle = () => ({
   boxShadow: "inset 0 0 3px rgba(0,0,0,0.05)",
 });
 
-const AvailableSessionItem = ({ session }) => {
+const AvailableSessionItem = ({ session, setAllSessions }) => {
   const { setError } = useErrorContext();
   const { setSessions } = useAuthContext();
 
   const registerToSession = async (sessionId) => {
     try {
       const res = await registerToSelectedSession(sessionId);
+      // Set sessions user is registered to (context) (auto sorintg in component)
       setSessions((prev) => [...prev, res.session]);
+      // Update live available sessions
+      setAllSessions((prev) =>
+        prev.map((session) =>
+          session._id === sessionId ? res.session : session
+        )
+      );
       toast.success("ההרשמה בוצעה בהצלחה");
     } catch (e) {
       setError(e);
