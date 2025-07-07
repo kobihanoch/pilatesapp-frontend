@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FiEdit, FiTrash2, FiInfo } from "react-icons/fi";
 import EditUserModal from "./EditUserModal";
 import useAdminHandler from "../../hooks/AdminsHooks/useAdminHandler";
+import Swal from "sweetalert2";
 
 const AllUsersTable = ({ users, setUsers }) => {
   const [infoExpandedId, setInfoExpandedId] = useState(null);
@@ -46,11 +47,19 @@ const AllUsersTable = ({ users, setUsers }) => {
                         </button>
                         <button
                           style={styles.iconBtn}
-                          onClick={() => {
-                            const confirmed = window.confirm(
-                              "האם אתה בטוח שברצונך למחוק את המשתמש?"
-                            );
-                            if (confirmed) handleDeleteUser(user._id);
+                          onClick={async () => {
+                            const { isConfirmed } = await Swal.fire({
+                              title: `האם למחוק את המשתמש ${user.fullName} ?`,
+                              text: "לא תוכל לשחזר זאת לאחר מכן.",
+                              icon: "warning",
+                              showCancelButton: true,
+                              confirmButtonText: "מחיקה",
+                              cancelButtonText: "חזור",
+                              reverseButtons: true,
+                            });
+
+                            if (!isConfirmed) return;
+                            if (isConfirmed) handleDeleteUser(user._id);
                           }}
                         >
                           <FiTrash2 />

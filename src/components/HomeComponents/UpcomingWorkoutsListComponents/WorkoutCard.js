@@ -10,6 +10,7 @@ import { unregisterFromSelectedSession } from "../../../services/sessionService"
 import { formatDate, getDayName } from "../../../utils/homeUtils";
 import { useErrorContext } from "../../../context/errorContext";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const getDayLabelStyle = () => ({
   display: "inline-block",
@@ -28,7 +29,16 @@ const WorkoutCard = ({ session, updatedSessions, setUpdatedSessions }) => {
   const { setError } = useErrorContext();
 
   const handleUnregister = async (sessionId) => {
-    const isConfirmed = window.confirm("האם אתה בטוח שברצונך לבטל את הרישום?");
+    const { isConfirmed } = await Swal.fire({
+      title: "לבטל את הרישום?",
+      text: "לא תוכל לשחזר זאת לאחר מכן.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "בטל רישום",
+      cancelButtonText: "חזור",
+      reverseButtons: true,
+    });
+
     if (!isConfirmed) return;
 
     try {

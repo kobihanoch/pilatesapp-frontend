@@ -14,6 +14,7 @@ import { formatDate, getDayName } from "../../../utils/homeUtils";
 import { useErrorContext } from "../../../context/errorContext.js";
 import { toast } from "react-toastify";
 import { unregisterFromSelectedSession } from "../../../services/sessionService.js";
+import Swal from "sweetalert2";
 
 const AllSessionsModal = ({
   isOpen,
@@ -26,13 +27,22 @@ const AllSessionsModal = ({
   const { setError } = useErrorContext();
 
   const handleUnregister = async (sessionId) => {
-    const isConfirmed = window.confirm("האם אתה בטוח שברצונך לבטל את הרישום?");
+    const { isConfirmed } = await Swal.fire({
+      title: "לבטל את הרישום?",
+      text: "לא תוכל לשחזר זאת לאחר מכן.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "בטל רישום",
+      cancelButtonText: "חזור",
+      reverseButtons: true,
+    });
+
     if (!isConfirmed) return;
 
     try {
       await unregisterFromSelectedSession(sessionId);
-      setUpdatedSessions(updatedSessions.filter((s) => s._id !== sessionId));
-      toast.info("ביטול הרישום בוצע בהצלחה");
+      setUpdatedSessions((prev) => prev.filter((s) => s._id !== sessionId));
+      toast.success("ההרשמה בוטלה בהצלחה");
     } catch (e) {
       setError(e);
     }
