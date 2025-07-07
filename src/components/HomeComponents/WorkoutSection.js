@@ -43,7 +43,7 @@ const modalContent = {
   exit: { scale: 0.9, opacity: 0, transition: { duration: 0.2 } },
 };
 
-const WorkoutSection = () => {
+const WorkoutSection = ({ setAllSessions }) => {
   const {
     completedSessions,
     sessions: updatedSessions,
@@ -243,7 +243,7 @@ const WorkoutSection = () => {
                   onClose={() => setShowSessionsModal(false)}
                   sessions={updatedSessions}
                   setUpdatedSessions={setUpdatedSessions}
-                  updatedSessions={updatedSessions}
+                  setAllSessions={setAllSessions}
                 />
               </motion.div>
             </motion.div>
@@ -270,6 +270,7 @@ const WorkoutSection = () => {
                   session={session}
                   updatedSessions={updatedSessions}
                   setUpdatedSessions={setUpdatedSessions}
+                  setAllSessions={setAllSessions} // Updates all available sessions (Owned by Home.js)
                 />
               </motion.div>
             ))

@@ -25,7 +25,12 @@ const getDayLabelStyle = () => ({
   boxShadow: "inset 0 0 3px rgba(0,0,0,0.05)",
 });
 
-const WorkoutCard = ({ session, updatedSessions, setUpdatedSessions }) => {
+const WorkoutCard = ({
+  session,
+  updatedSessions,
+  setUpdatedSessions,
+  setAllSessions,
+}) => {
   const { setError } = useErrorContext();
 
   const handleUnregister = async (sessionId) => {
@@ -42,8 +47,15 @@ const WorkoutCard = ({ session, updatedSessions, setUpdatedSessions }) => {
     if (!isConfirmed) return;
 
     try {
-      await unregisterFromSelectedSession(sessionId);
+      const res = await unregisterFromSelectedSession(sessionId);
+      // Set sessions user is registered to (context) (auto sorintg in component)
       setUpdatedSessions(updatedSessions.filter((s) => s._id !== sessionId));
+      // Update live available sessions
+      setAllSessions((prev) =>
+        prev.map((session) =>
+          session._id === sessionId ? res.session : session
+        )
+      );
       toast.info("ביטול הרישום בוצע בהצלחה");
     } catch (e) {
       setError(e);

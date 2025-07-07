@@ -21,7 +21,7 @@ const AllSessionsModal = ({
   onClose,
   sessions,
   setUpdatedSessions,
-  updatedSessions,
+  setAllSessions,
 }) => {
   // Error context
   const { setError } = useErrorContext();
@@ -40,8 +40,14 @@ const AllSessionsModal = ({
     if (!isConfirmed) return;
 
     try {
-      await unregisterFromSelectedSession(sessionId);
+      const res = await unregisterFromSelectedSession(sessionId);
       setUpdatedSessions((prev) => prev.filter((s) => s._id !== sessionId));
+      // Update live available sessions
+      setAllSessions((prev) =>
+        prev.map((session) =>
+          session._id === sessionId ? res.session : session
+        )
+      );
       toast.success("ההרשמה בוטלה בהצלחה");
     } catch (e) {
       setError(e);

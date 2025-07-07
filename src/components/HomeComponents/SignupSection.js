@@ -28,9 +28,21 @@ const SignupSection = ({ availableSessions }) => {
     return today.toISOString().split("T")[0];
   });
 
+  // Filtered sessions
   const [sessions, setSessions] = useState(() =>
     availableSessions.filter((ses) => ses.date.split("T")[0] === selectedDate)
   );
+
+  // Update filtered sessions when all sessions updates (unregistering from a session triggers it)
+  useEffect(() => {
+    if (availableSessions) {
+      setSessions(
+        availableSessions.filter(
+          (ses) => ses.date.split("T")[0] === selectedDate
+        )
+      );
+    }
+  }, [availableSessions]);
 
   useEffect(() => {
     const fetchSessions = async () => {
