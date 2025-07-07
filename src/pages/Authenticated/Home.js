@@ -22,7 +22,7 @@ const HomePage = () => {
 
   return (
     <div style={styles.container}>
-      <WorkoutSection upcomingWorkouts={upcomingWorkouts} />
+      <WorkoutSection />
       {availableSessions && (
         <SignupSection availableSessions={availableSessions ?? []} />
       )}
