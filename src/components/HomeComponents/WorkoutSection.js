@@ -256,8 +256,8 @@ const WorkoutSection = () => {
           dragConstraints={isMobile ? undefined : { left: -120, right: 120 }}
           dragElastic={isMobile ? undefined : 0.08}
         >
-          {sessionsThisWeek?.upcomingSessions.length ? (
-            sessionsThisWeek.upcomingSessions.map((session, idx) => (
+          {sessionsInAWeekPeriod?.upcomingSessions.length ? (
+            sessionsInAWeekPeriod.upcomingSessions.map((session, idx) => (
               <motion.div
                 key={session._id}
                 custom={idx}
