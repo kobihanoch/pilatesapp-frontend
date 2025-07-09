@@ -1,5 +1,9 @@
 // src/utils/translateError.js
 export const errorTranslations = {
+  // --- Rate Limiting ---
+  "You've reached the maximum amount of requests per minute. Please try again later.":
+    "הגעת למקסימום בקשות אפשריות לדקה, נסה שוב מאוחר יותר.",
+
   // --- AUTH ---
   "Invalid credentials": "שם משתמש או סיסמה שגויים",
   "Username and password are required": "יש להזין שם משתמש וסיסמה",
