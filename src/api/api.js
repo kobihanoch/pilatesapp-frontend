@@ -23,14 +23,17 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-    const skipRefreshRoutes = ["/api/auth/login", "/api/users/create"];
 
+    // Skip beacuse if there are errors -
+    // don't catch them by refresh token error (The will pass the condition because user is not authenticated yet)
+    const skipRefreshRoutes = ["/api/auth/login", "/api/users/create"];
     if (
       skipRefreshRoutes.some((route) => originalRequest.url.includes(route))
     ) {
       return Promise.reject(error);
     }
-    // If refreshing 2nd time - don't try again - set user to null
+
+    // If refreshing 2nd time - don't try again - set user to null - for refresh token failures
     if (originalRequest.url.includes("/api/auth/refresh")) {
       if (globalSetUser) {
         globalLogOut(); // Set user to null if refresh fails
@@ -38,7 +41,7 @@ api.interceptors.response.use(
       return Promise.reject(error); // Throw error
     }
 
-    // If first time - try to refresh if not already retried
+    // If first time - try to refresh if not already retried - try to generate a new access token
     if (
       error.response &&
       error.response.status === 401 &&
