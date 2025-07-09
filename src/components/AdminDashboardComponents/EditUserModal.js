@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Modal from "../SharedComponents/Modal";
 import useAdminHandler from "../../hooks/AdminsHooks/useAdminHandler";
+import { hasUserChanged } from "../../utils/adminDashboardUtils";
+import { toast } from "react-toastify";
 
 const EditUserModal = ({ user, isOpen, onClose, setUsers }) => {
   const [form, setForm] = useState({});
@@ -25,6 +27,12 @@ const EditUserModal = ({ user, isOpen, onClose, setUsers }) => {
   };
 
   const handleSubmit = async (userId) => {
+    // If user stays the same just close the modal without API call
+    if (!hasUserChanged(user, form)) {
+      onClose();
+      return;
+    }
+
     const res = await handleUpdateUserData(userId, form);
     if (res.success) {
       setUsers((prev) =>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Modal from "../SharedComponents/Modal";
 import useAdminHandler from "../../hooks/AdminsHooks/useAdminHandler";
 import { toast } from "react-toastify";
+import { hasSessionChanged } from "../../utils/adminDashboardUtils";
 
 const EditSessionModal = ({ session, isOpen, onClose, setSessions }) => {
   const [form, setForm] = useState({});
@@ -28,6 +29,13 @@ const EditSessionModal = ({ session, isOpen, onClose, setSessions }) => {
   };
 
   const handleSubmit = async (sessionId) => {
+    // If session stays the same just close the modal without API call
+    if (!hasSessionChanged(session, form)) {
+      onClose();
+      toast.info("Nothing has changed");
+      return;
+    }
+
     const res = await handleUpdateSessionData(sessionId, form);
     if (res.success) {
       setSessions((prev) =>
