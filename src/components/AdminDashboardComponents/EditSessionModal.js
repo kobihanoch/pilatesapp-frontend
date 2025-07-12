@@ -32,7 +32,6 @@ const EditSessionModal = ({ session, isOpen, onClose, setSessions }) => {
     // If session stays the same just close the modal without API call
     if (!hasSessionChanged(session, form)) {
       onClose();
-      toast.info("Nothing has changed");
       return;
     }
 

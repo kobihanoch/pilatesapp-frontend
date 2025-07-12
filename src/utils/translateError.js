@@ -4,6 +4,18 @@ export const errorTranslations = {
   "You've reached the maximum amount of requests per minute. Please try again later.":
     "הגעת למקסימום בקשות אפשריות לדקה, נסה שוב מאוחר יותר.",
 
+  // --- Form validation ---
+  "Username is required": "יש להזין שם משתמש",
+  "Full name is required": "יש להזין שם מלא",
+  "Email is required": "יש להזין אימייל",
+  "Invalid email format": "פורמט אימייל שגוי",
+  "Password is required": "יש להזין סיסמה",
+  "Password must be at least 6 characters long":
+    "הסיסמה חייבת לכלול לפחות 6 תווים",
+  "Birth date is required": "יש להזין תאריך לידה",
+  "Invalid birth date": "תאריך לידה לא תקין",
+  "You must select a valid gender": "יש לבחור מגדר תקני",
+
   // --- AUTH ---
   "Invalid credentials": "שם משתמש או סיסמה שגויים",
   "Username and password are required": "יש להזין שם משתמש וסיסמה",
