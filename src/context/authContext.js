@@ -6,6 +6,11 @@ import {
   fetchAuthenticatedUserCompletedSessions,
   fetchAuthenticatedUserSessions,
 } from "../services/userService";
+import { socket } from "../socketConfig/socketConfig";
+import {
+  createFirstSocketConnection,
+  disconnectSocket,
+} from "../services/socketService";
 
 const AuthContext = createContext();
 
@@ -31,7 +36,6 @@ export const AuthProvider = ({ children }) => {
         await loadUserSessions(); // Fetch user sessions
       } catch (error) {
         console.error("Error fetching authenticated user:", error);
-        console.log("Setting user to null due to authentication error");
         logout(); // Log out if there's an error
         return;
       } finally {
@@ -42,6 +46,20 @@ export const AuthProvider = ({ children }) => {
 
     // Navigating automatically to the home page if user is logged in
   }, []);
+
+  // Connect socket after user is fetched (relevant to authenticated users or users that just logged in)
+  useEffect(() => {
+    if (!user || !user._id) return;
+
+    // Avoid duplicate connections
+    if (!socket.connected) {
+      createFirstSocketConnection(user._id);
+    }
+
+    return () => {
+      disconnectSocket();
+    };
+  }, [user?._id]);
 
   // Utils -----------------------------------------------
 
@@ -107,12 +125,15 @@ export const AuthProvider = ({ children }) => {
       const user = await fetchAuthenticatedUser();
       if (user) {
         setUser(user);
+        return user;
       } else {
         setUser(null);
+        return null;
       }
     } catch (error) {
       console.error("Error fetching authenticated user:", error);
       setUser(null);
+      return null;
     }
   };
 
