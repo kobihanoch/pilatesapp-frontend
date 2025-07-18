@@ -8,3 +8,9 @@ export const createFirstSocketConnection = async (userId) => {
 export const disconnectSocket = async () => {
   socket.disconnect();
 };
+
+// Listeners
+export const subscribeToReceivedMessages = (callback) => {
+  console.log("Messages listener is on...");
+  socket.on("received_messages", callback);
+};

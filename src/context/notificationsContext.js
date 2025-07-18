@@ -1,9 +1,28 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { subscribeToReceivedMessages } from "../services/socketService";
+import { socket } from "../socketConfig/socketConfig";
 
 const NotificationsContext = createContext();
 
 export const NotificationsProvider = ({ children }) => {
-  const [messages, setMessages] = useState(null);
+  const [messages, setMessages] = useState([]);
+
+  // Update messages when received from the server
+  useEffect(() => {
+    const handleNewMessage = (message) => {
+      setMessages((prev) => [...prev, message]);
+    };
+
+    subscribeToReceivedMessages(handleNewMessage);
+
+    return () => socket.off("received_messages", handleNewMessage);
+  }, []);
+
+  useEffect(() => {
+    if (messages.length > 0) {
+      console.log("New message:", messages);
+    }
+  }, [messages]);
 
   return (
     <NotificationsContext.Provider value={{ messages, setMessages }}>
