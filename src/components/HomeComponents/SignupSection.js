@@ -1,99 +1,165 @@
 import React, { useState, useEffect } from "react";
 import AvailableSessionItem from "./SignUpSectionListComponents/AvailableSessionItem";
-import { addComoponentToDate } from "../../utils/homeUtils";
 import SelectDate from "./SignUpSectionListComponents/SelectDate";
 import { fetchAllSessionsForYear } from "../../services/sessionService";
 import { useErrorContext } from "../../context/errorContext";
+import { motion } from "framer-motion";
+
+/* ---------- Motion variants ---------- */
+const containerVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+};
+
+const listVariants = {
+  hidden: { opacity: 0, x: 40 },
+  visible: (i) => ({
+    opacity: 1,
+    x: 0,
+    transition: { delay: i * 0.07, type: "spring", stiffness: 120 },
+  }),
+};
 
 const SignupSection = ({ availableSessions }) => {
-  // Date modification
   const { setError } = useErrorContext();
+
   const [selectedDate, setSelectedDate] = useState(() => {
     const today = new Date();
     return today.toISOString().split("T")[0];
   });
-  const [sessions, setSessions] = useState(() => {
-    return availableSessions.filter(
-      (ses) => ses.date.split("T")[0] === selectedDate
-    );
-  });
+
+  // Filtered sessions
+  const [sessions, setSessions] = useState(() =>
+    availableSessions.filter((ses) => ses.date.split("T")[0] === selectedDate)
+  );
+
+  // Update filtered sessions when all sessions updates (unregistering from a session triggers it)
+  useEffect(() => {
+    if (availableSessions) {
+      setSessions(
+        availableSessions.filter(
+          (ses) => ses.date.split("T")[0] === selectedDate
+        )
+      );
+    }
+  }, [availableSessions]);
 
   useEffect(() => {
     const fetchSessions = async () => {
       const selected = new Date(selectedDate);
       const currentYear = new Date().getFullYear();
       const isDateInCurrentYear = selected.getFullYear() === currentYear;
+
       if (!isDateInCurrentYear) {
         try {
           const sessionsF = await fetchAllSessionsForYear(selectedDate);
-          setSessions(() => {
-            return sessionsF.filter(
-              (ses) => ses.date.split("T")[0] === selectedDate
-            );
-          });
+          setSessions(() =>
+            sessionsF.filter((ses) => ses.date.split("T")[0] === selectedDate)
+          );
         } catch (e) {
           setError(e);
         }
       } else {
-        setSessions(() => {
-          return availableSessions.filter(
+        setSessions(() =>
+          availableSessions.filter(
             (ses) => ses.date.split("T")[0] === selectedDate
-          );
-        });
+          )
+        );
       }
     };
+
     fetchSessions();
   }, [selectedDate]);
 
   return (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateRows: "auto auto 1fr",
-        height: "80vh",
-        width: "90%",
-        margin: "0 auto",
-        gap: "20px",
-        paddingBottom: "20px",
-      }}
+    <motion.div
+      style={styles.container}
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
     >
-      <h3 style={styles.sectionTitle}>אימונים זמינים להרשמה</h3>
+      <div style={{ paddingLeft: 20, paddingRight: 20 }}>
+        <h3 style={styles.sectionTitle}>אימונים זמינים להרשמה</h3>
+        <motion.p
+          style={styles.subTitle}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3 }}
+        >
+          בחרו תאריך רצוי לאימון
+        </motion.p>
+      </div>
 
-      <SelectDate
-        selectedDate={selectedDate}
-        setSelectedDate={setSelectedDate}
-      />
-
-      <div
-        style={{
-          overflowY: "visible",
-          borderRadius: "10px",
-          display: "flex",
-          width: "100%",
-          flexDirection: "column",
-          gap: "20px",
-        }}
+      <motion.div
+        style={{ paddingLeft: 20, paddingRight: 20 }}
+        initial={{ scale: 0.95, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.4, delay: 0.2 }}
       >
+        <SelectDate
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+        />
+      </motion.div>
+
+      <motion.div style={styles.sessionsList}>
         {sessions && sessions.length > 0 ? (
-          sessions?.map((ses) => (
-            <AvailableSessionItem key={ses._id} session={ses} />
+          sessions.map((ses, idx) => (
+            <motion.div
+              key={ses._id}
+              custom={idx}
+              variants={listVariants}
+              initial="hidden"
+              animate="visible"
+              style={{ flex: "0 0 auto" }}
+            >
+              <AvailableSessionItem
+                session={ses}
+                setAllSessions={setSessions}
+              />
+            </motion.div>
           ))
         ) : (
-          <p>לא נמצאו אימונים לתאריך זה</p>
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+            לא נמצאו אימונים לתאריך זה
+          </motion.p>
         )}
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 
 const styles = {
+  container: {
+    display: "grid",
+    gridTemplateRows: "auto auto auto 1fr",
+    width: "90%",
+    margin: "0 auto",
+    gap: 20,
+    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+    borderRadius: 12,
+    marginTop: 40,
+  },
   sectionTitle: {
-    fontSize: 25,
-    color: "black",
-    marginBottom: 12,
-    marginTop: 20,
-    flex: 1,
-    marginTop: "40px",
+    color: "#0f172a",
+    fontWeight: 700,
+    fontSize: "1.15rem",
+    marginBottom: 6,
+  },
+  subTitle: {
+    fontSize: "0.95rem",
+    color: "#64748b",
+    marginBottom: 10,
+    textAlign: "center",
+  },
+  sessionsList: {
+    overflowX: "auto",
+    borderRadius: 10,
+    display: "flex",
+    width: "100%",
+    flexDirection: "row",
+    gap: 20,
+    padding: "0 20px 20px",
   },
 };
 

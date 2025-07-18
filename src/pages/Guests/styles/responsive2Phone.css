@@ -7,10 +7,10 @@
   }
 
   .nav-buttons {
-    justify-content: flex-end;
-    gap: 0.5rem;
+    justify-content: center;
+    gap: 0.7rem;
     font-weight: bold;
-    max-width: 110%;
+    max-width: 100%;
   }
 
   .nav-buttons button {

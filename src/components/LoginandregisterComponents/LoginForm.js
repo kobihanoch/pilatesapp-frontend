@@ -94,7 +94,7 @@ const styles = {
     marginTop: "10px",
     borderRadius: "10px",
     border: "none",
-    backgroundColor: "#f4b183",
+    backgroundColor: "rgb(215, 191, 166)",
     color: "white",
     fontSize: "18px",
     fontWeight: "bold",

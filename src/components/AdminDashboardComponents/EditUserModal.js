@@ -1,16 +1,13 @@
-// EditUserModal.js
 import React, { useState, useEffect } from "react";
 import Modal from "../SharedComponents/Modal";
 import useAdminHandler from "../../hooks/AdminsHooks/useAdminHandler";
+import { hasUserChanged } from "../../utils/adminDashboardUtils";
+import { toast } from "react-toastify";
 
 const EditUserModal = ({ user, isOpen, onClose, setUsers }) => {
   const [form, setForm] = useState({});
   const { handleUpdateUserData } = useAdminHandler();
 
-  /* -----------------------------------------------------------
-   *  Load user data into local state every time the modal opens
-   * -----------------------------------------------------------
-   */
   useEffect(() => {
     if (user) {
       setForm({
@@ -24,19 +21,20 @@ const EditUserModal = ({ user, isOpen, onClose, setUsers }) => {
     }
   }, [user]);
 
-  /* --------------------------------
-   *  Two-way binding for each field
-   * --------------------------------
-   */
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (userId) => {
+    // If user stays the same just close the modal without API call
+    if (!hasUserChanged(user, form)) {
+      onClose();
+      return;
+    }
+
     const res = await handleUpdateUserData(userId, form);
     if (res.success) {
-      // keep table in sync with server
       setUsers((prev) =>
         prev.map((u) => (u._id === userId ? res.response.user : u))
       );
@@ -48,7 +46,6 @@ const EditUserModal = ({ user, isOpen, onClose, setUsers }) => {
     <Modal isOpen={isOpen} onClose={onClose}>
       <h2>עריכת משתמש</h2>
 
-      {/* Username ------------------------------------------------ */}
       <div style={styles.formGroup}>
         <label>שם משתמש:</label>
         <input
@@ -59,7 +56,6 @@ const EditUserModal = ({ user, isOpen, onClose, setUsers }) => {
         />
       </div>
 
-      {/* Full name ---------------------------------------------- */}
       <div style={styles.formGroup}>
         <label>שם מלא:</label>
         <input
@@ -70,7 +66,6 @@ const EditUserModal = ({ user, isOpen, onClose, setUsers }) => {
         />
       </div>
 
-      {/* Email --------------------------------------------------- */}
       <div style={styles.formGroup}>
         <label>אימייל:</label>
         <input
@@ -82,48 +77,52 @@ const EditUserModal = ({ user, isOpen, onClose, setUsers }) => {
         />
       </div>
 
-      {/* Birth date --------------------------------------------- */}
       <div style={styles.formGroup}>
         <label>תאריך לידה:</label>
-        <input
-          name="birthDate"
-          type="date"
-          value={form.birthDate}
-          onChange={handleChange}
-          style={styles.input}
-        />
+        <div style={styles.dateWrapper}>
+          <input
+            name="birthDate"
+            type="date"
+            value={form.birthDate}
+            onChange={handleChange}
+            style={styles.dateInput}
+          />
+        </div>
       </div>
 
-      {/* Gender -------------------------------------------------- */}
       <div style={styles.formGroup}>
         <label>מגדר:</label>
-        <select
-          name="gender"
-          value={form.gender}
-          onChange={handleChange}
-          style={styles.input}
-        >
-          <option value="male">זכר</option>
-          <option value="female">נקבה</option>
-          <option value="other">אחר</option>
-        </select>
+        <div style={styles.selectWrapper}>
+          <select
+            name="gender"
+            value={form.gender}
+            onChange={handleChange}
+            style={styles.select}
+          >
+            <option value="male">זכר</option>
+            <option value="female">נקבה</option>
+            <option value="other">אחר</option>
+          </select>
+          <span style={styles.selectArrow}>▼</span>
+        </div>
       </div>
 
-      {/* Role ---------------------------------------------------- */}
       <div style={styles.formGroup}>
         <label>תפקיד:</label>
-        <select
-          name="role"
-          value={form.role}
-          onChange={handleChange}
-          style={styles.input}
-        >
-          <option value="user">משתמש</option>
-          <option value="admin">מנהל</option>
-        </select>
+        <div style={styles.selectWrapper}>
+          <select
+            name="role"
+            value={form.role}
+            onChange={handleChange}
+            style={styles.select}
+          >
+            <option value="user">משתמש</option>
+            <option value="admin">מנהל</option>
+          </select>
+          <span style={styles.selectArrow}>▼</span>
+        </div>
       </div>
 
-      {/* ---------------- Submit button ------------------------- */}
       <button style={styles.submitBtn} onClick={() => handleSubmit(user._id)}>
         שמור
       </button>
@@ -131,7 +130,6 @@ const EditUserModal = ({ user, isOpen, onClose, setUsers }) => {
   );
 };
 
-/* same minimalist inline-styles object you’re already using */
 const styles = {
   formGroup: {
     display: "flex",
@@ -139,14 +137,55 @@ const styles = {
     gap: "0.5rem",
     marginBottom: "1rem",
   },
+  dateWrapper: {
+    position: "relative",
+    display: "flex",
+  },
+  dateInput: {
+    appearance: "none",
+    WebkitAppearance: "none",
+    MozAppearance: "none",
+    padding: "0.65rem",
+    borderRadius: "8px",
+    border: "1px solid #e2e8f0",
+    fontSize: "1rem",
+    width: "100%",
+    backgroundColor: "#fff",
+    color: "#000",
+    direction: "rtl",
+  },
   input: {
     padding: "0.65rem",
     borderRadius: "8px",
     border: "1px solid #e2e8f0",
     fontSize: "1rem",
   },
+  selectWrapper: {
+    position: "relative",
+    display: "flex",
+    alignItems: "center",
+  },
+  select: {
+    padding: "0.65rem",
+    minHeight: "2.5rem",
+    borderRadius: "8px",
+    border: "1px solid #e2e8f0",
+    fontSize: "1rem",
+    backgroundColor: "#fff",
+    color: "#000",
+    WebkitAppearance: "none",
+    MozAppearance: "none",
+    width: "100%",
+  },
+  selectArrow: {
+    position: "absolute",
+    left: "12px",
+    pointerEvents: "none",
+    fontSize: "0.8rem",
+    color: "#555",
+  },
   submitBtn: {
-    backgroundColor: "#2563eb",
+    backgroundColor: "rgb(215, 191, 166)",
     color: "#fff",
     padding: "0.75rem",
     fontSize: "1rem",

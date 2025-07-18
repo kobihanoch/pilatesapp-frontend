@@ -57,7 +57,8 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
               padding: "0.5rem 0.75rem",
               borderRadius: "6px",
               border: "1px solid #d1d5db",
-              backgroundColor: page === currentPage ? "#2563eb" : "#ffffff",
+              backgroundColor:
+                page === currentPage ? "rgb(215, 191, 166)" : "#ffffff",
               color: page === currentPage ? "#ffffff" : "#111827",
               cursor: "pointer",
               minWidth: "2.5rem",

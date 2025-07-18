@@ -24,7 +24,7 @@ const useSessions = (selectedDate) => {
     fetchData();
   }, [selectedDate]);
 
-  return { sessions, loading, error };
+  return { sessions, loading, error, setSessions };
 };
 
 export default useSessions;

@@ -1,47 +1,47 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useAuthContext } from "../../context/authContext";
 import { FiSettings, FiLogOut, FiHome } from "react-icons/fi";
-import { useLocation } from "react-router-dom";
 
 const TopBar = () => {
   const navigate = useNavigate();
   const { user, auth } = useAuthContext();
   const { gender, fullName } = user || {};
-  const greeting = gender === "male" ? "ברוך הבא" : "ברוכה הבאה";
   const isAdmin = user?.role === "admin";
+  const greeting = gender === "male" ? "ברוך הבא" : "ברוכה הבאה";
+  const isAdminPage = useLocation().pathname.includes("/dashboard");
+
   const onLogout = () => {
     auth.logout();
   };
-  const isCurrentPageAdminPage = useLocation().pathname.includes("/dashboard");
 
   return (
     <div style={styles.container}>
-      <div style={styles.profile}>
-        <div style={styles.avatar}>{fullName.charAt(0)}</div>
-        <div style={styles.text}>
+      <div style={styles.leftSide}>
+        <div style={styles.avatarShadow}>
+          <div style={styles.avatar}>{fullName?.charAt(0)}</div>
+        </div>
+        <div style={styles.userInfo}>
           <div style={styles.greeting}>{greeting}</div>
-          <div style={styles.name}>{fullName}</div>
+          <div style={styles.fullName}>{fullName}</div>
         </div>
       </div>
 
-      <div style={styles.actions}>
-        {/* This feature is only enabled for admins  */}
-        {/* Show home button if in admin page, otherwise show admin page button */}
+      <div style={styles.rightSide}>
         {isAdmin &&
-          (isCurrentPageAdminPage ? (
-            <button style={styles.iconButton} onClick={() => navigate("/home")}>
+          (isAdminPage ? (
+            <button style={styles.iconBtn} onClick={() => navigate("/home")}>
               <FiHome size={20} />
             </button>
           ) : (
             <button
-              style={styles.iconButton}
+              style={styles.iconBtn}
               onClick={() => navigate("/dashboard")}
             >
               <FiSettings size={20} />
             </button>
           ))}
-        <button style={styles.iconButton} onClick={onLogout}>
+        <button style={styles.iconBtn} onClick={onLogout}>
           <FiLogOut size={20} />
         </button>
       </div>
@@ -51,65 +51,69 @@ const TopBar = () => {
 
 const styles = {
   container: {
+    background: "linear-gradient(135deg,rgb(247, 247, 247),rgb(246, 251, 255))",
+    padding: "20px 32px",
+    borderRadius: "20px",
+
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: "20px 32px",
-    backgroundColor: "#fff",
-    borderRadius: "16px",
-    boxShadow: "0 4px 12px rgba(0,0,0,0.05)",
-    marginBottom: "32px",
     direction: "rtl",
+    marginBottom: "32px",
   },
-  profile: {
+  leftSide: {
     display: "flex",
     alignItems: "center",
-    gap: "16px",
+    gap: "14px",
+  },
+  avatarShadow: {
+    boxShadow: "0 0px 10px rgba(0,0,0,0.04)",
+    borderRadius: "50%",
   },
   avatar: {
     width: "48px",
     height: "48px",
+    backgroundColor: "white",
     borderRadius: "50%",
-    backgroundColor: "#d76629",
-    color: "#fff",
+    color: "rgb(0, 0, 0)",
     display: "flex",
-    alignItems: "center",
     justifyContent: "center",
-    fontSize: "1.25rem",
+    alignItems: "center",
+    fontSize: "1.5rem",
     fontWeight: 600,
   },
-  text: {
+  userInfo: {
     display: "flex",
     flexDirection: "column",
     lineHeight: 1.2,
   },
   greeting: {
-    fontSize: "1rem",
-    color: "#666",
+    fontSize: "0.95rem",
+    color: "#7a7a7a",
   },
-  name: {
+  fullName: {
     fontSize: "1.4rem",
     fontWeight: 600,
-    color: "#2e2e2e",
+    color: "#333",
   },
-  actions: {
+  rightSide: {
     display: "flex",
-    gap: "16px",
+    gap: "14px",
   },
-  iconButton: {
+  iconBtn: {
     width: "44px",
     height: "44px",
     border: "none",
     borderRadius: "50%",
-    backgroundColor: "#f5f5f5",
+    backgroundColor: "#f0f3f5",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     cursor: "pointer",
-    transition: "background-color 0.2s ease",
+    transition: "all 0.25s ease",
+    color: "#444",
     outline: "none",
     WebkitTapHighlightColor: "transparent",
-    color: "rgb(71, 71, 71)",
   },
 };
 

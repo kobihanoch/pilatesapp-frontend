@@ -15,6 +15,7 @@ const HomePage = () => {
     sessions: availableSessions,
     loading: loadingSessions,
     error,
+    setSessions: setAllSessions, // A setter for availableSessions
   } = useSessions(new Date().toISOString().split("T")[0]);
 
   if (loading || loadingSessions)
@@ -22,9 +23,12 @@ const HomePage = () => {
 
   return (
     <div style={styles.container}>
-      <WorkoutSection upcomingWorkouts={upcomingWorkouts} />
+      <WorkoutSection setAllSessions={setAllSessions} />
       {availableSessions && (
-        <SignupSection availableSessions={availableSessions ?? []} />
+        <SignupSection
+          availableSessions={availableSessions ?? []}
+          setAllSessions={setAllSessions}
+        />
       )}
     </div>
   );

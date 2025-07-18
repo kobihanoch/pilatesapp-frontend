@@ -3,6 +3,7 @@ import { loginUser, logoutUser, registerUser } from "../services/authService";
 import {
   checkIfUserIsAuthenticated,
   fetchAuthenticatedUser,
+  fetchAuthenticatedUserCompletedSessions,
   fetchAuthenticatedUserSessions,
 } from "../services/userService";
 
@@ -15,6 +16,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
   const [sessions, setSessions] = useState(null);
+  const [completedSessions, setCompletedSessions] = useState(null);
   globalSetUser = setUser;
 
   // On load -----------------------------------------------
@@ -65,6 +67,7 @@ export const AuthProvider = ({ children }) => {
       await logoutUser();
       setUser(null);
       setSessions(null); // Clear sessions on logout
+      setCompletedSessions(null);
       console.log("User logged out");
     } catch (error) {
       console.error("Logout failed:", error);
@@ -72,13 +75,13 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Load all user sessions - past present and future
   const loadUserSessions = async () => {
     try {
       const response = await fetchAuthenticatedUserSessions();
-      const sessions = response.filter(
-        (session) => session.status === "מתוכנן"
-      );
-      setSessions(sessions);
+      setSessions(response);
+      const response2 = await fetchAuthenticatedUserCompletedSessions();
+      setCompletedSessions(response2);
     } catch (error) {
       console.error("Error fetching user sessions:", error);
       throw error; // Rethrow the error to handle it in the component
@@ -120,6 +123,7 @@ export const AuthProvider = ({ children }) => {
         setUser,
         sessions,
         setSessions,
+        completedSessions,
         auth: {
           login,
           logout,

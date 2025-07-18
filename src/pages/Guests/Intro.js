@@ -70,7 +70,7 @@ const Intro = () => {
           <h1>רותם פילאטיס</h1>
           {/*<p>description here/Guests.</p>*/}
           <button className="get-started-btn" onClick={handleGetStarted}>
-            GET STARTED
+            בואו נתחיל !
           </button>
         </div>
       </section>

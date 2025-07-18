@@ -1,19 +1,61 @@
 import React from "react";
-import { FaMapMarkerAlt, FaUsers } from "react-icons/fa";
+import {
+  FaMapMarkerAlt,
+  FaUsers,
+  FaTimes,
+  FaRegCommentDots,
+  FaRegClock,
+} from "react-icons/fa";
 import { unregisterFromSelectedSession } from "../../../services/sessionService";
-import { formatDate } from "../../../utils/homeUtils";
+import { formatDate, getDayName } from "../../../utils/homeUtils";
 import { useErrorContext } from "../../../context/errorContext";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
-const WorkoutCard = ({ session, updatedSessions, setUpdatedSessions }) => {
+const getDayLabelStyle = () => ({
+  display: "inline-block",
+  padding: "4px 14px",
+  borderRadius: "999px",
+  fontSize: "0.9rem",
+  fontWeight: "1000",
+  backgroundColor: "rgb(215, 191, 166)",
+  color: "white",
+  textAlign: "center",
+  letterSpacing: "0.5px",
+  boxShadow: "inset 0 0 3px rgba(0,0,0,0.05)",
+});
+
+const WorkoutCard = ({
+  session,
+  updatedSessions,
+  setUpdatedSessions,
+  setAllSessions,
+}) => {
   const { setError } = useErrorContext();
+
   const handleUnregister = async (sessionId) => {
-    const isConfirmed = window.confirm("האם אתה בטוח שברצונך לבטל את הרישום?");
+    const { isConfirmed } = await Swal.fire({
+      title: "לבטל את הרישום?",
+      text: "לא תוכל לשחזר זאת לאחר מכן.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "בטל רישום",
+      cancelButtonText: "חזור",
+      reverseButtons: true,
+    });
+
     if (!isConfirmed) return;
 
     try {
-      await unregisterFromSelectedSession(sessionId);
+      const res = await unregisterFromSelectedSession(sessionId);
+      // Set sessions user is registered to (context) (auto sorintg in component)
       setUpdatedSessions(updatedSessions.filter((s) => s._id !== sessionId));
+      // Update live available sessions
+      setAllSessions((prev) =>
+        prev.map((session) =>
+          session._id === sessionId ? res.session : session
+        )
+      );
       toast.info("ביטול הרישום בוצע בהצלחה");
     } catch (e) {
       setError(e);
@@ -21,41 +63,74 @@ const WorkoutCard = ({ session, updatedSessions, setUpdatedSessions }) => {
   };
 
   return (
-    <div
-      style={styles.card}
-      onMouseEnter={(e) =>
-        (e.currentTarget.style.boxShadow = styles.cardHover.boxShadow)
-      }
-      onMouseLeave={(e) =>
-        (e.currentTarget.style.boxShadow = styles.card.boxShadow)
-      }
-    >
-      <div style={styles.header}>
-        <div style={styles.dateBox}>
-          <span style={styles.dateText}>{formatDate(session.date)}</span>
-          <span style={styles.timeText}>{session.time}</span>
+    <div style={styles.card}>
+      {/* Day label */}
+      <div style={getDayLabelStyle()}>
+        {(() => {
+          const date = new Date(session.date);
+          const today = new Date();
+          const tomorrow = new Date();
+          tomorrow.setDate(today.getDate() + 1);
+
+          const isToday =
+            date.getFullYear() === today.getFullYear() &&
+            date.getMonth() === today.getMonth() &&
+            date.getDate() === today.getDate();
+
+          const isTomorrow =
+            date.getFullYear() === tomorrow.getFullYear() &&
+            date.getMonth() === tomorrow.getMonth() &&
+            date.getDate() === tomorrow.getDate();
+
+          if (isToday) return "היום";
+          if (isTomorrow) return "מחר";
+          return getDayName(session.date);
+        })()}
+      </div>
+
+      {/* Title + Time */}
+      <div style={styles.titleSection}>
+        <h3 style={styles.title}>{session.type}</h3>
+        <p style={styles.date}>
+          {formatDate(session.date)} | {session.time}
+        </p>
+      </div>
+
+      <div style={styles.divider} />
+
+      {/* Details Grid */}
+      <div style={styles.detailsGrid}>
+        <div>
+          <FaMapMarkerAlt style={styles.icon}></FaMapMarkerAlt>
+          {session.location}
         </div>
-        <span style={styles.status(session.status)}>{session.status}</span>
-      </div>
-
-      <h3 style={styles.title}>{session.type}</h3>
-
-      <div style={styles.row}>
-        <FaMapMarkerAlt size={14} style={styles.icon} />
-        <span style={styles.detailText}>{session.location}</span>
-      </div>
-
-      <div style={styles.row}>
-        <FaUsers size={14} style={styles.icon} />
-        <span style={styles.detailText}>
+        <div>
+          <FaRegCommentDots style={styles.icon} />
+          {session.notes || "ללא"}
+        </div>
+        <div>
+          <FaUsers style={styles.icon} />
           {session.participants?.length ?? 0}/{session.maxParticipants} משתתפים
-        </span>
+        </div>
+        <div>
+          <FaRegClock style={styles.icon} />
+          {session.duration} דקות
+        </div>
       </div>
 
-      {session.notes && <p style={styles.notes}>הערה: {session.notes}</p>}
-
+      {/* Unregister Button */}
       <button
-        style={styles.button}
+        type="button"
+        title="בטל רישום"
+        style={styles.unregBtn}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.background = "#f0f0f0";
+          e.currentTarget.style.border = "1px solid #ccc";
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.background = "#f9f9f9";
+          e.currentTarget.style.border = "1px solid transparent";
+        }}
         onClick={() => handleUnregister(session._id)}
       >
         ביטול רישום
@@ -64,90 +139,70 @@ const WorkoutCard = ({ session, updatedSessions, setUpdatedSessions }) => {
   );
 };
 
+export default WorkoutCard;
+
 const styles = {
   card: {
-    minWidth: 260,
-    backgroundColor: "#FFFFFF",
-    padding: "20px",
-    borderRadius: "16px",
-    boxShadow: "0 4px 12px rgba(0,0,0,0.06)",
+    background: "#fff",
+    padding: "32px 36px",
+    borderRadius: "24px",
+    border: "rgb(235, 235, 235) 0.8px solid",
     display: "flex",
     flexDirection: "column",
-    gap: "10px",
-    transition: "box-shadow 0.3s ease",
-    marginInlineEnd: "16px",
+    gap: "20px",
+    transition: "all 0.3s ease-in-out",
+    marginBottom: "32px",
+    position: "relative",
+    minWidth: "240px",
+    maxWidth: "500px",
+    marginInline: "auto",
+    marginTop: "18px",
   },
-  cardHover: {
-    boxShadow: "0 6px 20px rgba(0,0,0,0.1)",
-  },
-  header: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  dateBox: {
+  titleSection: {
+    textAlign: "center",
     display: "flex",
     flexDirection: "column",
-    alignItems: "flex-start",
+    gap: "8px",
   },
-  dateText: {
-    fontSize: "0.9rem",
-    color: "#444",
-    fontWeight: "500",
+  title: {
+    margin: 0,
+    fontSize: "1.4rem",
+    fontWeight: "700",
+    color: "#2f2f2f",
   },
-  timeText: {
-    fontSize: "0.8rem",
+  date: {
+    margin: 0,
+    fontSize: "0.95rem",
     color: "#777",
   },
-  status: (status) => ({
-    fontSize: "0.75rem",
-    padding: "4px 10px",
-    borderRadius: "10px",
-    fontWeight: "600",
-    backgroundColor:
-      status === "בוטל"
-        ? "#ffe5e5"
-        : status === "הושלם"
-        ? "#e0f5e0"
-        : "#fff6e5",
-    color: status === "בוטל" ? "#a00" : status === "הושלם" ? "#0a0" : "#d76629",
-  }),
-  title: {
-    fontSize: "1.1rem",
-    color: "#1e1e1e",
-    margin: "6px 0",
-    fontWeight: "600",
+  divider: {
+    height: "1px",
+    background: "linear-gradient(to right, #e0e0e0, #fff)",
+    opacity: 0.6,
   },
-  row: {
-    display: "flex",
-    alignItems: "center",
-    gap: "6px",
+  detailsGrid: {
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    rowGap: "16px",
+    columnGap: "28px",
+    color: "#4e4e4e",
+    fontSize: "0.9rem",
+  },
+  unregBtn: {
+    alignSelf: "center",
+    background: "#f9f9f9",
+    color: "#444",
+    border: "1px solid transparent",
+    borderRadius: "8px",
+    width: "100%",
+    padding: "6px 16px",
+    fontSize: "1rem",
+    fontWeight: 800,
+    cursor: "pointer",
+    transition: "all 0.2s ease-in-out",
+    boxShadow: "none",
   },
   icon: {
-    color: "#d76629",
-  },
-  detailText: {
-    fontSize: "0.9rem",
-    color: "#444",
-  },
-  notes: {
-    fontSize: "0.85rem",
-    fontStyle: "italic",
-    color: "#666",
-    marginTop: "6px",
-  },
-  button: {
-    marginTop: "auto",
-    backgroundColor: "#ffe9e1",
-    color: "#d76629",
-    border: "none",
-    padding: "10px",
-    borderRadius: "8px",
-    fontWeight: "600",
-    fontSize: "0.95rem",
-    cursor: "pointer",
-    transition: "background 0.2s ease",
+    marginLeft: "5px",
   },
 };
-
-export default WorkoutCard;

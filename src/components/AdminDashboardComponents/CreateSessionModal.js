@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "../SharedComponents/Modal";
 import { useErrorContext } from "../../context/errorContext";
-import { toast } from "react-toastify";
 import { validateForm } from "../../utils/sharedUtils";
 import useAdminHandler from "../../hooks/AdminsHooks/useAdminHandler";
 
@@ -9,9 +8,17 @@ const CreateSessionModal = ({ isOpen, onClose, setSessions }) => {
   const { setError } = useErrorContext();
   const { handleCreateSession } = useAdminHandler();
 
+  const getCurrentDate = () => new Date().toISOString().slice(0, 10);
+  const getCurrentTime = () => {
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, "0");
+    const minutes = String(now.getMinutes()).padStart(2, "0");
+    return `${hours}:${minutes}`;
+  };
+
   const [formData, setFormData] = useState({
-    date: "",
-    time: "",
+    date: getCurrentDate(),
+    time: getCurrentTime(),
     duration: "",
     type: "",
     notes: "",
@@ -41,7 +48,7 @@ const CreateSessionModal = ({ isOpen, onClose, setSessions }) => {
     }
     const res = await handleCreateSession(formData);
     if (res.success) {
-      setSessions((prev) => (prev ? [res.response, ...prev] : [res.response])); // Adding new session to state, or if the state is empty create a nre session and make it the only one there
+      setSessions((prev) => (prev ? [res.response, ...prev] : [res.response]));
       onClose();
     }
   };
@@ -52,21 +59,27 @@ const CreateSessionModal = ({ isOpen, onClose, setSessions }) => {
       <form onSubmit={handleSubmit} style={styles.form}>
         <div style={styles.formGroup}>
           <label>תאריך:</label>
-          <input
-            name="date"
-            type="date"
-            onChange={handleChange}
-            style={styles.input}
-          />
+          <div style={styles.dateWrapper}>
+            <input
+              name="date"
+              type="date"
+              value={formData.date}
+              onChange={handleChange}
+              style={styles.dateInput}
+            />
+          </div>
         </div>
         <div style={styles.formGroup}>
           <label>שעה:</label>
-          <input
-            name="time"
-            type="time"
-            onChange={handleChange}
-            style={styles.input}
-          />
+          <div style={styles.timeWrapper}>
+            <input
+              name="time"
+              type="time"
+              value={formData.time}
+              onChange={handleChange}
+              style={styles.timeInput}
+            />
+          </div>
         </div>
         <div style={styles.formGroup}>
           <label>משך בדקות:</label>
@@ -88,15 +101,22 @@ const CreateSessionModal = ({ isOpen, onClose, setSessions }) => {
         </div>
         <div style={styles.formGroup}>
           <label>הערות:</label>
-          <textarea name="notes" onChange={handleChange} style={styles.input} />
+          <textarea
+            name="notes"
+            onChange={handleChange}
+            style={styles.textarea}
+          />
         </div>
         <div style={styles.formGroup}>
           <label>סטטוס:</label>
-          <select name="status" onChange={handleChange} style={styles.input}>
-            <option value="מתוכנן">מתוכנן</option>
-            <option value="בוטל">בוטל</option>
-            <option value="הושלם">הושלם</option>
-          </select>
+          <div style={styles.selectWrapper}>
+            <select name="status" onChange={handleChange} style={styles.select}>
+              <option value="מתוכנן">מתוכנן</option>
+              <option value="בוטל">בוטל</option>
+              <option value="הושלם">הושלם</option>
+            </select>
+            <span style={styles.selectArrow}>▼</span>
+          </div>
         </div>
         <div style={styles.formGroup}>
           <label>מיקום:</label>
@@ -116,11 +136,7 @@ const CreateSessionModal = ({ isOpen, onClose, setSessions }) => {
             style={styles.input}
           />
         </div>
-        <button
-          type="button"
-          onClick={() => handleSubmit()}
-          style={styles.submitBtn}
-        >
+        <button type="button" onClick={handleSubmit} style={styles.submitBtn}>
           צור אימון
         </button>
       </form>
@@ -139,6 +155,41 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     gap: "0.5rem",
+    marginBottom: "1rem",
+  },
+  dateWrapper: {
+    position: "relative",
+    display: "flex",
+  },
+  timeWrapper: {
+    position: "relative",
+    display: "flex",
+  },
+  dateInput: {
+    appearance: "none",
+    WebkitAppearance: "none",
+    MozAppearance: "none",
+    padding: "0.65rem",
+    borderRadius: "8px",
+    border: "1px solid #e2e8f0",
+    fontSize: "1rem",
+    width: "100%",
+    backgroundColor: "#fff",
+    color: "#000",
+    direction: "rtl",
+  },
+  timeInput: {
+    appearance: "none",
+    WebkitAppearance: "none",
+    MozAppearance: "none",
+    padding: "0.65rem",
+    borderRadius: "8px",
+    border: "1px solid #e2e8f0",
+    fontSize: "1rem",
+    width: "100%",
+    backgroundColor: "#fff",
+    color: "#000",
+    direction: "rtl",
   },
   input: {
     padding: "0.65rem",
@@ -146,8 +197,39 @@ const styles = {
     border: "1px solid #e2e8f0",
     fontSize: "1rem",
   },
+  textarea: {
+    padding: "0.65rem",
+    borderRadius: "8px",
+    border: "1px solid #e2e8f0",
+    fontSize: "1rem",
+    resize: "vertical",
+  },
+  selectWrapper: {
+    position: "relative",
+    display: "flex",
+    alignItems: "center",
+  },
+  select: {
+    padding: "0.65rem",
+    minHeight: "2.5rem",
+    borderRadius: "8px",
+    border: "1px solid #e2e8f0",
+    fontSize: "1rem",
+    backgroundColor: "#fff",
+    color: "#000",
+    WebkitAppearance: "none",
+    MozAppearance: "none",
+    width: "100%",
+  },
+  selectArrow: {
+    position: "absolute",
+    left: "12px",
+    pointerEvents: "none",
+    fontSize: "0.8rem",
+    color: "#555",
+  },
   submitBtn: {
-    backgroundColor: "#2563eb",
+    backgroundColor: "rgb(215, 191, 166)",
     color: "#fff",
     padding: "0.75rem",
     fontSize: "1rem",

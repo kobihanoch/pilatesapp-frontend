@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FiEdit, FiTrash2, FiInfo } from "react-icons/fi";
 import EditUserModal from "./EditUserModal";
 import useAdminHandler from "../../hooks/AdminsHooks/useAdminHandler";
+import Swal from "sweetalert2";
 
 const AllUsersTable = ({ users, setUsers }) => {
   const [infoExpandedId, setInfoExpandedId] = useState(null);
@@ -46,11 +47,19 @@ const AllUsersTable = ({ users, setUsers }) => {
                         </button>
                         <button
                           style={styles.iconBtn}
-                          onClick={() => {
-                            const confirmed = window.confirm(
-                              "האם אתה בטוח שברצונך למחוק את המשתמש?"
-                            );
-                            if (confirmed) handleDeleteUser(user._id);
+                          onClick={async () => {
+                            const { isConfirmed } = await Swal.fire({
+                              title: `האם למחוק את המשתמש ${user.fullName} ?`,
+                              text: "לא תוכל לשחזר זאת לאחר מכן.",
+                              icon: "warning",
+                              showCancelButton: true,
+                              confirmButtonText: "מחיקה",
+                              cancelButtonText: "חזור",
+                              reverseButtons: true,
+                            });
+
+                            if (!isConfirmed) return;
+                            if (isConfirmed) handleDeleteUser(user._id);
                           }}
                         >
                           <FiTrash2 />
@@ -106,7 +115,7 @@ const styles = {
   wrapper: {
     padding: "1rem 0.5rem",
     fontFamily: '"M PLUS Rounded 1c", sans-serif',
-    backgroundColor: "#f9fafb",
+    backgroundColor: "white",
   },
   tableContainer: {
     width: "100%",
@@ -125,11 +134,12 @@ const styles = {
     fontSize: "0.95rem",
   },
   headerRow: {
-    backgroundColor: "#f1f5f9",
+    backgroundColor: "#f5eee8",
     height: "44px",
+    color: "#4a3f35",
   },
   row: {
-    backgroundColor: "#f8fafc",
+    backgroundColor: "#fefaf7",
     borderRadius: "10px",
     boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
     height: "64px",
@@ -148,17 +158,17 @@ const styles = {
     alignItems: "center",
   },
   iconBtn: {
-    backgroundColor: "#e0f2fe",
-    border: "1px solid #bae6fd",
+    backgroundColor: "#f5eee8",
+    border: "1px solid #d7bfa6",
     borderRadius: "8px",
     cursor: "pointer",
     fontSize: "1rem",
     padding: "6px 10px",
-    color: "#0369a1",
+    color: "#6e4c3b",
     transition: "0.2s ease",
   },
   expandBox: {
-    backgroundColor: "#f1f5f9",
+    backgroundColor: "#f5eee8",
     padding: "1rem 1rem",
     fontSize: "0.9rem",
     borderRadius: "0 0 10px 10px",
@@ -166,15 +176,15 @@ const styles = {
   },
   infoLine: {
     marginBottom: "0.4rem",
-    color: "#334155",
+    color: "#4a3f35",
   },
   roleBadge: (role) => ({
     padding: "4px 10px",
     borderRadius: "6px",
     fontSize: "0.8rem",
     fontWeight: "600",
-    backgroundColor: role === "admin" ? "#dbeafe" : "#f3f4f6",
-    color: role === "admin" ? "#1d4ed8" : "#374151",
+    backgroundColor: role === "admin" ? "#d7bfa6" : "#ece7e2",
+    color: role === "admin" ? "#ffffff" : "#4a3f35",
     display: "inline-block",
   }),
 };

@@ -50,8 +50,8 @@ const LoginAndRegister = () => {
             style={{
               ...styles.button,
               backgroundColor: "white",
-              border: "2px solid #f4b183",
-              color: "#f4b183",
+              border: "2px solid rgb(215, 191, 166)",
+              color: "rgb(215, 191, 166)",
               fontWeight: "bold",
             }}
             onClick={() => setIsRegisterMode((prev) => !prev)}
@@ -72,7 +72,7 @@ const styles = {
     alignItems: "center",
     height: "100vh",
     margin: "0",
-    backgroundColor: "#fff0db",
+    backgroundColor: "rgb(245, 229, 211)",
     overflow: "hidden",
   },
   card: {
