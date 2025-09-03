@@ -4,6 +4,8 @@ import { FiUser, FiLock, FiMail, FiCalendar, FiSmile } from "react-icons/fi";
 import { useErrorContext } from "../../context/errorContext";
 import { toast } from "react-toastify";
 import { validateRegister } from "../../utils/registerUtils";
+import Modal from "../../components/SharedComponents/Modal.js";
+import { accessibilityText, privacyText, termsText } from "./UsefulTexts.js";
 
 const RegisterForm = () => {
   const { register } = useAuthContext();
@@ -21,6 +23,12 @@ const RegisterForm = () => {
     fullName: "",
   });
 
+  // NEW: consent and modals state
+  const [consentChecked, setConsentChecked] = useState(false);
+  const [showTerms, setShowTerms] = useState(false);
+  const [showPrivacy, setShowPrivacy] = useState(false);
+  const [showAccessibility, setShowAccessibility] = useState(false);
+
   const handleChange = (e) => {
     setFormData((prev) => ({
       ...prev,
@@ -30,8 +38,16 @@ const RegisterForm = () => {
 
   const handleRegister = async () => {
     try {
+      // English comments only inside code:
+      // Block submission if user did not consent to terms & privacy.
+      if (!consentChecked) {
+        toast.error("יש לאשר את תנאי השימוש ומדיניות הפרטיות");
+        return;
+      }
+
       const { username, password, email, birthDate, gender, fullName } =
         formData;
+
       validateRegister(
         username,
         password,
@@ -41,6 +57,7 @@ const RegisterForm = () => {
         gender,
         fullName
       ); // Throws error if not fully filled
+
       const newUser = {
         username,
         password,
@@ -49,6 +66,7 @@ const RegisterForm = () => {
         gender,
         fullName,
       };
+
       await register(newUser);
       toast.success("הרשמה בוצעה בהצלחה");
     } catch (error) {
@@ -58,6 +76,7 @@ const RegisterForm = () => {
 
   return (
     <>
+      {/* -- existing fields -- */}
       <div style={styles.inputWrapper}>
         <FiUser style={styles.icon} />
         <input
@@ -142,6 +161,7 @@ const RegisterForm = () => {
           name="gender"
           value={formData.gender}
           onChange={handleChange}
+          aria-label="מין"
         >
           <option value="female">נקבה</option>
           <option value="male">זכר</option>
@@ -150,9 +170,119 @@ const RegisterForm = () => {
         <div style={styles.selectArrow}>▼</div>
       </div>
 
-      <button style={styles.button} onClick={handleRegister}>
+      {/* NEW: consent row (minimal visual footprint, matches current style) */}
+      <div style={consentStyles.row}>
+        <input
+          id="consent"
+          type="checkbox"
+          checked={consentChecked}
+          onChange={(e) => setConsentChecked(e.target.checked)}
+          style={consentStyles.checkbox}
+          aria-required="true"
+        />
+        <label htmlFor="consent" style={consentStyles.label}>
+          אני מאשר/ת את{" "}
+          <button
+            type="button"
+            onClick={() => setShowTerms(true)}
+            style={consentStyles.linkBtn}
+            aria-haspopup="dialog"
+            aria-controls="terms-modal"
+          >
+            תנאי השימוש
+          </button>{" "}
+          ו־{" "}
+          <button
+            type="button"
+            onClick={() => setShowPrivacy(true)}
+            style={consentStyles.linkBtn}
+            aria-haspopup="dialog"
+            aria-controls="privacy-modal"
+          >
+            מדיניות הפרטיות (כולל שימוש בעוגיות חיוניות בלבד)
+          </button>
+        </label>
+      </div>
+
+      {/* Optional: tiny note about cookies (essential only) */}
+      <div style={consentStyles.note}>
+        אנו משתמשים בעוגיות חיוניות בלבד לצורכי התחברות ותפקוד האתר.
+      </div>
+
+      <button
+        style={{
+          ...styles.button,
+          opacity: consentChecked ? 1 : 0.6, // visual hint only
+          cursor: consentChecked ? "pointer" : "not-allowed",
+        }}
+        onClick={handleRegister}
+        disabled={!consentChecked} // block click until consent
+        aria-disabled={!consentChecked}
+      >
         הרשמה
       </button>
+
+      <div style={{ textAlign: "center", marginTop: "10px" }}>
+        <button
+          type="button"
+          onClick={() => setShowAccessibility(true)}
+          style={{
+            background: "none",
+            border: "none",
+            color: "#2563eb",
+            textDecoration: "underline",
+            cursor: "pointer",
+            fontSize: "14px",
+            fontFamily: "'M PLUS Rounded 1c', sans-serif",
+          }}
+        >
+          הצהרת נגישות
+        </button>
+      </div>
+
+      {/* TERMS MODAL */}
+      <Modal isOpen={showTerms} onClose={() => setShowTerms(false)}>
+        <pre
+          style={{
+            whiteSpace: "pre-wrap",
+            textAlign: "right",
+            fontSize: 20,
+            fontFamily: "'M PLUS Rounded 1c', sans-serif",
+          }}
+        >
+          {termsText}
+        </pre>
+      </Modal>
+
+      {/* PRIVACY MODAL */}
+      <Modal isOpen={showPrivacy} onClose={() => setShowPrivacy(false)}>
+        <pre
+          style={{
+            whiteSpace: "pre-wrap",
+            textAlign: "right",
+            fontSize: 20,
+            fontFamily: "'M PLUS Rounded 1c', sans-serif",
+          }}
+        >
+          {privacyText}
+        </pre>
+      </Modal>
+
+      <Modal
+        isOpen={showAccessibility}
+        onClose={() => setShowAccessibility(false)}
+      >
+        <pre
+          style={{
+            whiteSpace: "pre-wrap",
+            textAlign: "right",
+            fontSize: 20,
+            fontFamily: "'M PLUS Rounded 1c', sans-serif",
+          }}
+        >
+          {accessibilityText}
+        </pre>
+      </Modal>
     </>
   );
 };
@@ -185,7 +315,6 @@ const styles = {
     fontSize: "16px",
     fontFamily: "'M PLUS Rounded 1c', sans-serif",
   },
-
   input: {
     flex: 1,
     padding: "12px",
@@ -240,6 +369,45 @@ const styles = {
     cursor: "pointer",
     fontFamily: "'M PLUS Rounded 1c', sans-serif",
     transition: "background-color 0.3s ease",
+  },
+};
+
+// New minimal styles only for consent area (does not change existing design)
+const consentStyles = {
+  row: {
+    display: "flex",
+    alignItems: "flex-start",
+    gap: "8px",
+    direction: "rtl",
+    marginTop: "6px",
+    marginBottom: "6px",
+    fontFamily: "'M PLUS Rounded 1c', sans-serif",
+    fontSize: "14px",
+    color: "#374151",
+  },
+  checkbox: {
+    marginTop: "3px",
+    flexShrink: 0,
+  },
+  label: {
+    lineHeight: 1.5,
+  },
+  linkBtn: {
+    background: "transparent",
+    border: "none",
+    padding: 0,
+    margin: 0,
+    color: "#2563eb",
+    textDecoration: "underline",
+    cursor: "pointer",
+    fontFamily: "'M PLUS Rounded 1c', sans-serif",
+    fontSize: "14px",
+  },
+  note: {
+    fontSize: "12px",
+    color: "#6b7280",
+    marginTop: "2px",
+    direction: "rtl",
   },
 };
 
